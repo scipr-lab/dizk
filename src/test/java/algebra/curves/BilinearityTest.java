@@ -45,13 +45,13 @@ public class BilinearityTest {
     void PairingTest(
             final G1T P,
             final G2T Q,
-            final GTT gtFactory,
+            final GTT gtOne,
             final FieldT fieldFactory,
             final PairingT pairing) {
         final long seed1 = 4;
         final long seed2 = 7;
 
-        final GTT one = gtFactory.one();
+        final GTT one = gtOne;
         final FieldT s = fieldFactory.random(seed1 + seed2, null);
 
         G1T sP = P.mul(s);
@@ -67,33 +67,33 @@ public class BilinearityTest {
     }
 
     @Test
-    public void BN128Test() {
+    public void BN254aTest() {
         final BN254aG1 g1One = BN254aG1Parameters.ONE;
         final BN254aG2 g2One = BN254aG2Parameters.ONE;
-        final BN254aGT gtFactory = BN254aGTParameters.ONE;
+        final BN254aGT gtOne = BN254aGTParameters.ONE;
         final BN254aFr fieldFactory = new BN254aFr(6);
         final BN254aPairing pairing = new BN254aPairing();
 
         final BN254aG1 P = g1One.mul(fieldFactory.random(5L, null));
         final BN254aG2 Q = g2One.mul(fieldFactory.random(6L, null));
 
-        PairingTest(P, Q, gtFactory, fieldFactory, pairing);
-        PairingTest(g1One, g2One, gtFactory, fieldFactory, pairing);
+        PairingTest(P, Q, gtOne, fieldFactory, pairing);
+        PairingTest(g1One, g2One, gtOne, fieldFactory, pairing);
     }
 
     @Test
     public void BN254bTest() {
         final BN254bG1 g1One = BN254bG1Parameters.ONE;
         final BN254bG2 g2One = BN254bG2Parameters.ONE;
-        final BN254bGT gtFactory = BN254bGTParameters.ONE;
+        final BN254bGT gtOne = BN254bGTParameters.ONE;
         final BN254bFr fieldFactory = new BN254bFr(6);
         final BN254bPairing pairing = new BN254bPairing();
 
         final BN254bG1 P = g1One.mul(fieldFactory.random(5L, null));
         final BN254bG2 Q = g2One.mul(fieldFactory.random(6L, null));
 
-        PairingTest(P, Q, gtFactory, fieldFactory, pairing);
-        PairingTest(g1One, g2One, gtFactory, fieldFactory, pairing);
+        PairingTest(P, Q, gtOne, fieldFactory, pairing);
+        PairingTest(g1One, g2One, gtOne, fieldFactory, pairing);
     }
 
     @Test
