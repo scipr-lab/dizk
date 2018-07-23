@@ -1,5 +1,6 @@
 <h1 align="center">DIZK</h1>
 <p align="center">
+    <a href="https://travis-ci.org/scipr-lab/dizk"><img src="https://travis-ci.org/scipr-lab/dizk.svg?branch=master"></a>
     <a href="https://github.com/scipr-lab/dizk/AUTHORS"><img src="https://img.shields.io/badge/authors-SCIPR%20Lab-orange.svg"></a>
     <a href="https://github.com/scipr-lab/dizk/LICENSE"><img src="https://img.shields.io/badge/license-MIT-blue.svg"></a>
 </p>
