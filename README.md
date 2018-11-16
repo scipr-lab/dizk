@@ -106,6 +106,15 @@ Finally, compile the source code:
 mvn compile
 ```
 
+### Docker
+
+```
+cd your_dizk_project_directory
+
+docker build -t dizk-container .
+docker run -it dizk-container bash
+```
+
 ### Testing
 
 This library comes with unit tests for each of the provided modules. Run the tests with:
