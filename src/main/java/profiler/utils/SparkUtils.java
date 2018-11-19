@@ -31,6 +31,8 @@ public class SparkUtils {
     public static String appName(final String s) {
         if (s.equals("fft")) {
             return "SparkFFT";
+        } else if (s.equals("lagrange")) {
+            return "Lagrange";
         } else if (s.equals("fmsm-g1")) {
             return "SparkFixedMSMG1";
         } else if (s.equals("fmsm-g2")) {
