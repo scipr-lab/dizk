@@ -3,5 +3,6 @@
 .idea
 .project
 .settings
+out/*
 target
 dizk.iml
