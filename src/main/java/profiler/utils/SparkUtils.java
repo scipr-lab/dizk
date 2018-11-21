@@ -52,7 +52,8 @@ public class SparkUtils {
         } else if (s.equals("vmsm-sorted-g1")) {
             return "SparkVMSMSortedG1";
         }
-        return "default";
+        String exception = String.format("APP parameter '%s' not listed for profiling", s);
+        throw new IllegalArgumentException(exception);
     }
 
     public static Class[] zksparkClasses() {
