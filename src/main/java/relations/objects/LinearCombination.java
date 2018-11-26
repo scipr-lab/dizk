@@ -75,8 +75,5 @@ public class LinearCombination<FieldT extends AbstractFieldElementExpanded<Field
         return terms.size();
     }
 
-    @Override
-    public String toString() {
-        return Arrays.toString(this.terms.toArray()) + '\n';
-    }
+
 }
