@@ -16,4 +16,5 @@ COPY . .
 
 VOLUME /root/.m2
 
+
 CMD ["mvn"]
