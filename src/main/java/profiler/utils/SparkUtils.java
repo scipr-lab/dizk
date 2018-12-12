@@ -31,6 +31,8 @@ public class SparkUtils {
     public static String appName(final String s) {
         if (s.equals("fft")) {
             return "SparkFFT";
+        } else if (s.equals("lagrange")) {
+            return "Lagrange";
         } else if (s.equals("fmsm-g1")) {
             return "SparkFixedMSMG1";
         } else if (s.equals("fmsm-g2")) {
@@ -49,8 +51,10 @@ public class SparkUtils {
             return "SparkZKSNARKLarge";
         } else if (s.equals("vmsm-sorted-g1")) {
             return "SparkVMSMSortedG1";
+        } else {
+            String exception = String.format("APP parameter '%s' not listed for profiling", s);
+            throw new IllegalArgumentException(exception);
         }
-        return "default";
     }
 
     public static Class[] zksparkClasses() {
