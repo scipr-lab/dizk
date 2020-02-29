@@ -194,7 +194,7 @@ public class FFTAuxiliary {
             FieldT omega_i = one;
             for (int i = 0; i < m; i++) {
                 /* i.e., t equals omega^i */
-                if (omega_i == t) {
+                if (omega_i.equals(t)) {
                     lagrangeCoefficients.set(i, one);
                     return lagrangeCoefficients;
                 }
