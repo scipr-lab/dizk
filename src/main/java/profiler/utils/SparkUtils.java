@@ -55,8 +55,6 @@ public class SparkUtils {
             String exception = String.format("APP parameter '%s' not listed for profiling", s);
             throw new IllegalArgumentException(exception);
         }
-        String exception = String.format("APP parameter '%s' not listed for profiling", s);
-        throw new IllegalArgumentException(exception);
     }
 
     public static Class[] zksparkClasses() {
