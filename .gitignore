@@ -1,4 +1,8 @@
 *.DS_Store
+.classpath
 .idea
+.project
+.settings
+out/*
 target
 dizk.iml
