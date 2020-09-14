@@ -40,8 +40,8 @@ public class AdditiveIntegerGroupTest implements Serializable {
         assertFalse(a.equals(b));
         // a+0 = a
         assertTrue(a.add(zero).equals(a));
-        // a+a = a.twice()
-        assertTrue(a.add(a).equals(a.twice()));
+        // a+a = a.dbl()
+        assertTrue(a.add(a).equals(a.dbl()));
         // a+a+a = 3*a
         assertTrue(a.add(a).add(a).equals(a.mul(new BigInteger("3"))));
         // a-b = -(b-a)

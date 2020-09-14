@@ -70,7 +70,7 @@ public class AdditiveIntegerGroup extends AbstractGroup<AdditiveIntegerGroup> {
         boolean found = false;
         for (int i = scalar.bitLength() - 1; i >= 0; i--) {
             if (found) {
-                result = result.twice();
+                result = result.dbl();
             }
 
             if (scalar.testBit(i)) {
@@ -115,7 +115,7 @@ public class AdditiveIntegerGroup extends AbstractGroup<AdditiveIntegerGroup> {
         return new AdditiveIntegerGroup(GroupParameters.modulus().subtract(number), GroupParameters);
     }
 
-    public AdditiveIntegerGroup twice() {
+    public AdditiveIntegerGroup dbl() {
         return new AdditiveIntegerGroup(this.number.add(number), GroupParameters);
     }
 

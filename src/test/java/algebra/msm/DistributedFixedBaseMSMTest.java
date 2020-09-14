@@ -83,8 +83,8 @@ public class DistributedFixedBaseMSMTest implements Serializable {
 
     @Test
     public void DistributedDoubleMSMTest() {
-        final BN254aG1 base1 = BN254aG1Parameters.ONE.twice();
-        final BN254aG2 base2 = BN254aG2Parameters.ONE.twice();
+        final BN254aG1 base1 = BN254aG1Parameters.ONE.dbl();
+        final BN254aG2 base2 = BN254aG2Parameters.ONE.dbl();
 
         final int scalarSize = 4;
         final int windowSize = 2;

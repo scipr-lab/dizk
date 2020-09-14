@@ -13,6 +13,9 @@ import algebra.curves.AbstractGT;
 
 import java.util.List;
 
+/**
+ * Groth16 verification key
+ */
 public class VerificationKey<G1T extends AbstractG1<G1T>, G2T extends AbstractG2<G2T>, GTT
         extends AbstractGT<GTT>> {
 

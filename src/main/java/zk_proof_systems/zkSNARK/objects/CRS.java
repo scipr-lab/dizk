@@ -15,7 +15,7 @@ import algebra.curves.AbstractGT;
 import java.io.Serializable;
 
 /**
- * Common Reference String (CRS)
+ * Groth16 Common Reference String (CRS)
  */
 public class CRS<FieldT extends AbstractFieldElementExpanded<FieldT>, G1T extends
         AbstractG1<G1T>, G2T extends AbstractG2<G2T>, GTT extends AbstractGT<GTT>> implements

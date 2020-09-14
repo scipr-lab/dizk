@@ -60,8 +60,8 @@ public class CurvesTest {
         assertFalse(b.equals(zero));
         assertFalse(b.equals(one));
 
-        assertTrue(a.twice().equals(a.add(a)));
-        assertTrue(b.twice().equals(b.add(b)));
+        assertTrue(a.dbl().equals(a.add(a)));
+        assertTrue(b.dbl().equals(b.add(b)));
         assertTrue(one.add(two).equals(three));
         assertTrue(two.add(one).equals(three));
         assertTrue(a.add(b).equals(b.add(a)));
@@ -76,7 +76,7 @@ public class CurvesTest {
         assertTrue(a.add(zero).equals(a));
         assertTrue(zero.add(a).equals(a));
 
-        assertTrue(a.add(b).twice().equals(a.add(b).add(b.add(a))));
+        assertTrue(a.add(b).dbl().equals(a.add(b).add(b.add(a))));
         assertTrue(a.add(b).mul(new BigInteger("2")).equals(a.add(b).add(b.add(a))));
 
         assertTrue(a.mul(rand1).add(a.mul(rand2)).equals(a.mul(randsum)));

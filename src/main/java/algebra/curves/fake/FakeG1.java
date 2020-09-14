@@ -77,7 +77,7 @@ public class FakeG1 extends AbstractG1<FakeG1> implements Serializable {
         return new FakeG1(this.element.negate(), FakeG1Parameters);
     }
 
-    public FakeG1 twice() {
+    public FakeG1 dbl() {
         return this.add(this);
     }
 

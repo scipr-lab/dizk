@@ -37,7 +37,7 @@ public abstract class AbstractGroup<GroupT extends AbstractGroup<GroupT>> implem
         boolean found = false;
         for (int i = scalar.bitLength() - 1; i >= 0; i--) {
             if (found) {
-                result = result.twice();
+                result = result.dbl();
             }
 
             if (scalar.testBit(i)) {
@@ -70,7 +70,7 @@ public abstract class AbstractGroup<GroupT extends AbstractGroup<GroupT>> implem
     public abstract GroupT negate();
 
     /* Returns this+this */
-    public abstract GroupT twice();
+    public abstract GroupT dbl();
 
     /* Fixed base window table for G1 and G2. */
     public abstract ArrayList<Integer> fixedBaseWindowTable();

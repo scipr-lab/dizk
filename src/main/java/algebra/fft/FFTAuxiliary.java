@@ -32,7 +32,7 @@ public class FFTAuxiliary {
 
         /* swapping in place (from Storer's book) */
         for (int k = 0; k < n; ++k) {
-            final int rk = MathUtils.bitreverse(k, logn);
+            final int rk = MathUtils.bitReverse(k, logn);
             if (k < rk) {
                 Collections.swap(input, k, rk);
             }

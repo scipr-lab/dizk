@@ -72,7 +72,7 @@ public abstract class BNG1<
 
         if (U1.equals(U2) && S1.equals(S2)) {
             // Double case; nothing above can be reused.
-            return twice();
+            return dbl();
         }
 
         // Rest of the add case.
@@ -125,7 +125,7 @@ public abstract class BNG1<
         return this.construct(this.X, this.Y.negate(), this.Z);
     }
 
-    public BNG1T twice() {
+    public BNG1T dbl() {
         // handle point at infinity
         if (isZero()) {
             return this.self();
