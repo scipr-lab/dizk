@@ -1,6 +1,3 @@
-
-
-
 # DIZK profiling
 
 ## macOS issues
