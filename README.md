@@ -91,36 +91,46 @@ While other libraries for zero knowledge proof systems are written in low-level 
 ### Installation
 
 Start by cloning this repository and entering the repository working directory:
-```$xslt
+```bash
 git clone https://github.com/scipr-lab/dizk.git
 cd dizk
 ```
 
 Next, fetch the dependency modules:
-```$xslt
+```bash
 git submodule init && git submodule update
 ```
 
 Finally, compile the source code:
-```$xslt
+```bash
 mvn compile
 ```
 
 ### Docker
 
-```
-cd your_dizk_project_directory
-
-docker build -t dizk-container .
-docker run -it dizk-container bash
+```bash
+docker build -t dizk-base .
+docker run -it --name dizk-container dizk-base
 ```
 
 ### Testing
 
 This library comes with unit tests for each of the provided modules. Run the tests with:
-```$xslt
+```bash
 mvn test
-``` 
+```
+
+**Note 1:** You can build the tests without running them by using the following command:
+```bash
+mvn test-compile
+```
+
+**Note 2:** You can run a single test by using the following command:
+```bash
+mvn -Dtest=<test-class> test
+# Example:
+# mvn -Dtest=BNFieldsTest test
+```
 
 ## Profiler
 
@@ -133,7 +143,7 @@ To manage the cluster compute environment, DIZK uses [`spark-ec2@branch-2.0`](ht
 `spark-ec2` is a tool to launch, maintain, and terminate [Apache Spark](https://spark.apache.org/docs/latest/) clusters on Amazon EC2.
 
 To setup `spark-ec2`, run the following commands:
-```$xslt
+```bash
 git clone https://github.com/amplab/spark-ec2.git
 cd spark-ec2
 git checkout branch-2.0
@@ -148,7 +158,7 @@ To begin, set the environment variables required to initialize the profiler in [
 The profiling infrastructure will require access to an AWS account access key and secret key, which can be created with
 the [instructions provided by AWS](https://docs.aws.amazon.com/general/latest/gr/aws-sec-cred-types.html#access-keys-and-secret-access-keys).
 
-```$xslt
+```bash
 export AWS_ACCESS_KEY_ID={Insert your AWS account access key}
 export AWS_SECRET_ACCESS_KEY={Insert your AWS account secret key}
 
@@ -167,7 +177,7 @@ export SPARK_EC2_PATH="{Insert the path to your local spark-ec2 repository, e.g.
 ```
 
 Next, start the profiler by running:
-```$xslt
+```bash
 ./launch.sh
 ```
 
@@ -175,13 +185,13 @@ The launch script uses `spark-ec2` and the environment variables to setup the in
 This process takes around 20-30 minutes depending on the choice of cluster configuration.
 
 After the launch is complete, upload the DIZK JAR file to the master node and SSH into the cluster with the following command:
-```$xslt
+```bash
 ./upload_and_login.sh
 ```
 
 Once you have successfully logged in to the cluster, navigate to the uploaded `scripts` folder and setup the initial cluster environment.
 
-```$xslt
+```bash
 cd ../scripts
 ./setup_environment.sh
 ```
@@ -189,7 +199,7 @@ cd ../scripts
 This creates a logging directory for Spark events and installs requisite dependencies, such as Java 8.
 
 Lastly, with the cluster environment fully setup, set the desired parameters for benchmarking in [profile.sh](src/main/java/profiler/scripts/profile.sh) and run the following command to begin profiling:
-```$xslt
+```bash
 ./profile.sh
 ```
 
