@@ -84,13 +84,17 @@ public class CurvesTest {
 
     @Test
     public void BN254aTest() {
+        // Test G1 of BN254a
         GroupTest(BN254aG1Parameters.ONE);
+        // Test G2 of BN254a
         GroupTest(BN254aG2Parameters.ONE);
     }
 
     @Test
     public void BN254bTest() {
+        // Test G1 of BN254b
         GroupTest(BN254bG1Parameters.ONE);
+        // Test G2 of BN254b
         GroupTest(BN254bG2Parameters.ONE);
     }
 
