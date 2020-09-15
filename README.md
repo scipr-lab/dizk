@@ -81,7 +81,9 @@ The library has the following dependencies:
     - [Google Java Format](https://github.com/google/google-java-format)
 - Fetched via Git submodules:
     - [spark-ec2](https://github.com/amplab/spark-ec2/tree/branch-2.0)
-    
+
+More information of compilation options can be found [here](http://maven.apache.org/plugins/maven-compiler-plugin/compile-mojo.html)
+
 ### Why Java?
 
 This library uses Apache Spark, an open-source cluster-computing framework that natively supports Java, Scala, and Python. Among these, we found Java to fit our goals because we could leverage its rich features for object-oriented programming and we could control execution in a (relatively) fine-grained way.
@@ -131,6 +133,7 @@ mvn -Dtest=<test-class> test
 # Example:
 # mvn -Dtest=BNFieldsTest test
 ```
+See [here](http://maven.apache.org/surefire/maven-surefire-plugin/test-mojo.html) for more information.
 
 ## Profiler
 
