@@ -82,7 +82,7 @@ The library has the following dependencies:
 - Fetched via Git submodules:
     - [spark-ec2](https://github.com/amplab/spark-ec2/tree/branch-2.0)
 
-More information of compilation options can be found [here](http://maven.apache.org/plugins/maven-compiler-plugin/compile-mojo.html)
+More information about compilation options can be found [here](http://maven.apache.org/plugins/maven-compiler-plugin/compile-mojo.html)
 
 ### Why Java?
 
