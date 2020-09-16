@@ -66,13 +66,14 @@ public class MatMulTest implements Serializable {
 
         final Tuple3<R1CSRelationRDD<Fp>, Assignment<Fp>, JavaPairRDD<Long, Fp>> parConstructionRDD =
                 R1CSConstruction.matmulParConstructApp(fieldFactory, b1, b2, b3, n1, n2, n3, config);
+        // Retrieve each elements of the tuple by their index
         R1CSRelationRDD<Fp> r1csRDDPar = parConstructionRDD._1();
         Assignment<Fp> primaryTwoPar = parConstructionRDD._2();
         JavaPairRDD<Long, Fp> oneFullAssignmentRDDPar = parConstructionRDD._3();
 
-        // /* Verify r1cs is valid */
+        // Verify r1cs is valid
         assertTrue(r1csRDDPar.isValid());
-        /* Verify r1cs is satisfied with full assignment */
+        // Verify r1cs is satisfied with full assignment
         assertTrue(r1csRDDPar.isSatisfied(primaryTwoPar, oneFullAssignmentRDDPar));
 
 
