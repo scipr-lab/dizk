@@ -11,24 +11,25 @@
     <dependencies>
         <dependency>
             <groupId>org.apache.spark</groupId>
-            <artifactId>spark-core_2.10</artifactId>
-            <version>2.2.2</version>
+            <artifactId>spark-core_2.12</artifactId>
+            <version>2.4.7</version>
         </dependency>
         <dependency>
             <groupId>org.apache.spark</groupId>
-            <artifactId>spark-sql_2.10</artifactId>
-            <version>2.0.0</version>
+            <artifactId>spark-sql_2.12</artifactId>
+            <version>2.4.7</version>
         </dependency>
         <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
-            <version>4.11</version>
+            <version>4.13</version>
             <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>com.google.googlejavaformat</groupId>
             <artifactId>google-java-format</artifactId>
-            <version>1.6</version>
+            <version>1.9</version>
+            <scope>compile</scope>
         </dependency>
     </dependencies>
 
