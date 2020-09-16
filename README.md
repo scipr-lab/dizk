@@ -73,11 +73,11 @@ For formal definitions and theoretical discussions about these, see [BCCT12] [BC
 The library has the following dependencies:
 
 - [Java SE 8+](http://www.oracle.com/technetwork/java/javase/overview/index.html)
-- [Apache Maven](https://maven.apache.org/)
+- [Apache Maven](https://maven.apache.org/) (see [here](https://maven.apache.org/guides/mini/guide-configuring-maven.html) for configuration guide)
 - Fetched from `pom.xml` via Maven:
     - [Spark Core 2.10](https://mvnrepository.com/artifact/org.apache.spark/spark-core_2.10/1.0.0)
     - [Spark SQL 2.10](https://mvnrepository.com/artifact/org.apache.spark/spark-sql_2.10/2.1.0)
-    - [JUnit 4.11](https://mvnrepository.com/artifact/junit/junit/4.11)
+    - [JUnit 4.13](https://mvnrepository.com/artifact/junit/junit/4.13)
     - [Google Java Format](https://github.com/google/google-java-format)
 - Fetched via Git submodules:
     - [spark-ec2](https://github.com/amplab/spark-ec2/tree/branch-2.0)
