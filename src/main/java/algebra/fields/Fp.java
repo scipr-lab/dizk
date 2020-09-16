@@ -67,6 +67,16 @@ public class Fp extends AbstractFieldElementExpanded<Fp> implements Serializable
         return equals(FpParameters.ONE());
     }
 
+    // TODO: Refactor this function (as well as config.secureSeed() and others)
+    // to avoid passing "null" around. This makes code debugging harder, and begs
+    // for null check on function arguments - which make code less readable and more
+    // complex.
+    // Be more strict on types in function signatures
+    //
+    // TODO: Split this function in 2 sub-functions:
+    // - 1. `unsecure_random` taking a seed (Long) and returning an Fp el
+    // - 2. `secure_random` taking a secureSeed (byte[]) and returning an Fp el
+    // This means that a similar division will need to be achieved for the `random` in groups
     public Fp random(final Long seed, final byte[] secureSeed) {
         if (secureSeed != null && secureSeed.length > 0) {
             return new Fp(new SecureRandom(secureSeed).nextLong(), FpParameters);
