@@ -24,8 +24,10 @@ ENV MAVEN_HOME /usr/share/maven
 WORKDIR /home/dizk
 COPY . /home/dizk
 # RUN git submodule update --init --recursive
-RUN mvn compile
+# RUN mvn compile
 
+# Mount the user-specific Maven configuration for Maven in the container
+# See: https://maven.apache.org/ref/3.6.3/maven-settings/settings.html for more information
 VOLUME /root/.m2
 
 CMD ["/bin/bash"]
