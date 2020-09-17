@@ -9,9 +9,7 @@ package algebra.fields;
 
 import algebra.fields.abstractfieldparameters.AbstractFp6_3Over2_Parameters;
 
-import java.io.Serializable;
-
-public class Fp6_3Over2 extends AbstractFieldElement<Fp6_3Over2> implements Serializable {
+public class Fp6_3Over2 extends AbstractFieldElement<Fp6_3Over2> {
     protected final Fp2 c0;
     protected final Fp2 c1;
     protected final Fp2 c2;

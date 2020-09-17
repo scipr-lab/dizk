@@ -9,12 +9,11 @@ package algebra.fields;
 
 import algebra.fields.abstractfieldparameters.AbstractFpParameters;
 
-import java.io.Serializable;
 import java.math.BigInteger;
 import java.security.SecureRandom;
 import java.util.Random;
 
-public class Fp extends AbstractFieldElementExpanded<Fp> implements Serializable {
+public class Fp extends AbstractFieldElementExpanded<Fp> {
     protected final BigInteger number;
     public AbstractFpParameters FpParameters;
 

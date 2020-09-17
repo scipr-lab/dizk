@@ -11,11 +11,10 @@ import algebra.fields.Fp;
 import algebra.curves.AbstractG1;
 import algebra.curves.fake.abstract_fake_parameters.AbstractFakeG1Parameters;
 
-import java.io.Serializable;
 import java.math.BigInteger;
 import java.util.ArrayList;
 
-public class FakeG1 extends AbstractG1<FakeG1> implements Serializable {
+public class FakeG1 extends AbstractG1<FakeG1> {
 
     protected final Fp element;
     protected AbstractFakeG1Parameters FakeG1Parameters;

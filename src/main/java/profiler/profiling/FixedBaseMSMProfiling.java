@@ -36,7 +36,7 @@ public class FixedBaseMSMProfiling {
         final List<List<BN254aG1>> multiplesOfBase = FixedBaseMSM
                 .getWindowTable(groupFactory, scalarSize, windowSize);
         final List<BN254aG1> result = FixedBaseMSM
-                .batchMSM(scalarSize, windowSize, multiplesOfBase, scalars);
+                .batchMSM(scalarSize, windowSize, multiplesOfBase, scalars); // UNUSED
         config.endRuntime("FixedBaseMSM");
         config.endLog("FixedBaseMSM");
 
@@ -63,7 +63,7 @@ public class FixedBaseMSMProfiling {
         final List<List<BN254aG2>> multiplesOfBase = FixedBaseMSM
                 .getWindowTable(groupFactory, scalarSize, windowSize);
         final List<BN254aG2> result = FixedBaseMSM
-                .batchMSM(scalarSize, windowSize, multiplesOfBase, scalars);
+                .batchMSM(scalarSize, windowSize, multiplesOfBase, scalars); // UNUSED
         config.endRuntime("FixedBaseMSM");
         config.endLog("FixedBaseMSM");
 

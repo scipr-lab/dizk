@@ -32,7 +32,7 @@ public class VariableBaseMSMProfiling {
 
         config.beginLog("VariableBaseMSM");
         config.beginRuntime("VariableBaseMSM");
-        final BN254aG1 res = VariableBaseMSM.serialMSM(scalars, bases);
+        final BN254aG1 res = VariableBaseMSM.serialMSM(scalars, bases); // UNUSED
         config.endRuntime("VariableBaseMSM");
         config.endLog("VariableBaseMSM");
 
@@ -56,7 +56,7 @@ public class VariableBaseMSMProfiling {
 
         config.beginLog("VariableBaseMSM");
         config.beginRuntime("VariableBaseMSM");
-        final BN254aG2 res = VariableBaseMSM.serialMSM(scalars, bases);
+        final BN254aG2 res = VariableBaseMSM.serialMSM(scalars, bases); // UNUSED
         config.endRuntime("VariableBaseMSM");
         config.endLog("VariableBaseMSM");
 
@@ -74,7 +74,7 @@ public class VariableBaseMSMProfiling {
 
         config.beginLog("BosCosterVariableBaseMSM");
         config.beginRuntime("BosCosterVariableBaseMSM");
-        final BN254aG1 res2 = VariableBaseMSM.distributedMSM(input);
+        final BN254aG1 res2 = VariableBaseMSM.distributedMSM(input); // UNUSED
         config.endRuntime("BosCosterVariableBaseMSM");
         config.endLog("BosCosterVariableBaseMSM");
 
@@ -92,7 +92,7 @@ public class VariableBaseMSMProfiling {
 
         config.beginLog("BosCosterVariableBaseMSM");
         config.beginRuntime("BosCosterVariableBaseMSM");
-        final BN254aG2 res2 = VariableBaseMSM.distributedMSM(input);
+        final BN254aG2 res2 = VariableBaseMSM.distributedMSM(input); // UNUSED
         config.endRuntime("BosCosterVariableBaseMSM");
         config.endLog("BosCosterVariableBaseMSM");
 
@@ -110,7 +110,7 @@ public class VariableBaseMSMProfiling {
 
         config.beginLog("BosCosterVariableBaseMSM");
         config.beginRuntime("BosCosterVariableBaseMSM");
-        final BN254aG1 res2 = VariableBaseMSM.distributedSortedMSM(input);
+        final BN254aG1 res2 = VariableBaseMSM.distributedSortedMSM(input); // UNUSED
         config.endRuntime("BosCosterVariableBaseMSM");
         config.endLog("BosCosterVariableBaseMSM");
 

@@ -10,11 +10,9 @@ package algebra.fields;
 import algebra.fields.abstractfieldparameters.AbstractFp12_2Over3Over2_Parameters;
 import algebra.fields.abstractfieldparameters.AbstractFp6_3Over2_Parameters;
 
-import java.io.Serializable;
 import java.math.BigInteger;
 
-public class Fp12_2Over3Over2 extends AbstractFieldElement<Fp12_2Over3Over2>
-        implements Serializable {
+public class Fp12_2Over3Over2 extends AbstractFieldElement<Fp12_2Over3Over2> {
     public final Fp6_3Over2 c0;
     public final Fp6_3Over2 c1;
     private final AbstractFp12_2Over3Over2_Parameters Fp12Parameters;

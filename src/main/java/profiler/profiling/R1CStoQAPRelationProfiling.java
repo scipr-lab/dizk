@@ -28,7 +28,7 @@ public class R1CStoQAPRelationProfiling {
         config.beginRuntimeMetadata("Size (inputs)", numConstraints);
 
         config.beginRuntime("QAPRelation");
-        final QAPRelation<BN254aFr> qapWitness = R1CStoQAP.R1CStoQAPRelation(r1cs, fieldFactory);
+        final QAPRelation<BN254aFr> qapWitness = R1CStoQAP.R1CStoQAPRelation(r1cs, fieldFactory); // UNUSED
         config.endRuntime("QAPRelation");
 
         config.writeRuntimeLog(config.context());

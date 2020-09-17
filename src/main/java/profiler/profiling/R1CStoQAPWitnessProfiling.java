@@ -31,7 +31,7 @@ public class R1CStoQAPWitnessProfiling {
 
         config.beginRuntime("Witness");
         final QAPWitness<BN254aFr> qapWitness = R1CStoQAP
-                .R1CStoQAPWitness(r1cs, primary, auxiliary, fieldFactory, config);
+                .R1CStoQAPWitness(r1cs, primary, auxiliary, fieldFactory, config); // UNUSED
         config.endRuntime("Witness");
 
         config.writeRuntimeLog(config.context());

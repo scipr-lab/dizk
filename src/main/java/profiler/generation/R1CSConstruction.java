@@ -518,7 +518,7 @@ public class R1CSConstruction implements Serializable {
         final int numInputs = n1 * n2 + n2 * n3 + n1 * n3; // A, B, and C
         // the first one is "one"
         final long numAuxiliary = 1 + n1 * n3 * n2 + n1 * n3 * (n2 - 1); // Z and S
-        final long numVariables = numInputs + numAuxiliary;
+        final long numVariables = numInputs + numAuxiliary; // UNUSED
 
         final FieldT one = fieldFactory.one();
 
@@ -592,7 +592,7 @@ public class R1CSConstruction implements Serializable {
         }
 
         // C, Z, S assignments
-        final long assignmentSize = n1 * n3 + n1 * n3 * n2 + n1 * n3 * (n2 - 2);
+        final long assignmentSize = n1 * n3 + n1 * n3 * n2 + n1 * n3 * (n2 - 2); // UNUSED
 
         long startIndex = aSize + bSize + 1;
 
@@ -1023,8 +1023,8 @@ public class R1CSConstruction implements Serializable {
 
         // Separate the blocks into A and B
         // pre-allocate A and B
-        final int numBlockRows = 4;
-        final int numBlockCols = 4;
+        final int numBlockRows = 4; // UNUSED
+        final int numBlockCols = 4; // UNUSED
 
         Tuple2<Tuple2<Integer, Integer>, Tuple2<Integer, Integer>> t = getPartitionRowsCols(blockNumber, b1, b3, n1, n3);
 
@@ -1043,7 +1043,7 @@ public class R1CSConstruction implements Serializable {
         // Using the blockNumber and the b's and n's, we can calculate the assignment offset number
         int c1 = cHigherRows - cLowerRows;
         int c2 = cHigherCols - cLowerCols;
-        long offset = 1 + n1 * n2 + n2 * n3 + (c1 * c2 + c1 * c2 * (n2 + n2 - 1)) * blockNumber;
+        long offset = 1 + n1 * n2 + n2 * n3 + (c1 * c2 + c1 * c2 * (n2 + n2 - 1)) * blockNumber; // UNUSED
         LinearIndexer assignmentOffsetIndexer = new LinearIndexer(assignmentOffsetIndexerInput.getIndex(0) + (c1 * c2 + c1 * c2 * (n2 + n2 - 1)) * blockNumber);
 
         final FieldT one = fieldFactory.one();
@@ -1138,8 +1138,8 @@ public class R1CSConstruction implements Serializable {
                                  final int n1, final int n2, final int n3,
                                  final int b1, final int b2, final int b3) {
 
-        int numBlockRows = b1;
-        int numBlockCols = b2;
+        int numBlockRows = b1; // UNUSED
+        int numBlockCols = b2; // UNUSED
         // TODO: set the shuffle pattern to be ShuffleOutput for now, which means there is no extra summation step
         ShufflePattern shuffleType = ShufflePattern.ShuffleOutput;
 
@@ -1147,7 +1147,7 @@ public class R1CSConstruction implements Serializable {
 
         // (index, value)
         long index = (long) rec._1();
-        FieldT value = rec._2();
+        FieldT value = rec._2(); // UNUSED
 
         // Each index should be mapped to a row and a col
         // Blocks are determined by the number of partitions
@@ -1160,7 +1160,7 @@ public class R1CSConstruction implements Serializable {
             long cIndex = index;
             int partNum = getPartNumber(cIndex, b1, b2, n1, n2);
             int partBlockRow = partNum / b2;
-            int partBlockCol = partNum % b2;
+            int partBlockCol = partNum % b2; // UNUSED
 
             if (shuffleType == ShufflePattern.ShuffleLeft) {
                 data.add(new Tuple2<Long, Tuple2<Long, FieldT>>((long) partNum, rec));
@@ -1177,7 +1177,7 @@ public class R1CSConstruction implements Serializable {
             // long cIndex = row * n3 + col;
             long cIndex = index;
             int partNum = getPartNumber(cIndex, b2, b3, n2, n3);
-            int partBlockRow = partNum / b3;
+            int partBlockRow = partNum / b3; // UNUSED
             int partBlockCol = partNum % b3;
 
             if (shuffleType == ShufflePattern.ShuffleRight) {
@@ -1419,7 +1419,7 @@ public class R1CSConstruction implements Serializable {
                        Indexer constraintOffset) {
 
         final long numConstraints = n1 * n2 * n3 + n1 * n3 * (n2 - 1);
-        final int numInputs = n1 * n2 + n2 * n3 + n1 * n3; // A, B, and C
+        final int numInputs = n1 * n2 + n2 * n3 + n1 * n3; // A, B, and C // UNUSED
         final long numAuxiliary = n1 * n3 * n2 + n1 * n3 * (n2 - 1); // Z and S
         final long numAssignments = n1 * n3 + numAuxiliary;
 
@@ -1815,7 +1815,7 @@ public class R1CSConstruction implements Serializable {
                 xtIndexer, yIndexer, outputOffsetLHS, constraintOffsetLHS);
         R1CSConstraintsRDD<FieldT> LHSConstraints = retLHS._1();
         JavaPairRDD<Long, FieldT> LHSAssignments = retLHS._2();
-        long numLHSAssignments = retLHS._3();
+        long numLHSAssignments = retLHS._3(); // UNUSED
         long numLHSConstraints = LHSConstraints.size();
 
         constraints.union(LHSConstraints);
@@ -1846,7 +1846,7 @@ public class R1CSConstruction implements Serializable {
 
         oneFullAssignment = oneFullAssignment.union(newXRDD).union(newWRDD).union(newYRDD);
         config.beginLog("[Linear regression app] oneFullAssignment");
-        long numVariables = oneFullAssignment.cache().count();
+        long numVariables = oneFullAssignment.cache().count(); // UNUSED
         config.endLog("[Linear regression app] oneFullAssignment");
 
         config.beginLog("[Linear regression app] constraints generation");
@@ -1981,7 +1981,7 @@ public class R1CSConstruction implements Serializable {
         int cHigherCols = t._2()._2();
 
         int numRows = cHigherRows - cLowerRows;
-        int samplePointOffset = cLowerCols;
+        int samplePointOffset = cLowerCols; // UNUSED
 
         ArrayList<FieldT> scalars = new ArrayList<FieldT>();
         scalars.add(one);
@@ -2029,6 +2029,7 @@ public class R1CSConstruction implements Serializable {
               Indexer outputAssignmentIndexer,
               Indexer constraintOffset) {
 
+        // UNUSED
         Comparator<Tuple2<Long, FieldT>> comparator = new Comparator<Tuple2<Long, FieldT>>() {
             public int compare(Tuple2<Long, FieldT> tupleA,
                                Tuple2<Long, FieldT> tupleB) {
@@ -2049,10 +2050,10 @@ public class R1CSConstruction implements Serializable {
 
         JavaPairRDD<Long, Tuple2<Long, FieldT>> xTransformed = X.mapToPair(x -> {
             Long idx = x._1();
-            FieldT value = x._2();
+            FieldT value = x._2(); // UNUSED
 
             long row = idx / d;
-            long col = idx % d;
+            long col = idx % d; // UNUSED
 
             return new Tuple2<Long, Tuple2<Long, FieldT>>(row, x);
         });
@@ -2417,8 +2418,8 @@ public class R1CSConstruction implements Serializable {
         final ArrayList<Long> covLong = new ArrayList<>();
 
         final int XSize = n * d;
-        final int meanSize = d;
-        final int covSize = d * d;
+        final int meanSize = d; // UNUSED
+        final int covSize = d * d; // UNUSED
 
         final FieldT one = fieldFactory.one();
         final FieldT zero = fieldFactory.zero();
@@ -2532,6 +2533,7 @@ public class R1CSConstruction implements Serializable {
         oneFullAssignment = oneFullAssignment.union(newX).union(newMean).union(newCov);
         oneFullAssignment = oneFullAssignment.union(config.sparkContext().parallelizePairs(Collections.singletonList(new Tuple2<>((long) 0, one))));
 
+        // UNUSED
         Comparator<Tuple2<Long, FieldT>> comparator = new Comparator<Tuple2<Long, FieldT>>() {
             public int compare(Tuple2<Long, FieldT> tupleA,
                                Tuple2<Long, FieldT> tupleB) {

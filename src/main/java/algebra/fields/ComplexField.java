@@ -7,13 +7,11 @@
 
 package algebra.fields;
 
-import java.io.Serializable;
 import java.math.BigInteger;
 import java.security.SecureRandom;
 import java.util.Random;
 
-public class ComplexField extends AbstractFieldElementExpanded<ComplexField>
-        implements Serializable {
+public class ComplexField extends AbstractFieldElementExpanded<ComplexField> {
     private final double re;
     private final double im;
 

@@ -7,12 +7,11 @@ import algebra.fields.Fp6_3Over2;
 import algebra.curves.barreto_naehrig.BNFields.*;
 import algebra.curves.barreto_naehrig.bn254a.bn254a_parameters.*;
 
-import java.io.Serializable;
 import java.math.BigInteger;
 
 public class BN254aFields {
     /* Scalar field Fr */
-    public static class BN254aFr extends BNFr<BN254aFr> implements Serializable {
+    public static class BN254aFr extends BNFr<BN254aFr> {
 
         public static final BN254aFrParameters FrParameters = new BN254aFrParameters();
         public static final BN254aFr ZERO = new BN254aFr(FrParameters.ZERO());
@@ -72,7 +71,7 @@ public class BN254aFields {
     }
 
     /* Base field Fq */
-    public static class BN254aFq extends BNFq<BN254aFq> implements Serializable {
+    public static class BN254aFq extends BNFq<BN254aFq> {
 
         public static final BN254aFqParameters FqParameters = new BN254aFqParameters();
         public static final BN254aFq ZERO = new BN254aFq(FqParameters.ZERO());
@@ -136,7 +135,7 @@ public class BN254aFields {
     }
 
     /* Twist field Fq2 */
-    public static class BN254aFq2 extends BNFq2<BN254aFq, BN254aFq2> implements Serializable {
+    public static class BN254aFq2 extends BNFq2<BN254aFq, BN254aFq2> {
 
         public static final BN254aFq2Parameters Fq2Parameters = new BN254aFq2Parameters();
         public static BN254aFq2 ZERO = new BN254aFq2(Fq2Parameters.ZERO());
@@ -194,7 +193,7 @@ public class BN254aFields {
     }
 
     /* Field Fq6 */
-    public static class BN254aFq6 extends BNFq6<BN254aFq, BN254aFq2, BN254aFq6> implements Serializable {
+    public static class BN254aFq6 extends BNFq6<BN254aFq, BN254aFq2, BN254aFq6> {
 
         public static final BN254aFq6Parameters Fq6Parameters = new BN254aFq6Parameters();
         public static BN254aFq6 ZERO = new BN254aFq6(Fq6Parameters.ZERO());
@@ -240,7 +239,7 @@ public class BN254aFields {
     }
 
     /* Field Fq12 */
-    public static class BN254aFq12 extends BNFq12<BN254aFq, BN254aFq2, BN254aFq6, BN254aFq12> implements Serializable {
+    public static class BN254aFq12 extends BNFq12<BN254aFq, BN254aFq2, BN254aFq6, BN254aFq12> {
 
         public static final BN254aFq12Parameters Fq12Parameters = new BN254aFq12Parameters();
         public static BN254aFq12 ZERO = new BN254aFq12(Fq12Parameters.ZERO());

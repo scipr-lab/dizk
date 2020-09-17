@@ -9,10 +9,9 @@ package algebra.fields;
 
 import algebra.fields.abstractfieldparameters.AbstractFp2Parameters;
 
-import java.io.Serializable;
 import java.math.BigInteger;
 
-public class Fp2 extends AbstractFieldElement<Fp2> implements Serializable {
+public class Fp2 extends AbstractFieldElement<Fp2> {
     protected final Fp c0;
     protected final Fp c1;
     private final AbstractFp2Parameters Fp2Parameters;
