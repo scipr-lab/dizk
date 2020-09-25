@@ -25,6 +25,7 @@
             <scope>compile</scope>
         </dependency>
         <dependency>
+            <!-- See http://maven.apache.org/surefire/maven-surefire-plugin/examples/junit.html -->
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
             <version>[4.13,5.0)</version>
@@ -43,8 +44,9 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
-                <version>[3.8.1,4.0)</version>
+                <version>3.8.1</version>
                 <configuration>
+                    <release>11</release>
                     <source>1.11</source>
                     <target>1.11</target>
                     <debug>true</debug>
@@ -57,10 +59,33 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-surefire-plugin</artifactId>
-                <version>[3.0,4.0)</version>
+                <version>3.0.0-M5</version>
                 <configuration>
-                    <reuseForks>false</reuseForks>
-                    <forkCount>1</forkCount>
+                    <!--
+                        Using several threads, with the options:
+                        <threadCount>4</threadCount
+                        <parallel>methods</parallel>
+                        triggers a lot of NullPointer exceptions in the tests.
+                        Seems like there are annoying race conditions. This begs for
+                        deeper dive into how resource is shared and how tests work when
+                        started on multiple threads.
+                    -->
+                    <!-- 
+                        For now, we kill any parallelism and rather use single thread for the test to try and
+                        avoid any weird race conditions
+                        The config: forkCount=1/reuseForks=false executes each test class in its own JVM process,
+                        one after another. It creates the highest level of separation for the test execution,
+                        but provides the longest execution time.
+                        See: http://maven.apache.org/surefire/maven-surefire-plugin/examples/fork-options-and-parallel-execution.html)
+                    -->
+                    <!--<reuseForks>false</reuseForks>-->
+                    <!--<forkCount>1</forkCount>-->
+                    <forkCount>0</forkCount>
+                    <!-- Add additional argument to allow reflection
+                        access for third party libraries -->
+                    <argLine>
+                        --illegal-access=permit
+                    </argLine>
                 </configuration>
             </plugin>
             <plugin>
@@ -76,7 +101,7 @@
                     <configuration>
                       <rules>
                         <requireMavenVersion>
-                          <version>[3.8.1,4.0)</version>
+                          <version>3.6.3</version>
                         </requireMavenVersion>
                       </rules>
                     </configuration>
