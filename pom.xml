@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0
-                        https://maven.apache.org/xsd/maven-4.0.0.xsd">
+    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
     <!-- See https://maven.apache.org/pom.html#pom-reference -->
@@ -11,31 +10,48 @@
     <version>0.1.0</version>
     <packaging>jar</packaging>
 
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+        <java.version>11</java.version>
+        <maven.compiler.source>${java.version}</maven.compiler.source>
+        <maven.compiler.target>${java.version}</maven.compiler.target>
+        <junit-platform.version>5.7.0</junit-platform.version>
+        <spark-platform.version>3.0.1</spark-platform.version>
+    </properties>
+
     <dependencies>
+        <!-- https://mvnrepository.com/artifact/org.apache.spark/spark-core -->
         <dependency>
             <groupId>org.apache.spark</groupId>
             <artifactId>spark-core_2.12</artifactId>
-            <version>[2.4.7,3.0)</version>
-            <scope>compile</scope>
+            <version>${spark-platform.version}</version>
         </dependency>
+        <!-- https://mvnrepository.com/artifact/org.apache.spark/spark-sql -->
         <dependency>
             <groupId>org.apache.spark</groupId>
             <artifactId>spark-sql_2.12</artifactId>
-            <version>[2.4.7,3.0)</version>
-            <scope>compile</scope>
+            <version>${spark-platform.version}</version>
         </dependency>
+        <!-- https://mvnrepository.com/artifact/org.junit.jupiter/junit-jupiter-api -->
         <dependency>
-            <!-- See http://maven.apache.org/surefire/maven-surefire-plugin/examples/junit.html -->
-            <groupId>junit</groupId>
-            <artifactId>junit</artifactId>
-            <version>[4.13,5.0)</version>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter-api</artifactId>
+            <version>${junit-platform.version}</version>
             <scope>test</scope>
         </dependency>
+        <!-- https://mvnrepository.com/artifact/org.junit.jupiter/junit-jupiter-engine -->
         <dependency>
-            <groupId>com.google.googlejavaformat</groupId>
-            <artifactId>google-java-format</artifactId>
-            <version>[1.9,2.0)</version>
-            <scope>compile</scope>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter-engine</artifactId>
+            <version>${junit-platform.version}</version>
+            <scope>test</scope>
+        </dependency>
+        <!-- https://mvnrepository.com/artifact/org.codehaus.mojo/versions-maven-plugin -->
+        <dependency>
+            <groupId>org.codehaus.mojo</groupId>
+            <artifactId>versions-maven-plugin</artifactId>
+            <version>2.8.1</version>
         </dependency>
     </dependencies>
 
@@ -46,14 +62,14 @@
                 <artifactId>maven-compiler-plugin</artifactId>
                 <version>3.8.1</version>
                 <configuration>
-                    <release>11</release>
-                    <source>1.11</source>
-                    <target>1.11</target>
+                <!-- Debug configuration -->
+                <!--
                     <debug>true</debug>
                     <debuglevel>lines,vars,source</debuglevel>
                     <showDeprecation>true</showDeprecation>
                     <showWarnings>true</showWarnings>
                     <verbose>true</verbose>
+                -->
                 </configuration>
             </plugin>
             <plugin>
@@ -72,15 +88,16 @@
                     -->
                     <!-- 
                         For now, we kill any parallelism and rather use single thread for the test to try and
-                        avoid any weird race conditions
+                        avoid any weird race conditions.
                         The config: forkCount=1/reuseForks=false executes each test class in its own JVM process,
                         one after another. It creates the highest level of separation for the test execution,
-                        but provides the longest execution time.
+                        but provides the longest execution time. Likewise, the `parallel` allows to obtain some concurrency
+                        within the same JVM process. While this is efficient in terms of memory and execution time, it may be 
+                        the cause of race conditions or other unexpected and hard to reproduce behavior.
                         See: http://maven.apache.org/surefire/maven-surefire-plugin/examples/fork-options-and-parallel-execution.html)
                     -->
-                    <!--<reuseForks>false</reuseForks>-->
-                    <!--<forkCount>1</forkCount>-->
-                    <forkCount>0</forkCount>
+                    <reuseForks>false</reuseForks>
+                    <forkCount>1</forkCount>
                     <!-- Add additional argument to allow reflection
                         access for third party libraries -->
                     <argLine>
@@ -108,7 +125,29 @@
                   </execution>
                 </executions>
             </plugin>
+
+            <!-- https://github.com/diffplug/spotless/tree/main/plugin-maven#google-java-format -->
+            <plugin>
+                <groupId>com.diffplug.spotless</groupId>
+                <artifactId>spotless-maven-plugin</artifactId>
+                <version>2.4.1</version>
+                <executions>
+                  <execution>
+                    <phase>verify</phase>
+                    <goals>
+                      <goal>check</goal>
+                    </goals>
+                  </execution>
+                </executions>
+                <configuration>
+                  <java>
+                    <googleJavaFormat>
+                      <version>1.9</version>
+                      <style>GOOGLE</style>
+                    </googleJavaFormat>
+                  </java>
+                </configuration>
+            </plugin>
         </plugins>
     </build>
-
 </project>
