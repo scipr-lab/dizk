@@ -9,20 +9,20 @@ package algebra.msm;
 
 import algebra.groups.AdditiveIntegerGroup;
 import algebra.groups.integergroupparameters.LargeAdditiveIntegerGroupParameters;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import scala.Tuple2;
 
 import java.io.Serializable;
 import java.math.BigInteger;
 import java.util.ArrayList;
 
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class SerialVariableBaseMSMTest implements Serializable {
     private LargeAdditiveIntegerGroupParameters GroupParameters;
 
-    @Before
+    @BeforeEach
     public void setUp() {
         GroupParameters = new LargeAdditiveIntegerGroupParameters();
     }

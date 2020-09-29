@@ -14,9 +14,9 @@ import configuration.Configuration;
 import org.apache.spark.api.java.JavaPairRDD;
 import org.apache.spark.api.java.JavaSparkContext;
 import org.apache.spark.storage.StorageLevel;
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import profiler.generation.R1CSConstruction;
 import relations.objects.Assignment;
 import relations.r1cs.R1CSRelationRDD;
@@ -24,21 +24,21 @@ import scala.Tuple3;
 
 import java.io.Serializable;
 
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class MatMulTest implements Serializable {
     private transient JavaSparkContext sc;
     private Configuration config;
     private Fp fieldFactory;
 
-    @Before
+    @BeforeEach
     public void setUp() {
         sc = new JavaSparkContext("local", "ZKSparkTestSuite");
         config = new Configuration(4, 4, 1, 4, sc, StorageLevel.MEMORY_ONLY());
         fieldFactory = new LargeFpParameters().ONE();
     }
 
-    @After
+    @AfterEach
     public void tearDown() {
         sc.stop();
         sc = null;

@@ -17,12 +17,12 @@ import algebra.curves.fake.FakeG2;
 import algebra.curves.fake.FakeInitialize;
 import algebra.curves.fake.fake_parameters.FakeG1Parameters;
 import algebra.curves.fake.fake_parameters.FakeG2Parameters;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import java.math.BigInteger;
 
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class CurvesTest {
     private <GroupT extends AbstractGroup<GroupT>> void GroupTest(final GroupT groupFactory) {

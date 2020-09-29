@@ -15,10 +15,10 @@ import algebra.curves.barreto_naehrig.bn254a.BN254aFields.*;
 import algebra.curves.barreto_naehrig.bn254b.BN254bFields.*;
 import algebra.curves.barreto_naehrig.bn254a.bn254a_parameters.BN254aFq12Parameters;
 import algebra.curves.barreto_naehrig.bn254b.bn254b_parameters.BN254bFq12Parameters;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class BNFieldsTest {
     private <FieldT extends AbstractFieldElement<FieldT>> void verify(

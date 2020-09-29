@@ -13,9 +13,9 @@ import configuration.Configuration;
 import org.apache.spark.api.java.JavaPairRDD;
 import org.apache.spark.api.java.JavaSparkContext;
 import org.apache.spark.storage.StorageLevel;
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import profiler.generation.R1CSConstruction;
 import reductions.r1cs_to_qap.R1CStoQAP;
 import reductions.r1cs_to_qap.R1CStoQAPRDD;
@@ -30,7 +30,7 @@ import scala.Tuple3;
 
 import java.io.Serializable;
 
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class R1CStoQAPRDDTest implements Serializable {
     private transient JavaSparkContext sc;
@@ -39,7 +39,7 @@ public class R1CStoQAPRDDTest implements Serializable {
     private Tuple3<R1CSRelation<Fp>, Assignment<Fp>, Assignment<Fp>> R1CSExample;
     private Tuple3<R1CSRelationRDD<Fp>, Assignment<Fp>, JavaPairRDD<Long, Fp>> R1CSExampleRDD;
 
-    @Before
+    @BeforeEach
     public void setUp() {
         sc = new JavaSparkContext("local", "ZKSparkTestSuite");
         fieldFactory = new LargeFpParameters().ONE();
@@ -53,7 +53,7 @@ public class R1CStoQAPRDDTest implements Serializable {
                 .parallelConstruct(numConstraints, numInputs, fieldFactory, config);
     }
 
-    @After
+    @AfterEach
     public void tearDown() {
         sc.stop();
         sc = null;
