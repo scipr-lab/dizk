@@ -34,9 +34,9 @@ import org.apache.spark.SparkConf;
 import org.apache.spark.api.java.JavaPairRDD;
 import org.apache.spark.api.java.JavaSparkContext;
 import org.apache.spark.storage.StorageLevel;
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import profiler.generation.R1CSConstruction;
 import profiler.utils.SparkUtils;
 import relations.objects.Assignment;
@@ -47,13 +47,13 @@ import zk_proof_systems.zkSNARK.objects.Proof;
 
 import java.io.Serializable;
 
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class DistributedzkSNARKTest implements Serializable {
     private transient JavaSparkContext sc;
     private Configuration config;
 
-    @Before
+    @BeforeEach
     public void setUp() {
         final SparkConf conf = new SparkConf().setMaster("local").setAppName("default");
         conf.set("spark.files.overwrite", "true");
@@ -67,7 +67,7 @@ public class DistributedzkSNARKTest implements Serializable {
         config.setDebugFlag(true);
     }
 
-    @After
+    @AfterEach
     public void tearDown() {
         sc.stop();
         sc = null;
