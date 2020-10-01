@@ -9,7 +9,10 @@ RUN apt update && apt upgrade -y
 RUN apt install -y \
     openjdk-11-jdk \
     curl \
-    tar
+    tar \
+    # Temp dev tools
+    vim \
+    git
 
 # Fetch Maven
 ENV MAVEN_VERSION 3.6.3

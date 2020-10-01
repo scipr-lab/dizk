@@ -11,10 +11,10 @@ import algebra.fields.abstractfieldparameters.AbstractFp12_2Over3Over2_Parameter
 import algebra.fields.abstractfieldparameters.AbstractFp2Parameters;
 import algebra.fields.abstractfieldparameters.AbstractFp6_3Over2_Parameters;
 import algebra.fields.fieldparameters.*;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class FieldsTest {
     private <FieldT extends AbstractFieldElement<FieldT>> void verify(

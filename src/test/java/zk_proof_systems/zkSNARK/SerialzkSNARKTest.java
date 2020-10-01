@@ -29,8 +29,8 @@ import algebra.curves.fake.fake_parameters.FakeG1Parameters;
 import algebra.curves.fake.fake_parameters.FakeG2Parameters;
 import algebra.fields.Fp;
 import configuration.Configuration;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import profiler.generation.R1CSConstruction;
 import relations.objects.Assignment;
 import relations.r1cs.R1CSRelation;
@@ -40,12 +40,12 @@ import zk_proof_systems.zkSNARK.objects.Proof;
 
 import java.io.Serializable;
 
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class SerialzkSNARKTest implements Serializable {
     private Configuration config;
 
-    @Before
+    @BeforeEach
     public void setUp() {
         config = new Configuration();
         config.setRuntimeFlag(false);

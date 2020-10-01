@@ -4,7 +4,7 @@
     <a href="https://github.com/scipr-lab/dizk/blob/master/AUTHORS"><img src="https://img.shields.io/badge/authors-SCIPR%20Lab-orange.svg"></a>
     <a href="https://github.com/scipr-lab/dizk/blob/master/LICENSE"><img src="https://img.shields.io/badge/license-MIT-blue.svg"></a>
 </p>
-<h4 align="center">Java library for distributed zero knowledge proof systems</h4>
+<h4 align="center">Java library for DIstributed Zero Knowledge proof systems</h4>
 
 ___DIZK___ (pronounced */'dizək/*) is a Java library for distributed zero knowledge proof systems. The library implements distributed polynomial evaluation/interpolation, computation of Lagrange polynomials, and multi-scalar multiplication. Using these scalable arithmetic subroutines, the library provides a distributed zkSNARK proof system that enables verifiable computations of up to billions of logical gates, far exceeding the scale of previous state-of-the-art solutions.
 
@@ -72,13 +72,13 @@ For formal definitions and theoretical discussions about these, see [BCCT12] [BC
 
 The library has the following dependencies:
 
-- [Java SE 8+](http://www.oracle.com/technetwork/java/javase/overview/index.html)
+- Java 11
 - [Apache Maven](https://maven.apache.org/) (see [here](https://maven.apache.org/guides/mini/guide-configuring-maven.html) for configuration guide)
 - Fetched from `pom.xml` via Maven:
-    - [Spark Core 2.10](https://mvnrepository.com/artifact/org.apache.spark/spark-core_2.10/1.0.0)
-    - [Spark SQL 2.10](https://mvnrepository.com/artifact/org.apache.spark/spark-sql_2.10/2.1.0)
-    - [JUnit 4.13](https://mvnrepository.com/artifact/junit/junit/4.13)
-    - [Google Java Format](https://github.com/google/google-java-format)
+    - [Spark Core 3.0.1](https://mvnrepository.com/artifact/org.apache.spark/spark-core)
+    - [Spark SQL 3.0.1](https://mvnrepository.com/artifact/org.apache.spark/spark-sql)
+    - [JUnit 5.7.0](https://mvnrepository.com/artifact/org.junit.jupiter)
+    - [Spotless with Google Java Format](https://github.com/diffplug/spotless/tree/main/plugin-maven#google-java-format)
 - Fetched via Git submodules:
     - [spark-ec2](https://github.com/amplab/spark-ec2/tree/branch-2.0)
 
@@ -115,6 +115,12 @@ docker build -t dizk-base .
 docker run -it --name dizk-container dizk-base
 ```
 
+**Note**: For development purpose, you may want to develop from inside a docker container (to avoid touching your local system's configuration). To do so, you can run the following command:
+```bash
+docker run -ti -v "$(pwd)":/home/dizk-dev dizk-base
+```
+and run `cd /home/dizk-dev` in the container to start developing.
+
 ### Testing
 
 This library comes with unit tests for each of the provided modules. Run the tests with:
@@ -134,6 +140,13 @@ mvn -Dtest=<test-class> test
 # mvn -Dtest=BNFieldsTest test
 ```
 See [here](http://maven.apache.org/surefire/maven-surefire-plugin/test-mojo.html) for more information.
+
+## Run syntax checker
+
+Run:
+```bash
+mvn spotless:check
+```
 
 ## Profiler
 

@@ -16,23 +16,24 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import org.apache.spark.api.java.JavaRDD;
 import org.apache.spark.api.java.JavaSparkContext;
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import scala.Tuple2;
-import static org.junit.Assert.assertTrue;
+
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class DistributedVariableBaseMSMTest implements Serializable {
     private transient JavaSparkContext sc;
     private LargeAdditiveIntegerGroupParameters GroupParameters;
 
-    @Before
+    @BeforeEach
     public void setUp() {
         sc = new JavaSparkContext("local", "ZKSparkTestSuite");
         GroupParameters = new LargeAdditiveIntegerGroupParameters();
     }
 
-    @After
+    @AfterEach
     public void tearDown() {
         sc.stop();
         sc = null;
