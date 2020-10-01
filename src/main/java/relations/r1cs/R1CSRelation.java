@@ -17,7 +17,7 @@ import java.io.Serializable;
 /**
  * A system of R1CSRelation constraints looks like
  * <p>
- * { < A_k , X > * < B_k , X > = < C_k , X > }_{k=1}^{n}  .
+ * { < A_k , X > * < B_k , X > = < C_k , X > }_{k=1}^{n}
  * <p>
  * In other words, the system is satisfied if and only if there exist a
  * USCS variable assignment for which each R1CSRelation constraint is satisfied.

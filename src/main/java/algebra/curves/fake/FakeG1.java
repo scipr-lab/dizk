@@ -40,12 +40,12 @@ public class FakeG1 extends AbstractG1<FakeG1> {
         return this;
     }
 
-    public FakeG1 add(final FakeG1 that) {
-        return new FakeG1(this.element.add(that.element), FakeG1Parameters);
+    public FakeG1 add(final FakeG1 other) {
+        return new FakeG1(this.element.add(other.element), FakeG1Parameters);
     }
 
-    public FakeG1 sub(final FakeG1 that) {
-        return new FakeG1(this.element.sub(that.element), FakeG1Parameters);
+    public FakeG1 sub(final FakeG1 other) {
+        return new FakeG1(this.element.sub(other.element), FakeG1Parameters);
     }
 
     public FakeG1 zero() {
@@ -96,12 +96,12 @@ public class FakeG1 extends AbstractG1<FakeG1> {
         return this.element.toString();
     }
 
-    public boolean equals(final FakeG1 that) {
-        if (that == null) {
+    public boolean equals(final FakeG1 other) {
+        if (other == null) {
             return false;
         }
 
-        return this.element.equals(that.element);
+        return this.element.equals(other.element);
     }
 
 }

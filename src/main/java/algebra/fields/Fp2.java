@@ -38,26 +38,27 @@ public class Fp2 extends AbstractFieldElement<Fp2> {
         return this;
     }
 
-    public Fp2 add(final Fp2 that) {
-        return new Fp2(c0.add(that.c0), c1.add(that.c1), Fp2Parameters);
+    public Fp2 add(final Fp2 other) {
+        return new Fp2(c0.add(other.c0), c1.add(other.c1), Fp2Parameters);
     }
 
-    public Fp2 sub(final Fp2 that) {
-        return new Fp2(c0.sub(that.c0), c1.sub(that.c1), Fp2Parameters);
+    public Fp2 sub(final Fp2 other) {
+        return new Fp2(c0.sub(other.c0), c1.sub(other.c1), Fp2Parameters);
     }
 
-    public Fp2 mul(final Fp that) {
-        return new Fp2(c0.mul(that), c1.mul(that), Fp2Parameters);
+    public Fp2 mul(final Fp other) {
+        return new Fp2(c0.mul(other), c1.mul(other), Fp2Parameters);
     }
 
-    public Fp2 mul(final Fp2 that) {
-    /* Devegili OhEig Scott Dahab --- Multiplication and Squaring on AbstractPairing-Friendly
-     Fields.pdf; Section 3 (Karatsuba) */
-        final Fp c0C0 = c0.mul(that.c0);
-        final Fp c1C1 = c1.mul(that.c1);
+    public Fp2 mul(final Fp2 other) {
+        // See: Devegili OhEig, Scott Dahab:
+        // "Multiplication and Squaring on Pairing-Friendly Fields"
+        // Section 3 (Karatsuba)
+        final Fp c0C0 = c0.mul(other.c0);
+        final Fp c1C1 = c1.mul(other.c1);
         return new Fp2(
                 c0C0.add(Fp2Parameters.nonresidue().mul(c1C1)),
-                (c0.add(c1)).mul(that.c0.add(that.c1)).sub(c0C0).sub(c1C1),
+                (c0.add(c1)).mul(other.c0.add(other.c1)).sub(c0C0).sub(c1C1),
                 Fp2Parameters);
     }
 
@@ -86,8 +87,9 @@ public class Fp2 extends AbstractFieldElement<Fp2> {
     }
 
     public Fp2 square() {
-    /* Devegili OhEig Scott Dahab --- Multiplication and Squaring on AbstractPairing-Friendly
-     Fields.pdf; Section 3 (Complex squaring) */
+        // Devegili OhEig, Scott Dahab:
+        // "Multiplication and Squaring on Pairing-Friendly Fields"
+        // Section 3 (Complex squaring)
         final Fp c0c1 = c0.mul(c1);
         final Fp factor = (c0.add(c1)).mul(c0.add(Fp2Parameters.nonresidue().mul(c1)));
         return new Fp2(
@@ -97,8 +99,9 @@ public class Fp2 extends AbstractFieldElement<Fp2> {
     }
 
     public Fp2 inverse() {
-    /* From "High-Speed Software Implementation of the Optimal Ate AbstractPairing over
-    Barreto-Naehrig Curves"; Algorithm 8 */
+        // See: "High-Speed Software Implementation of the Optimal Ate
+        // Pairing over Barreto-Naehrig Curves"
+        // Algorithm 8
         final Fp t0 = c0.square();
         final Fp t1 = c1.square();
         final Fp t2 = t0.sub(Fp2Parameters.nonresidue().mul(t1));
@@ -130,11 +133,11 @@ public class Fp2 extends AbstractFieldElement<Fp2> {
         return c0.toString() + ", " + c1.toString();
     }
 
-    public boolean equals(final Fp2 that) {
-        if (that == null) {
+    public boolean equals(final Fp2 other) {
+        if (other == null) {
             return false;
         }
 
-        return c0.equals(that.c0) && c1.equals(that.c1);
+        return c0.equals(other.c0) && c1.equals(other.c1);
     }
 }

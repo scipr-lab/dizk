@@ -42,17 +42,17 @@ public class ComplexField extends AbstractFieldElementExpanded<ComplexField> {
         return this;
     }
 
-    public ComplexField add(final ComplexField that) {
-        return new ComplexField(this.re + that.re, this.im + that.im);
+    public ComplexField add(final ComplexField other) {
+        return new ComplexField(this.re + other.re, this.im + other.im);
     }
 
-    public ComplexField sub(final ComplexField that) {
-        return new ComplexField(this.re - that.re, this.im - that.im);
+    public ComplexField sub(final ComplexField other) {
+        return new ComplexField(this.re - other.re, this.im - other.im);
     }
 
-    public ComplexField mul(final ComplexField that) {
-        final double real = this.re * that.re - this.im * that.im;
-        final double imag = this.re * that.im + this.im * that.re;
+    public ComplexField mul(final ComplexField other) {
+        final double real = this.re * other.re - this.im * other.im;
+        final double imag = this.re * other.im + this.im * other.re;
         return new ComplexField(real, imag);
     }
 
@@ -135,11 +135,11 @@ public class ComplexField extends AbstractFieldElementExpanded<ComplexField> {
         return "(" + Double.toString(re) + ", " + Double.toString(im) + ")";
     }
 
-    public boolean equals(final ComplexField that) {
-        if (that == null) {
+    public boolean equals(final ComplexField other) {
+        if (other == null) {
             return false;
         }
-        return (Math.abs(this.re - that.re) < 0.000001) && (Math.abs(this.im - that.im) < 0.000001);
+        return (Math.abs(this.re - other.re) < 0.000001) && (Math.abs(this.im - other.im) < 0.000001);
     }
 
 }

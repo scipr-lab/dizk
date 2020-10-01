@@ -34,12 +34,12 @@ public abstract class BNGT<
 
     public abstract BNGTT construct(final BNFq12T element);
 
-    public BNGTT add(final BNGTT that) {
-        return this.construct(this.element.mul(that.element));
+    public BNGTT add(final BNGTT other) {
+        return this.construct(this.element.mul(other.element));
     }
 
-    public BNGTT mul(final BigInteger that) {
-        return this.construct(this.element.pow(that));
+    public BNGTT mul(final BigInteger other) {
+        return this.construct(this.element.pow(other));
     }
 
     public BNGTT one() {
@@ -50,8 +50,8 @@ public abstract class BNGT<
         return this.construct(this.element.unitaryInverse());
     }
 
-    public boolean equals(final BNGTT that) {
-        return this.element.equals(that.element);
+    public boolean equals(final BNGTT other) {
+        return this.element.equals(other.element);
     }
 
     public String toString() {

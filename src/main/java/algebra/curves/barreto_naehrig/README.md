@@ -12,5 +12,5 @@ This folder contains implementations and parameters for the following Barreto-Na
 | Base Field   | 0x277a0785027142409a4f160886e00001921d70600000000188f4000000000001 | 254        | 50        |
 | Scalar Field | 0x277a0785027142409a4f160886e000012d9614480000000188f4000000000001 | 254        | 50        |
 
-The first curve is used mostly for testing.
-The second curve is used for zkSNARKs on large instances. Indeed, the high 2-adicity of the scalar field enables efficient FFTs for very large domains (of size up to 2^50) over the scalar field.
+The first curve - `BN254a` - is used mostly for testing.
+The second curve - `BN254b` - is used for zkSNARKs on large instances. Indeed, the high 2-adicity of the scalar field enables efficient FFTs for very large domains (of size up to `2^50`) over the scalar field.

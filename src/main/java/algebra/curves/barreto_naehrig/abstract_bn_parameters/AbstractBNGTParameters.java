@@ -13,6 +13,9 @@ import algebra.curves.barreto_naehrig.BNFields.BNFq2;
 import algebra.curves.barreto_naehrig.BNFields.BNFq6;
 import algebra.curves.barreto_naehrig.BNGT;
 
+/**
+ * Generic class to represent the parameters defining a given BN GT group
+ */
 public abstract class AbstractBNGTParameters<
         BNFqT extends BNFq<BNFqT>,
         BNFq2T extends BNFq2<BNFqT, BNFq2T>,

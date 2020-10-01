@@ -21,16 +21,16 @@ public interface BNFields {
 
         public abstract String toString();
 
-        public BNFrT add(final BNFrT that) {
-            return this.construct(this.element().add(that.element()));
+        public BNFrT add(final BNFrT other) {
+            return this.construct(this.element().add(other.element()));
         }
 
-        public BNFrT sub(final BNFrT that) {
-            return this.construct(this.element().sub(that.element()));
+        public BNFrT sub(final BNFrT other) {
+            return this.construct(this.element().sub(other.element()));
         }
 
-        public BNFrT mul(final BNFrT that) {
-            return this.construct(this.element().mul(that.element()));
+        public BNFrT mul(final BNFrT other) {
+            return this.construct(this.element().mul(other.element()));
         }
 
         public boolean isZero() {
@@ -73,12 +73,12 @@ public interface BNFields {
             return this.element().toBigInteger();
         }
 
-        public boolean equals(final BNFrT that) {
-            if (that == null) {
+        public boolean equals(final BNFrT other) {
+            if (other == null) {
                 return false;
             }
 
-            return this.element().equals(that.element());
+            return this.element().equals(other.element());
         }
     }
 
@@ -99,20 +99,20 @@ public interface BNFields {
 
         public abstract String toString();
 
-        public BNFqT add(final BNFqT that) {
-            return this.construct(this.element().add(that.element()));
+        public BNFqT add(final BNFqT other) {
+            return this.construct(this.element().add(other.element()));
         }
 
-        public BNFqT sub(final BNFqT that) {
-            return this.construct(this.element().sub(that.element()));
+        public BNFqT sub(final BNFqT other) {
+            return this.construct(this.element().sub(other.element()));
         }
 
-        public BNFqT mul(final BNFqT that) {
-            return this.construct(this.element().mul(that.element()));
+        public BNFqT mul(final BNFqT other) {
+            return this.construct(this.element().mul(other.element()));
         }
 
-        public BNFqT mul(final Fp that) {
-            return this.construct(this.element().mul(that));
+        public BNFqT mul(final Fp other) {
+            return this.construct(this.element().mul(other));
         }
 
         public boolean isZero() {
@@ -155,12 +155,12 @@ public interface BNFields {
             return this.element().toBigInteger();
         }
 
-        public boolean equals(final BNFqT that) {
-            if (that == null) {
+        public boolean equals(final BNFqT other) {
+            if (other == null) {
                 return false;
             }
 
-            return this.element().equals(that.element());
+            return this.element().equals(other.element());
         }
     }
 
@@ -177,20 +177,20 @@ public interface BNFields {
 
         public abstract String toString();
 
-        public BNFq2T add(final BNFq2T that) {
-            return this.construct(this.element().add(that.element()));
+        public BNFq2T add(final BNFq2T other) {
+            return this.construct(this.element().add(other.element()));
         }
 
-        public BNFq2T sub(final BNFq2T that) {
-            return this.construct(this.element().sub(that.element()));
+        public BNFq2T sub(final BNFq2T other) {
+            return this.construct(this.element().sub(other.element()));
         }
 
-        public BNFq2T mul(final BNFq2T that) {
-            return this.construct(this.element().mul(that.element()));
+        public BNFq2T mul(final BNFq2T other) {
+            return this.construct(this.element().mul(other.element()));
         }
 
-        public BNFq2T mul(final BNFqT that) {
-            return this.construct(this.element().mul(that.element()));
+        public BNFq2T mul(final BNFqT other) {
+            return this.construct(this.element().mul(other.element()));
         }
 
         public boolean isZero() {
@@ -225,12 +225,12 @@ public interface BNFields {
             return this.element().bitSize();
         }
 
-        public boolean equals(final BNFq2T that) {
-            if (that == null) {
+        public boolean equals(final BNFq2T other) {
+            if (other == null) {
                 return false;
             }
 
-            return this.element().equals(that.element());
+            return this.element().equals(other.element());
         }
     }
 
@@ -246,30 +246,30 @@ public interface BNFields {
 
         public abstract BNFq6T one();
 
-        public abstract Fp2 mulByNonResidue(final Fp2 that);
+        public abstract Fp2 mulByNonResidue(final Fp2 other);
 
         public abstract BNFq6T construct(final Fp6_3Over2 element);
 
         public abstract String toString();
 
-        public BNFq6T add(final BNFq6T that) {
-            return this.construct(this.element().add(that.element()));
+        public BNFq6T add(final BNFq6T other) {
+            return this.construct(this.element().add(other.element()));
         }
 
-        public BNFq6T sub(final BNFq6T that) {
-            return this.construct(this.element().sub(that.element()));
+        public BNFq6T sub(final BNFq6T other) {
+            return this.construct(this.element().sub(other.element()));
         }
 
-        public BNFq6T mul(final BNFqT that) {
-            return this.construct(this.element().mul(that.element()));
+        public BNFq6T mul(final BNFqT other) {
+            return this.construct(this.element().mul(other.element()));
         }
 
-        public BNFq6T mul(final BNFq2T that) {
-            return this.construct(this.element().mul(that.element()));
+        public BNFq6T mul(final BNFq2T other) {
+            return this.construct(this.element().mul(other.element()));
         }
 
-        public BNFq6T mul(final BNFq6T that) {
-            return this.construct(this.element().mul(that.element()));
+        public BNFq6T mul(final BNFq6T other) {
+            return this.construct(this.element().mul(other.element()));
         }
 
         public boolean isZero() {
@@ -304,12 +304,12 @@ public interface BNFields {
             return this.element().bitSize();
         }
 
-        public boolean equals(final BNFq6T that) {
-            if (that == null) {
+        public boolean equals(final BNFq6T other) {
+            if (other == null) {
                 return false;
             }
 
-            return this.element().equals(that.element());
+            return this.element().equals(other.element());
         }
     }
 
@@ -331,36 +331,36 @@ public interface BNFields {
 
         public abstract String toString();
 
-        public BNFq12T add(final BNFq12T that) {
-            return this.construct(this.element().add(that.element()));
+        public BNFq12T add(final BNFq12T other) {
+            return this.construct(this.element().add(other.element()));
         }
 
-        public BNFq12T sub(final BNFq12T that) {
-            return this.construct(this.element().sub(that.element()));
+        public BNFq12T sub(final BNFq12T other) {
+            return this.construct(this.element().sub(other.element()));
         }
 
-        public BNFq12T mul(final BNFqT that) {
-            return this.construct(this.element().mul(that.element()));
+        public BNFq12T mul(final BNFqT other) {
+            return this.construct(this.element().mul(other.element()));
         }
 
-        public BNFq12T mul(final BNFq2T that) {
-            return this.construct(this.element().mul(that.element()));
+        public BNFq12T mul(final BNFq2T other) {
+            return this.construct(this.element().mul(other.element()));
         }
 
-        public BNFq12T mul(final BNFq6T that) {
-            return this.construct(this.element().mul(that.element()));
+        public BNFq12T mul(final BNFq6T other) {
+            return this.construct(this.element().mul(other.element()));
         }
 
-//        public Fp6_3Over2 mulByNonResidue(final Fp6_3Over2 that) {
-//            return that.construct(Fq12Parameters.nonresidue().mul(that.c2), that.c0, that.c1);
+//        public Fp6_3Over2 mulByNonResidue(final Fp6_3Over2 other) {
+//            return other.construct(Fq12Parameters.nonresidue().mul(other.c2), other.c0, other.c1);
 //        }
 
-        public BNFq12T mul(final BNFq12T that) {
-            return this.construct(this.element().mul(that.element()));
+        public BNFq12T mul(final BNFq12T other) {
+            return this.construct(this.element().mul(other.element()));
         }
 
-        public BNFq12T pow(final BigInteger that) {
-            return this.construct(this.element().pow(that));
+        public BNFq12T pow(final BigInteger other) {
+            return this.construct(this.element().pow(other));
         }
 
         public boolean isZero() {
@@ -415,12 +415,12 @@ public interface BNFields {
             return this.element().bitSize();
         }
 
-        public boolean equals(final BNFq12T that) {
-            if (that == null) {
+        public boolean equals(final BNFq12T other) {
+            if (other == null) {
                 return false;
             }
 
-            return this.element().equals(that.element());
+            return this.element().equals(other.element());
         }
     }
 }

@@ -225,8 +225,8 @@ public class BN254aFields {
             return ONE;
         }
 
-        public Fp2 mulByNonResidue(final Fp2 that) {
-            return Fq6Parameters.nonresidue().mul(that);
+        public Fp2 mulByNonResidue(final Fp2 other) {
+            return Fq6Parameters.nonresidue().mul(other);
         }
 
         public BN254aFq6 construct(final Fp6_3Over2 element) {

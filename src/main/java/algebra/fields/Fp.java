@@ -34,20 +34,20 @@ public class Fp extends AbstractFieldElementExpanded<Fp> {
         return this;
     }
 
-    public Fp add(final Fp that) {
-        return new Fp(number.add(that.number), FpParameters);
+    public Fp add(final Fp other) {
+        return new Fp(number.add(other.number), FpParameters);
     }
 
-    public Fp sub(final Fp that) {
-        return new Fp(number.subtract(that.number), FpParameters);
+    public Fp sub(final Fp other) {
+        return new Fp(number.subtract(other.number), FpParameters);
     }
 
-    public Fp mul(final Fp that) {
-        return new Fp(number.multiply(that.number), FpParameters);
+    public Fp mul(final Fp other) {
+        return new Fp(number.multiply(other.number), FpParameters);
     }
 
-    public Fp mul(final BigInteger that) {
-        return new Fp(number.multiply(that), FpParameters);
+    public Fp mul(final BigInteger other) {
+        return new Fp(number.multiply(other), FpParameters);
     }
 
     public Fp zero() {
@@ -75,7 +75,7 @@ public class Fp extends AbstractFieldElementExpanded<Fp> {
     // TODO: Split this function in 2 sub-functions:
     // - 1. `unsecure_random` taking a seed (Long) and returning an Fp el
     // - 2. `secure_random` taking a secureSeed (byte[]) and returning an Fp el
-    // This means that a similar division will need to be achieved for the `random` in groups
+    // This means other a similar division will need to be achieved for the `random` in groups
     public Fp random(final Long seed, final byte[] secureSeed) {
         if (secureSeed != null && secureSeed.length > 0) {
             return new Fp(new SecureRandom(secureSeed).nextLong(), FpParameters);
@@ -124,11 +124,11 @@ public class Fp extends AbstractFieldElementExpanded<Fp> {
         return number.toString();
     }
 
-    public boolean equals(final Fp that) {
-        if (that == null) {
+    public boolean equals(final Fp other) {
+        if (other == null) {
             return false;
         }
 
-        return number.equals(that.number);
+        return number.equals(other.number);
     }
 }

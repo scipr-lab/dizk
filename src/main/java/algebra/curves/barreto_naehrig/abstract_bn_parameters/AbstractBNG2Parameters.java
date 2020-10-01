@@ -14,6 +14,9 @@ import algebra.curves.barreto_naehrig.BNG2;
 
 import java.util.ArrayList;
 
+/**
+ * Generic class to represent the parameters defining a given BN G2 group
+ */
 public abstract class AbstractBNG2Parameters<
         BNFrT extends BNFr<BNFrT>,
         BNFqT extends BNFq<BNFqT>,
