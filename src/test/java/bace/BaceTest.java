@@ -14,17 +14,17 @@ import bace.circuit.InputGate;
 import common.Utils;
 import org.apache.spark.api.java.JavaPairRDD;
 import org.apache.spark.api.java.JavaSparkContext;
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import scala.Tuple2;
 
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Map;
 
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class BaceTest implements Serializable {
     private transient JavaSparkContext sc;
@@ -36,7 +36,7 @@ public class BaceTest implements Serializable {
     private final long seed = 57;
     private final byte[] secureSeed = "".getBytes();
 
-    @Before
+    @BeforeEach
     public void setUp() {
         sc = new JavaSparkContext("local", "ZKSparkTestSuite");
         FpParameters = new LargeFpParameters();
@@ -62,7 +62,7 @@ public class BaceTest implements Serializable {
         input = sc.parallelizePairs(preInput);
     }
 
-    @After
+    @AfterEach
     public void tearDown() {
         sc.stop();
         sc = null;

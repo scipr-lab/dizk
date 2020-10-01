@@ -269,27 +269,25 @@ public class Configuration implements Serializable {
                 final StringBuilder sb = new StringBuilder();
                 if (keyList.size() == valueList.size()) {
                     // Write the CSV headers if they haven't been written yet.
-//          if (!runtimeFiles.get(context)._2) {
-//
-//            for (int i = 0; i < keyList.size(); i++) {
-//              sb.append(keyList.get(i));
-//
-//              // Append time denomination, if not metadata.
-//              if (valueList.get(i).isEmpty() || valueList.get(i).peek()._2 != null) {
-//                sb.append(" (sec)");
-//              }
-//
-//              if (i < keyList.size() - 1) {
-//                sb.append(",");
-//              } else {
-//                sb.append("\n");
-//              }
-//            }
-//
-//            // Record that the header has now been written.
-//            runtimeFiles.put(context, new Tuple2<>(runtimeFileName, true));
-//          }
-
+                    // if (!runtimeFiles.get(context)._2) {
+                    //     for (int i = 0; i < keyList.size(); i++) {
+                    //         sb.append(keyList.get(i));
+                    //         
+                    //         // Append time denomination, if not metadata.
+                    //         if (valueList.get(i).isEmpty() || valueList.get(i).peek()._2 != null) {
+                    //             sb.append(" (sec)");
+                    //         }
+                    //         
+                    //         if (i < keyList.size() - 1) {
+                    //             sb.append(",");
+                    //         } else {
+                    //             sb.append("\n");
+                    //         }
+                    //     }
+                    //     
+                    //     // Record that the header has now been written.
+                    //     runtimeFiles.put(context, new Tuple2<>(runtimeFileName, true));
+                    // }
                     // Write the CSV values row-wise.
                     for (int i = 0; i < valueList.size(); i++) {
                         if (!valueList.get(i).isEmpty() && valueList.get(i).peek()._2 == null) {

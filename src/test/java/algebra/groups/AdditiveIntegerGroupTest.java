@@ -8,13 +8,13 @@
 package algebra.groups;
 
 import algebra.groups.integergroupparameters.LargeAdditiveIntegerGroupParameters;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import java.io.Serializable;
 import java.math.BigInteger;
 
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class AdditiveIntegerGroupTest implements Serializable {
     private <GroupT extends AbstractGroup<GroupT>> void verify(final GroupT a, final GroupT b) {
@@ -40,8 +40,8 @@ public class AdditiveIntegerGroupTest implements Serializable {
         assertFalse(a.equals(b));
         // a+0 = a
         assertTrue(a.add(zero).equals(a));
-        // a+a = a.twice()
-        assertTrue(a.add(a).equals(a.twice()));
+        // a+a = a.dbl()
+        assertTrue(a.add(a).equals(a.dbl()));
         // a+a+a = 3*a
         assertTrue(a.add(a).add(a).equals(a.mul(new BigInteger("3"))));
         // a-b = -(b-a)

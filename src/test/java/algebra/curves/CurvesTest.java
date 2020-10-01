@@ -17,12 +17,12 @@ import algebra.curves.fake.FakeG2;
 import algebra.curves.fake.FakeInitialize;
 import algebra.curves.fake.fake_parameters.FakeG1Parameters;
 import algebra.curves.fake.fake_parameters.FakeG2Parameters;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import java.math.BigInteger;
 
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class CurvesTest {
     private <GroupT extends AbstractGroup<GroupT>> void GroupTest(final GroupT groupFactory) {
@@ -60,8 +60,8 @@ public class CurvesTest {
         assertFalse(b.equals(zero));
         assertFalse(b.equals(one));
 
-        assertTrue(a.twice().equals(a.add(a)));
-        assertTrue(b.twice().equals(b.add(b)));
+        assertTrue(a.dbl().equals(a.add(a)));
+        assertTrue(b.dbl().equals(b.add(b)));
         assertTrue(one.add(two).equals(three));
         assertTrue(two.add(one).equals(three));
         assertTrue(a.add(b).equals(b.add(a)));
@@ -76,7 +76,7 @@ public class CurvesTest {
         assertTrue(a.add(zero).equals(a));
         assertTrue(zero.add(a).equals(a));
 
-        assertTrue(a.add(b).twice().equals(a.add(b).add(b.add(a))));
+        assertTrue(a.add(b).dbl().equals(a.add(b).add(b.add(a))));
         assertTrue(a.add(b).mul(new BigInteger("2")).equals(a.add(b).add(b.add(a))));
 
         assertTrue(a.mul(rand1).add(a.mul(rand2)).equals(a.mul(randsum)));
@@ -84,13 +84,17 @@ public class CurvesTest {
 
     @Test
     public void BN254aTest() {
+        // Test G1 of BN254a
         GroupTest(BN254aG1Parameters.ONE);
+        // Test G2 of BN254a
         GroupTest(BN254aG2Parameters.ONE);
     }
 
     @Test
     public void BN254bTest() {
+        // Test G1 of BN254b
         GroupTest(BN254bG1Parameters.ONE);
+        // Test G2 of BN254b
         GroupTest(BN254bG2Parameters.ONE);
     }
 

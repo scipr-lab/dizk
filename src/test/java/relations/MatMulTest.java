@@ -14,9 +14,9 @@ import configuration.Configuration;
 import org.apache.spark.api.java.JavaPairRDD;
 import org.apache.spark.api.java.JavaSparkContext;
 import org.apache.spark.storage.StorageLevel;
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import profiler.generation.R1CSConstruction;
 import relations.objects.Assignment;
 import relations.r1cs.R1CSRelationRDD;
@@ -24,21 +24,21 @@ import scala.Tuple3;
 
 import java.io.Serializable;
 
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class MatMulTest implements Serializable {
     private transient JavaSparkContext sc;
     private Configuration config;
     private Fp fieldFactory;
 
-    @Before
+    @BeforeEach
     public void setUp() {
         sc = new JavaSparkContext("local", "ZKSparkTestSuite");
         config = new Configuration(4, 4, 1, 4, sc, StorageLevel.MEMORY_ONLY());
         fieldFactory = new LargeFpParameters().ONE();
     }
 
-    @After
+    @AfterEach
     public void tearDown() {
         sc.stop();
         sc = null;
@@ -66,13 +66,14 @@ public class MatMulTest implements Serializable {
 
         final Tuple3<R1CSRelationRDD<Fp>, Assignment<Fp>, JavaPairRDD<Long, Fp>> parConstructionRDD =
                 R1CSConstruction.matmulParConstructApp(fieldFactory, b1, b2, b3, n1, n2, n3, config);
+        // Retrieve each elements of the tuple by their index
         R1CSRelationRDD<Fp> r1csRDDPar = parConstructionRDD._1();
         Assignment<Fp> primaryTwoPar = parConstructionRDD._2();
         JavaPairRDD<Long, Fp> oneFullAssignmentRDDPar = parConstructionRDD._3();
 
-        // /* Verify r1cs is valid */
+        // Verify r1cs is valid
         assertTrue(r1csRDDPar.isValid());
-        /* Verify r1cs is satisfied with full assignment */
+        // Verify r1cs is satisfied with full assignment
         assertTrue(r1csRDDPar.isSatisfied(primaryTwoPar, oneFullAssignmentRDDPar));
 
 

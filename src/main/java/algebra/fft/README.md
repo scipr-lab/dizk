@@ -1,8 +1,9 @@
 # Fast Fourier Transform (FFT)
 
-The FFT package provides a serial and parallel implementation of the radix-2 fast Fourier transform (FFT) using Apache Spark. For FFT evaluations over radix-2 and other domains, [libfqfft](https://github.com/scipr-lab/libfqfft) is a C++ library that implements FFT for finite fields and provides fast multipoint evaluation and interpolation with multithreading support usng OpenMP.
+The FFT package provides a serial and parallel implementation of the radix-2 fast Fourier transform (FFT) using Apache Spark. For FFT evaluations over radix-2 and other domains, [libfqfft](https://github.com/scipr-lab/libfqfft) is a C++ library that implements FFT for finite fields and provides fast multipoint evaluation and interpolation with multithreading support using OpenMP.
 
 ## Serial FFT
+
 Serial FFT implements the iterative [Cooley-Tukey](https://en.wikipedia.org/wiki/Cooley%E2%80%93Tukey_FFT_algorithm) radix-2 FFT algorithm. In addition, FFT on a coset _g_ of the input is provided. The radix-2 domain implementation pseudocode can be found in [CLRS pp. 864].
 
 The following are declarations of the static, in-place methods:

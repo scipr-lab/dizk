@@ -63,8 +63,7 @@ public class Utils {
     convertFromPairs(
             final List<Tuple2<Long, FieldT>> input,
             final int size) {
-//    assert (input.size() == size);
-
+        // assert (input.size() == size);
         final FieldT zero = input.get(0)._2.zero();
         ArrayList<FieldT> result = new ArrayList<>(Collections.nCopies(size, zero));
 

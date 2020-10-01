@@ -7,12 +7,11 @@
 
 package algebra.fields;
 
-import java.io.Serializable;
 import java.math.BigInteger;
 
 public abstract class AbstractFieldElementExpanded<
         FieldT extends AbstractFieldElementExpanded<FieldT>>
-        extends AbstractFieldElement<FieldT> implements Serializable {
+        extends AbstractFieldElement<FieldT> {
 
     /* Returns omega s.t. omega^order == one() */
     public abstract FieldT rootOfUnity(final long order);

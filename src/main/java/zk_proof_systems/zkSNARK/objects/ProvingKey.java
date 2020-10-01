@@ -16,6 +16,9 @@ import scala.Tuple2;
 import java.io.Serializable;
 import java.util.List;
 
+/**
+ * Groth16 proving key
+ */
 public class ProvingKey<FieldT extends AbstractFieldElementExpanded<FieldT>, G1T extends
         AbstractG1<G1T>, G2T extends AbstractG2<G2T>> implements
         Serializable {

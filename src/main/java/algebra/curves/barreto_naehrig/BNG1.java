@@ -14,6 +14,14 @@ import algebra.curves.barreto_naehrig.abstract_bn_parameters.AbstractBNG1Paramet
 
 import java.util.ArrayList;
 
+/**
+ * Generic code to construct and operate on BN G1 points. This class is used to represent
+ * a BN G1 group as well as their points (both are mixed here):
+ *  - BNG1(): Is used to construct the group
+ *  - BNG1.construct(): I used to construct the points (of type BNG1T)
+ * --> construct() wraps the group constructor
+ *  - Other functions of this class like: add() operate on `BNG1T` (the points)
+ */
 public abstract class BNG1<
         BNFrT extends BNFr<BNFrT>,
         BNFqT extends BNFq<BNFqT>,
@@ -72,7 +80,7 @@ public abstract class BNG1<
 
         if (U1.equals(U2) && S1.equals(S2)) {
             // Double case; nothing above can be reused.
-            return twice();
+            return dbl();
         }
 
         // Rest of the add case.
@@ -125,7 +133,7 @@ public abstract class BNG1<
         return this.construct(this.X, this.Y.negate(), this.Z);
     }
 
-    public BNG1T twice() {
+    public BNG1T dbl() {
         // handle point at infinity
         if (isZero()) {
             return this.self();

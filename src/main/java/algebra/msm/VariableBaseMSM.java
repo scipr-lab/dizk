@@ -106,7 +106,7 @@ public class VariableBaseMSM {
         for (int k = numGroups - 1; k >= 0; k--) {
             if (k < numGroups - 1) {
                 for (int i = 0; i < c; i++) {
-                    result = result.twice();
+                    result = result.dbl();
                 }
             }
 

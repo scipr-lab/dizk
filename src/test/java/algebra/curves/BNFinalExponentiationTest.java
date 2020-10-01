@@ -20,11 +20,11 @@ import algebra.curves.barreto_naehrig.bn254b.BN254bFields.BN254bFq12;
 import algebra.curves.barreto_naehrig.bn254b.BN254bPairing;
 import algebra.curves.barreto_naehrig.bn254b.BN254bPublicParameters;
 import algebra.curves.barreto_naehrig.bn254b.bn254b_parameters.BN254bGTParameters;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import java.math.BigInteger;
 
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class BNFinalExponentiationTest {
     private <

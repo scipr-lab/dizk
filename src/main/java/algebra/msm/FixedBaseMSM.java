@@ -72,7 +72,7 @@ public class FixedBaseMSM {
             }
 
             for (int w = 0; w < windowSize; w++) {
-                baseOuter = baseOuter.twice();
+                baseOuter = baseOuter.dbl();
             }
         }
 

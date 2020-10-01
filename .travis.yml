@@ -1,6 +1,0 @@
-dist: trusty
-language: java
-script: mvn clean test
-jdk:
-  - oraclejdk8
-  - openjdk8

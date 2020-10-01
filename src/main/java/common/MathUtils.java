@@ -40,7 +40,7 @@ public class MathUtils {
         return result;
     }
 
-    public static int bitreverse(int n, final int bits) {
+    public static int bitReverse(int n, final int bits) {
         int count = bits - 1;
         int reverse = n;
         n >>= 1;

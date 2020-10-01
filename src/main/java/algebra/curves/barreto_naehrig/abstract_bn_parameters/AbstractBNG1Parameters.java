@@ -13,6 +13,9 @@ import algebra.curves.barreto_naehrig.BNG1;
 
 import java.util.ArrayList;
 
+/**
+ * Generic class to represent the parameters defining a given BN G1 group
+ */
 public abstract class AbstractBNG1Parameters<
         BNFrT extends BNFr<BNFrT>,
         BNFqT extends BNFq<BNFqT>,

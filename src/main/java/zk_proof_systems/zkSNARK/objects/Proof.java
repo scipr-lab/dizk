@@ -10,6 +10,9 @@ package zk_proof_systems.zkSNARK.objects;
 import algebra.curves.AbstractG1;
 import algebra.curves.AbstractG2;
 
+/**
+ * Groth16 argument
+ */
 public class Proof<G1T extends AbstractG1<G1T>, G2T extends AbstractG2<G2T>> {
 
     private final G1T gA;

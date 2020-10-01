@@ -31,8 +31,7 @@ public class R1CStoQAPRDD implements Serializable {
 
     /**
      * Instance map for the R1CSRelation-to-QAP reduction followed by evaluation of the resulting
-     * QAP
-     * instance.
+     * QAP instance.
      * <p>
      * Namely, given a R1CSRelation constraint system r1cs and a field element x, construct a QAP
      * instance (evaluated at t) for which: At := (A_0(t),A_1(t),...,A_m(t)) Bt :=

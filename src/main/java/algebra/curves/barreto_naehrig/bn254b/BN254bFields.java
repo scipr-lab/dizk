@@ -7,13 +7,12 @@ import algebra.fields.Fp6_3Over2;
 import algebra.curves.barreto_naehrig.BNFields.*;
 import algebra.curves.barreto_naehrig.bn254b.bn254b_parameters.*;
 
-import java.io.Serializable;
 import java.math.BigInteger;
 
 public class BN254bFields {
 
     /* Scalar field Fr */
-    public static class BN254bFr extends BNFr<BN254bFr> implements Serializable {
+    public static class BN254bFr extends BNFr<BN254bFr> {
 
         public static final BN254bFrParameters FrParameters = new BN254bFrParameters();
         public static final BN254bFr ZERO = new BN254bFr(FrParameters.ZERO());
@@ -73,7 +72,7 @@ public class BN254bFields {
     }
 
     /* Base field Fq */
-    public static class BN254bFq extends BNFq<BN254bFq> implements Serializable {
+    public static class BN254bFq extends BNFq<BN254bFq> {
 
         public static final BN254bFqParameters FqParameters = new BN254bFqParameters();
         public static final BN254bFq ZERO = new BN254bFq(FqParameters.ZERO());
@@ -137,8 +136,7 @@ public class BN254bFields {
     }
 
     /* Twist field Fq2 */
-    public static class BN254bFq2 extends BNFq2<BN254bFq, BN254bFq2>
-            implements Serializable {
+    public static class BN254bFq2 extends BNFq2<BN254bFq, BN254bFq2> {
 
         public static final BN254bFq2Parameters Fq2Parameters = new BN254bFq2Parameters();
         public static BN254bFq2 ZERO = new BN254bFq2(Fq2Parameters.ZERO());
@@ -196,8 +194,7 @@ public class BN254bFields {
     }
 
     /* Field Fq6 */
-    public static class BN254bFq6 extends BNFq6<BN254bFq, BN254bFq2, BN254bFq6>
-            implements Serializable {
+    public static class BN254bFq6 extends BNFq6<BN254bFq, BN254bFq2, BN254bFq6> {
 
         public static final BN254bFq6Parameters Fq6Parameters = new BN254bFq6Parameters();
         public static BN254bFq6 ZERO = new BN254bFq6(Fq6Parameters.ZERO());
@@ -244,8 +241,7 @@ public class BN254bFields {
 
     /* Field Fq12 */
     public static class BN254bFq12
-            extends BNFq12<BN254bFq, BN254bFq2, BN254bFq6, BN254bFq12>
-            implements Serializable {
+            extends BNFq12<BN254bFq, BN254bFq2, BN254bFq6, BN254bFq12> {
 
         public static final BN254bFq12Parameters Fq12Parameters = new BN254bFq12Parameters();
         public static BN254bFq12 ZERO = new BN254bFq12(Fq12Parameters.ZERO());

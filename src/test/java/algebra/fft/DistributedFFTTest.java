@@ -13,26 +13,26 @@ import configuration.Configuration;
 import org.apache.spark.api.java.JavaPairRDD;
 import org.apache.spark.api.java.JavaSparkContext;
 import org.apache.spark.storage.StorageLevel;
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import scala.Tuple2;
 
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class DistributedFFTTest implements Serializable {
     private transient JavaSparkContext sc;
 
-    @Before
+    @BeforeEach
     public void setUp() {
         sc = new JavaSparkContext("local", "ZKSparkTestSuite");
     }
 
-    @After
+    @AfterEach
     public void tearDown() {
         sc.stop();
         sc = null;

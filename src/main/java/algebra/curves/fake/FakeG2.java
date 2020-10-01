@@ -11,11 +11,10 @@ import algebra.fields.Fp;
 import algebra.curves.AbstractG2;
 import algebra.curves.fake.abstract_fake_parameters.AbstractFakeG2Parameters;
 
-import java.io.Serializable;
 import java.math.BigInteger;
 import java.util.ArrayList;
 
-public class FakeG2 extends AbstractG2<FakeG2> implements Serializable {
+public class FakeG2 extends AbstractG2<FakeG2> {
 
     protected final Fp element;
     protected AbstractFakeG2Parameters FakeG2Parameters;
@@ -77,7 +76,7 @@ public class FakeG2 extends AbstractG2<FakeG2> implements Serializable {
         return new FakeG2(this.element.negate(), FakeG2Parameters);
     }
 
-    public FakeG2 twice() {
+    public FakeG2 dbl() {
         return this.add(this);
     }
 

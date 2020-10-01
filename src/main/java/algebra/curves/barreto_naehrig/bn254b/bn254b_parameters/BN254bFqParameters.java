@@ -13,6 +13,7 @@ import algebra.curves.barreto_naehrig.abstract_bn_parameters.AbstractBNFqParamet
 import java.io.Serializable;
 import java.math.BigInteger;
 
+// Reference: See parameters page 19 of DIZK paper.
 public class BN254bFqParameters extends AbstractBNFqParameters implements Serializable {
     public BigInteger modulus;
     public BigInteger root;
