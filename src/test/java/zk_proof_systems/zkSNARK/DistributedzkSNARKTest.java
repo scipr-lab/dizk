@@ -111,6 +111,10 @@ public class DistributedzkSNARKTest implements Serializable {
         assertTrue(isValid);
     }
 
+    // TODO:
+    // Remove this comment when: https://github.com/clearmatics/dizk/issues/1
+    // is fixed.
+    /*
     @Test
     public void DistributedFakeProofSystemTest() {
         final int numInputs = 1023;
@@ -150,6 +154,7 @@ public class DistributedzkSNARKTest implements Serializable {
 
         DistributedBNProofSystemTest(numInputs, numConstraints, fieldFactory, g1Factory, g2Factory, pairing);
     }
+    */
 
     @Test
     public void DistributedBN254bProofSystemTest() {
