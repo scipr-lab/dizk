@@ -4,9 +4,6 @@ on:
     push:
     pull-request:
 
-env:
-    CI_EVENT_NAME: ${{ github.event_name }}
-
 jobs:
     run-tests:
         runs-on: ubuntu-20.04
