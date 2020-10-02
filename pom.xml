@@ -86,13 +86,13 @@
                         deeper dive into how resource is shared and how tests work when
                         started on multiple threads.
                     -->
-                    <!-- 
+                    <!--
                         For now, we kill any parallelism and rather use single thread for the test to try and
                         avoid any weird race conditions.
                         The config: forkCount=1/reuseForks=false executes each test class in its own JVM process,
                         one after another. It creates the highest level of separation for the test execution,
                         but provides the longest execution time. Likewise, the `parallel` allows to obtain some concurrency
-                        within the same JVM process. While this is efficient in terms of memory and execution time, it may be 
+                        within the same JVM process. While this is efficient in terms of memory and execution time, it may be
                         the cause of race conditions or other unexpected and hard to reproduce behavior.
                         See: http://maven.apache.org/surefire/maven-surefire-plugin/examples/fork-options-and-parallel-execution.html)
                     -->

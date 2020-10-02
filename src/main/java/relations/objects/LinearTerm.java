@@ -11,19 +11,19 @@ import java.io.Serializable;
 
 public class LinearTerm<FieldT> implements Serializable {
 
-    private final long index;
-    private final FieldT value;
+  private final long index;
+  private final FieldT value;
 
-    public LinearTerm(final long _index, final FieldT _value) {
-        index = _index;
-        value = _value;
-    }
+  public LinearTerm(final long _index, final FieldT _value) {
+    index = _index;
+    value = _value;
+  }
 
-    public long index() {
-        return index;
-    }
+  public long index() {
+    return index;
+  }
 
-    public FieldT value() {
-        return value;
-    }
+  public FieldT value() {
+    return value;
+  }
 }
