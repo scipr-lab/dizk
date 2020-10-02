@@ -9,41 +9,38 @@ package algebra.groups.integergroupparameters;
 
 import algebra.groups.AdditiveIntegerGroup;
 import algebra.groups.abstractintegergroupparameters.AbstractAdditiveIntegerGroupParameters;
-
 import java.io.Serializable;
 import java.math.BigInteger;
 
 public class LargeAdditiveIntegerGroupParameters extends AbstractAdditiveIntegerGroupParameters
-        implements
-        Serializable {
+    implements Serializable {
 
-    private AdditiveIntegerGroup ZERO;
-    private AdditiveIntegerGroup ONE;
+  private AdditiveIntegerGroup ZERO;
+  private AdditiveIntegerGroup ONE;
 
-    private BigInteger modulus;
+  private BigInteger modulus;
 
-    public AdditiveIntegerGroup ZERO() {
-        if (ZERO == null) {
-            ZERO = new AdditiveIntegerGroup(BigInteger.ZERO, this);
-        }
-
-        return ZERO;
+  public AdditiveIntegerGroup ZERO() {
+    if (ZERO == null) {
+      ZERO = new AdditiveIntegerGroup(BigInteger.ZERO, this);
     }
 
-    public AdditiveIntegerGroup ONE() {
-        if (ONE == null) {
-            ONE = new AdditiveIntegerGroup(BigInteger.ONE, this);
-        }
+    return ZERO;
+  }
 
-        return ONE;
+  public AdditiveIntegerGroup ONE() {
+    if (ONE == null) {
+      ONE = new AdditiveIntegerGroup(BigInteger.ONE, this);
     }
 
-    public BigInteger modulus() {
-        if (modulus == null) {
-            modulus = new BigInteger("143987564266532958");
-        }
+    return ONE;
+  }
 
-        return modulus;
+  public BigInteger modulus() {
+    if (modulus == null) {
+      modulus = new BigInteger("143987564266532958");
     }
 
+    return modulus;
+  }
 }

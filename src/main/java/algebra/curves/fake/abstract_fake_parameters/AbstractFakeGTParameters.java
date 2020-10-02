@@ -12,8 +12,7 @@ import algebra.curves.fake.fake_parameters.FakeFqParameters;
 
 public abstract class AbstractFakeGTParameters {
 
-    public abstract FakeFqParameters FqParameters();
+  public abstract FakeFqParameters FqParameters();
 
-    public abstract FakeGT ONE();
-
+  public abstract FakeGT ONE();
 }

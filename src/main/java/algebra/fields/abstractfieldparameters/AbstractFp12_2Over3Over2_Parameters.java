@@ -12,18 +12,18 @@ import algebra.fields.Fp2;
 
 public abstract class AbstractFp12_2Over3Over2_Parameters {
 
-    public abstract AbstractFpParameters FpParameters();
+  public abstract AbstractFpParameters FpParameters();
 
-    public abstract AbstractFp2Parameters Fp2Parameters();
+  public abstract AbstractFp2Parameters Fp2Parameters();
 
-    // TODO: generalize to Fp6ParametersT
-    public abstract AbstractFp6_3Over2_Parameters Fp6Parameters();
+  // TODO: generalize to Fp6ParametersT
+  public abstract AbstractFp6_3Over2_Parameters Fp6Parameters();
 
-    public abstract Fp12_2Over3Over2 ZERO();
+  public abstract Fp12_2Over3Over2 ZERO();
 
-    public abstract Fp12_2Over3Over2 ONE();
+  public abstract Fp12_2Over3Over2 ONE();
 
-    public abstract Fp2 nonresidue();
+  public abstract Fp2 nonresidue();
 
-    public abstract Fp2[] FrobeniusMapCoefficientsC1();
+  public abstract Fp2[] FrobeniusMapCoefficientsC1();
 }

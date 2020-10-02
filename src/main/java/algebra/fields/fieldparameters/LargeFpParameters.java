@@ -9,111 +9,109 @@ package algebra.fields.fieldparameters;
 
 import algebra.fields.Fp;
 import algebra.fields.abstractfieldparameters.AbstractFpParameters;
-
 import java.io.Serializable;
 import java.math.BigInteger;
 
 public class LargeFpParameters extends AbstractFpParameters implements Serializable {
-    private BigInteger modulus;
-    private BigInteger root;
-    private Fp multiplicativeGenerator;
+  private BigInteger modulus;
+  private BigInteger root;
+  private Fp multiplicativeGenerator;
 
-    /* The following variables are arbitrarily defined for testing purposes. */
-    private BigInteger euler;
-    private BigInteger t;
-    private BigInteger tMinus1Over2;
-    private Fp nqr;
-    private Fp nqrTot;
+  /* The following variables are arbitrarily defined for testing purposes. */
+  private BigInteger euler;
+  private BigInteger t;
+  private BigInteger tMinus1Over2;
+  private Fp nqr;
+  private Fp nqrTot;
 
-    private Fp ZERO;
-    private Fp ONE;
+  private Fp ZERO;
+  private Fp ONE;
 
-    public BigInteger modulus() {
-        if (modulus == null) {
-            modulus = new BigInteger("1532495540865888858358347027150309183618765510462668801");
-        }
-
-        return modulus;
+  public BigInteger modulus() {
+    if (modulus == null) {
+      modulus = new BigInteger("1532495540865888858358347027150309183618765510462668801");
     }
 
-    public BigInteger root() {
-        if (root == null) {
-            root = new BigInteger("6");
-        }
+    return modulus;
+  }
 
-        return root;
+  public BigInteger root() {
+    if (root == null) {
+      root = new BigInteger("6");
     }
 
-    public Fp multiplicativeGenerator() {
-        if (multiplicativeGenerator == null) {
-            multiplicativeGenerator = new Fp("6", this);
-        }
+    return root;
+  }
 
-        return multiplicativeGenerator;
+  public Fp multiplicativeGenerator() {
+    if (multiplicativeGenerator == null) {
+      multiplicativeGenerator = new Fp("6", this);
     }
 
-    public long numBits() {
-        return modulus.bitLength();
+    return multiplicativeGenerator;
+  }
+
+  public long numBits() {
+    return modulus.bitLength();
+  }
+
+  public BigInteger euler() {
+    if (euler == null) {
+      euler = new BigInteger("5");
     }
 
-    public BigInteger euler() {
-        if (euler == null) {
-            euler = new BigInteger("5");
-        }
+    return euler;
+  }
 
-        return euler;
+  public long s() {
+    return numBits();
+  }
+
+  public BigInteger t() {
+    if (t == null) {
+      t = new BigInteger("5");
     }
 
-    public long s() {
-        return numBits();
+    return t;
+  }
+
+  public BigInteger tMinus1Over2() {
+    if (tMinus1Over2 == null) {
+      tMinus1Over2 = new BigInteger("5");
     }
 
-    public BigInteger t() {
-        if (t == null) {
-            t = new BigInteger("5");
-        }
+    return tMinus1Over2;
+  }
 
-        return t;
+  public Fp nqr() {
+    if (nqr == null) {
+      nqr = new Fp("6", this);
     }
 
-    public BigInteger tMinus1Over2() {
-        if (tMinus1Over2 == null) {
-            tMinus1Over2 = new BigInteger("5");
-        }
+    return nqr;
+  }
 
-        return tMinus1Over2;
+  public Fp nqrTot() {
+    if (nqrTot == null) {
+      nqrTot = new Fp("6", this);
     }
 
-    public Fp nqr() {
-        if (nqr == null) {
-            nqr = new Fp("6", this);
-        }
+    return nqrTot;
+  }
 
-        return nqr;
+  public Fp ZERO() {
+    if (ZERO == null) {
+      ZERO = new Fp(BigInteger.ZERO, this);
     }
 
-    public Fp nqrTot() {
-        if (nqrTot == null) {
-            nqrTot = new Fp("6", this);
-        }
+    return ZERO;
+  }
 
-        return nqrTot;
+  public Fp ONE() {
+    if (ONE == null) {
+      ONE = new Fp(BigInteger.ONE, this);
     }
 
-    public Fp ZERO() {
-        if (ZERO == null) {
-            ZERO = new Fp(BigInteger.ZERO, this);
-        }
-
-        return ZERO;
-    }
-
-    public Fp ONE() {
-        if (ONE == null) {
-            ONE = new Fp(BigInteger.ONE, this);
-        }
-
-        return ONE;
-    }
+    return ONE;
+  }
 }
-

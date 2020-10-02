@@ -13,7 +13,6 @@ import algebra.curves.barreto_naehrig.BNFields.BNFq12;
 import algebra.curves.barreto_naehrig.BNFields.BNFq2;
 import algebra.curves.barreto_naehrig.BNFields.BNFq6;
 import algebra.curves.barreto_naehrig.abstract_bn_parameters.AbstractBNGTParameters;
-
 import java.math.BigInteger;
 
 public abstract class BNGT<
@@ -22,39 +21,40 @@ public abstract class BNGT<
         BNFq6T extends BNFq6<BNFqT, BNFq2T, BNFq6T>,
         BNFq12T extends BNFq12<BNFqT, BNFq2T, BNFq6T, BNFq12T>,
         BNGTT extends BNGT<BNFqT, BNFq2T, BNFq6T, BNFq12T, BNGTT, BNGTParametersT>,
-        BNGTParametersT extends AbstractBNGTParameters<BNFqT, BNFq2T, BNFq6T, BNFq12T, BNGTT, BNGTParametersT>>
-        extends AbstractGT<BNGTT> {
-    public final BNGTParametersT GTParameters;
-    public final BNFq12T element;
+        BNGTParametersT extends
+            AbstractBNGTParameters<BNFqT, BNFq2T, BNFq6T, BNFq12T, BNGTT, BNGTParametersT>>
+    extends AbstractGT<BNGTT> {
+  public final BNGTParametersT GTParameters;
+  public final BNFq12T element;
 
-    public BNGT(final BNFq12T value, final BNGTParametersT GTParameters) {
-        this.element = value;
-        this.GTParameters = GTParameters;
-    }
+  public BNGT(final BNFq12T value, final BNGTParametersT GTParameters) {
+    this.element = value;
+    this.GTParameters = GTParameters;
+  }
 
-    public abstract BNGTT construct(final BNFq12T element);
+  public abstract BNGTT construct(final BNFq12T element);
 
-    public BNGTT add(final BNGTT other) {
-        return this.construct(this.element.mul(other.element));
-    }
+  public BNGTT add(final BNGTT other) {
+    return this.construct(this.element.mul(other.element));
+  }
 
-    public BNGTT mul(final BigInteger other) {
-        return this.construct(this.element.pow(other));
-    }
+  public BNGTT mul(final BigInteger other) {
+    return this.construct(this.element.pow(other));
+  }
 
-    public BNGTT one() {
-        return this.GTParameters.ONE();
-    }
+  public BNGTT one() {
+    return this.GTParameters.ONE();
+  }
 
-    public BNGTT negate() {
-        return this.construct(this.element.unitaryInverse());
-    }
+  public BNGTT negate() {
+    return this.construct(this.element.unitaryInverse());
+  }
 
-    public boolean equals(final BNGTT other) {
-        return this.element.equals(other.element);
-    }
+  public boolean equals(final BNGTT other) {
+    return this.element.equals(other.element);
+  }
 
-    public String toString() {
-        return this.element.toString();
-    }
+  public String toString() {
+    return this.element.toString();
+  }
 }
