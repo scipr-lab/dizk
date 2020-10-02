@@ -9,6 +9,4 @@ package algebra.curves.barreto_naehrig.abstract_bn_parameters;
 
 import algebra.fields.abstractfieldparameters.AbstractFpParameters;
 
-public abstract class AbstractBNFrParameters extends AbstractFpParameters {
-
-}
+public abstract class AbstractBNFrParameters extends AbstractFpParameters {}

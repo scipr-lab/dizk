@@ -12,15 +12,15 @@ import algebra.fields.Fp3;
 
 public abstract class AbstractFp3Parameters {
 
-    public abstract AbstractFpParameters FpParameters();
+  public abstract AbstractFpParameters FpParameters();
 
-    public abstract Fp3 ZERO();
+  public abstract Fp3 ZERO();
 
-    public abstract Fp3 ONE();
+  public abstract Fp3 ONE();
 
-    public abstract Fp nonresidue();
+  public abstract Fp nonresidue();
 
-    public abstract Fp[] FrobeniusMapCoefficientsC1();
+  public abstract Fp[] FrobeniusMapCoefficientsC1();
 
-    public abstract Fp[] FrobeniusMapCoefficientsC2();
+  public abstract Fp[] FrobeniusMapCoefficientsC2();
 }

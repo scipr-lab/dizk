@@ -8,15 +8,13 @@
 package algebra.groups.abstractintegergroupparameters;
 
 import algebra.groups.AdditiveIntegerGroup;
-
 import java.math.BigInteger;
 
 public abstract class AbstractAdditiveIntegerGroupParameters {
 
-    public abstract AdditiveIntegerGroup ZERO();
+  public abstract AdditiveIntegerGroup ZERO();
 
-    public abstract AdditiveIntegerGroup ONE();
+  public abstract AdditiveIntegerGroup ONE();
 
-    public abstract BigInteger modulus();
-
+  public abstract BigInteger modulus();
 }

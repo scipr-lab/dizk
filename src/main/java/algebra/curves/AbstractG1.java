@@ -11,8 +11,7 @@ import algebra.groups.AbstractGroup;
 
 public abstract class AbstractG1<G1T extends AbstractG1<G1T>> extends AbstractGroup<G1T> {
 
-    public abstract boolean isSpecial();
+  public abstract boolean isSpecial();
 
-    public abstract int bitSize();
-
+  public abstract int bitSize();
 }
