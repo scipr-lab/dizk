@@ -30,38 +30,39 @@ public class Fp12_2Over3Over2 extends AbstractFieldElement<Fp12_2Over3Over2> {
         return this;
     }
 
-    public Fp12_2Over3Over2 add(final Fp12_2Over3Over2 that) {
-        return new Fp12_2Over3Over2(c0.add(that.c0), c1.add(that.c1), Fp12Parameters);
+    public Fp12_2Over3Over2 add(final Fp12_2Over3Over2 other) {
+        return new Fp12_2Over3Over2(c0.add(other.c0), c1.add(other.c1), Fp12Parameters);
     }
 
-    public Fp12_2Over3Over2 sub(final Fp12_2Over3Over2 that) {
-        return new Fp12_2Over3Over2(c0.sub(that.c0), c1.sub(that.c1), Fp12Parameters);
+    public Fp12_2Over3Over2 sub(final Fp12_2Over3Over2 other) {
+        return new Fp12_2Over3Over2(c0.sub(other.c0), c1.sub(other.c1), Fp12Parameters);
     }
 
-    public Fp12_2Over3Over2 mul(final Fp that) {
-        return new Fp12_2Over3Over2(c0.mul(that), c1.mul(that), Fp12Parameters);
+    public Fp12_2Over3Over2 mul(final Fp other) {
+        return new Fp12_2Over3Over2(c0.mul(other), c1.mul(other), Fp12Parameters);
     }
 
-    public Fp12_2Over3Over2 mul(final Fp2 that) {
-        return new Fp12_2Over3Over2(c0.mul(that), c1.mul(that), Fp12Parameters);
+    public Fp12_2Over3Over2 mul(final Fp2 other) {
+        return new Fp12_2Over3Over2(c0.mul(other), c1.mul(other), Fp12Parameters);
     }
 
-    public Fp12_2Over3Over2 mul(final Fp6_3Over2 that) {
-        return new Fp12_2Over3Over2(c0.mul(that), c1.mul(that), Fp12Parameters);
+    public Fp12_2Over3Over2 mul(final Fp6_3Over2 other) {
+        return new Fp12_2Over3Over2(c0.mul(other), c1.mul(other), Fp12Parameters);
     }
 
-    public Fp6_3Over2 mulByNonResidue(final Fp6_3Over2 that) {
-        return that.construct(Fp12Parameters.nonresidue().mul(that.c2), that.c0, that.c1);
+    public Fp6_3Over2 mulByNonResidue(final Fp6_3Over2 other) {
+        return other.construct(Fp12Parameters.nonresidue().mul(other.c2), other.c0, other.c1);
     }
 
-    public Fp12_2Over3Over2 mul(final Fp12_2Over3Over2 that) {
-    /* Devegili OhEig Scott Dahab --- Multiplication and Squaring on AbstractPairing-Friendly
-     Fields.pdf; Section 3 (Karatsuba) */
-        final Fp6_3Over2 c0C0 = c0.mul(that.c0);
-        final Fp6_3Over2 c1C1 = c1.mul(that.c1);
+    public Fp12_2Over3Over2 mul(final Fp12_2Over3Over2 other) {
+        // Devegili OhEig, Scott Dahab
+        // "Multiplication and Squaring on Pairing-Friendly Fields"
+        // Section 3 (Karatsuba)
+        final Fp6_3Over2 c0C0 = c0.mul(other.c0);
+        final Fp6_3Over2 c1C1 = c1.mul(other.c1);
         return new Fp12_2Over3Over2(
                 c0C0.add(mulByNonResidue(c1C1)),
-                (c0.add(c1)).mul(that.c0.add(that.c1)).sub(c0C0).sub(c1C1),
+                (c0.add(c1)).mul(other.c0.add(other.c1)).sub(c0C0).sub(c1C1),
                 Fp12Parameters);
     }
 
@@ -93,8 +94,9 @@ public class Fp12_2Over3Over2 extends AbstractFieldElement<Fp12_2Over3Over2> {
     }
 
     public Fp12_2Over3Over2 square() {
-    /* Devegili OhEig Scott Dahab --- Multiplication and Squaring on AbstractPairing-Friendly
-     Fields.pdf; Section 3 (Complex squaring) */
+        // Devegili OhEig, Scott Dahab
+        // "Multiplication and Squaring on Pairing-Friendly Fields"
+        // Section 3 (Complex squaring)
         final Fp6_3Over2 c0c1 = c0.mul(c1);
         final Fp6_3Over2 factor = (c0.add(c1)).mul(c0.add(mulByNonResidue(c1)));
         return new Fp12_2Over3Over2(
@@ -104,8 +106,9 @@ public class Fp12_2Over3Over2 extends AbstractFieldElement<Fp12_2Over3Over2> {
     }
 
     public Fp12_2Over3Over2 inverse() {
-    /* From "High-Speed Software Implementation of the Optimal Ate AbstractPairing over
-    Barreto-Naehrig Curves"; Algorithm 8 */
+        // See "High-Speed Software Implementation of the Optimal Ate Pairing over
+        // Barreto-Naehrig Curves"
+        // Algorithm 8
         final Fp6_3Over2 t0 = c0.square();
         final Fp6_3Over2 t1 = c1.square();
         final Fp6_3Over2 t2 = t0.sub(mulByNonResidue(t1));
@@ -298,11 +301,11 @@ public class Fp12_2Over3Over2 extends AbstractFieldElement<Fp12_2Over3Over2> {
         return c0.toString() + " / " + c1.toString();
     }
 
-    public boolean equals(final Fp12_2Over3Over2 that) {
-        if (that == null) {
+    public boolean equals(final Fp12_2Over3Over2 other) {
+        if (other == null) {
             return false;
         }
 
-        return c0.equals(that.c0) && c1.equals(that.c1);
+        return c0.equals(other.c0) && c1.equals(other.c1);
     }
 }

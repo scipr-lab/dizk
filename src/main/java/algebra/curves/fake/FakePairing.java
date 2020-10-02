@@ -47,8 +47,8 @@ public class FakePairing extends AbstractPairing<FakeG1, FakeG2, FakeGT> {
             P = _P;
         }
 
-        public boolean equals(final FakeG1Precompute that) {
-            return P.equals(that.P);
+        public boolean equals(final FakeG1Precompute other) {
+            return P.equals(other.P);
         }
     }
 
@@ -59,8 +59,8 @@ public class FakePairing extends AbstractPairing<FakeG1, FakeG2, FakeGT> {
             Q = _Q;
         }
 
-        public boolean equals(final FakeG2Precompute that) {
-            return Q.equals(that.Q);
+        public boolean equals(final FakeG2Precompute other) {
+            return Q.equals(other.Q);
         }
     }
 }

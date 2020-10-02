@@ -43,8 +43,8 @@ public abstract class BNPairing<
             this.PY = PY;
         }
 
-        public boolean equals(final AteG1Precompute that) {
-            return PX.equals(that.PX) && PY.equals(that.PY);
+        public boolean equals(final AteG1Precompute other) {
+            return PX.equals(other.PX) && PY.equals(other.PY);
         }
     }
 
@@ -53,10 +53,10 @@ public abstract class BNPairing<
         BNFq2T ellVW;
         BNFq2T ellVV;
 
-        public boolean equals(final AteEllCoefficients that) {
-            return this.ell0.equals(that.ell0)
-                    && this.ellVW.equals(that.ellVW)
-                    && this.ellVV.equals(that.ellVV);
+        public boolean equals(final AteEllCoefficients other) {
+            return this.ell0.equals(other.ell0)
+                    && this.ellVW.equals(other.ellVW)
+                    && this.ellVV.equals(other.ellVV);
         }
     }
 
@@ -68,50 +68,71 @@ public abstract class BNPairing<
         private AteG2Precompute(
                 final BNFq2T QX,
                 final BNFq2T QY,
-                final List<AteEllCoefficients> coefficients) {
+                final List<AteEllCoefficients> coefficients
+        ) {
             this.QX = QX;
             this.QY = QY;
             this.coefficients = coefficients;
         }
 
-        public boolean equals(final AteG2Precompute that) {
-            return this.QX.equals(that.QX)
-                    && this.QY.equals(that.QY)
-                    && this.coefficients.equals(that.coefficients);
+        public boolean equals(final AteG2Precompute other) {
+            return this.QX.equals(other.QX)
+                    && this.QY.equals(other.QY)
+                    && this.coefficients.equals(other.coefficients);
         }
     }
 
     private AteEllCoefficients doublingStepForFlippedMillerLoop(
             final BNFqT twoInverse,
-            BNG2T current) {
+            BNG2T current
+    ) {
         final BNFq2T X = current.X, Y = current.Y, Z = current.Z;
 
-        final BNFq2T A = X.mul(Y).mul(twoInverse);                               // A = X1 * Y1 / 2
-        final BNFq2T B = Y.square();                                             // B = Y1^2
-        final BNFq2T C = Z.square();                                             // C = Z1^2
-        final BNFq2T D = C.add(C).add(C);                                        // D = 3 * C
-        final BNFq2T E = this.publicParameters().twistCoefficientB().mul(D);     // E = twist_b * D
-        final BNFq2T F = E.add(E).add(E);                                        // F = 3 * E
-        final BNFq2T G = B.add(F).mul(twoInverse);                               // G = (B+F)/2
-        final BNFq2T H = (Y.add(Z)).square().sub(B.add(C));                      // H = (Y1+Z1)^2-(B+C)
-        final BNFq2T I = E.sub(B);                                               // I = E-B
-        final BNFq2T J = X.square();                                             // J = X1^2
-        final BNFq2T ESquare = E.square();                                       // E_squared = E^2
+        // A = X1 * Y1 / 2
+        final BNFq2T A = X.mul(Y).mul(twoInverse);
+        // B = Y1^2
+        final BNFq2T B = Y.square();
+        // C = Z1^2
+        final BNFq2T C = Z.square();
+        // D = 3 * C
+        final BNFq2T D = C.add(C).add(C);
+        // E = twist_b * D
+        final BNFq2T E = this.publicParameters().twistCoefficientB().mul(D);
+        // F = 3 * E
+        final BNFq2T F = E.add(E).add(E);
+        // G = (B+F)/2
+        final BNFq2T G = B.add(F).mul(twoInverse);
+        // H = (Y1+Z1)^2-(B+C)
+        final BNFq2T H = (Y.add(Z)).square().sub(B.add(C));
+        // I = E-B
+        final BNFq2T I = E.sub(B);
+        // J = X1^2
+        final BNFq2T J = X.square();
+        // E_squared = E^2
+        final BNFq2T ESquare = E.square();
 
-        current.setX(A.mul(B.sub(F)));                                    // X3 = A * (B-F)
-        current.setY(G.square().sub(ESquare.add(ESquare).add(ESquare)));  // Y3 = G^2 - 3*E^2
-        current.setZ(B.mul(H));                                           // Z3 = B * H
+        // X3 = A * (B-F)
+        current.setX(A.mul(B.sub(F)));
+        // Y3 = G^2 - 3*E^2
+        current.setY(G.square().sub(ESquare.add(ESquare).add(ESquare)));
+        // Z3 = B * H
+        current.setZ(B.mul(H));
 
         AteEllCoefficients c = new AteEllCoefficients();
-        c.ell0 = this.publicParameters().twist().mul(I);                  // ell_0 = xi * I
-        c.ellVW = H.negate();                                             // ell_VW = - H (later: * yP)
-        c.ellVV = J.add(J).add(J);                                        // ell_VV = 3*J (later: * xP)
+        // ell_0 = xi * I
+        c.ell0 = this.publicParameters().twist().mul(I);
+        // ell_VW = - H (later: * yP)
+        c.ellVW = H.negate();
+        // ell_VV = 3*J (later: * xP)
+        c.ellVV = J.add(J).add(J);
+
         return c;
     }
 
     private AteEllCoefficients mixedAdditionStepForFlippedMillerLoop(
             final BNG2T base,
-            BNG2T current) {
+            BNG2T current
+    ) {
         final BNFq2T X1 = current.X, Y1 = current.Y, Z1 = current.Z;
         final BNFq2T x2 = base.X, y2 = base.Y;
 
@@ -152,15 +173,15 @@ public abstract class BNPairing<
 
     private BNFq12T finalExponentiationFirstChunk(final BNFq12T elt) {
         /**
-         Computes result = elt^((q^6-1)*(q^2+1)).
-         Follows, e.g., Beuchat et al page 9, by computing result as follows:
-         elt^((q^6-1)*(q^2+1)) = (conj(elt) * elt^(-1))^(q^2+1)
-         More precisely:
-         A = conj(elt)
-         B = elt.inverse()
-         C = A * B
-         D = C.Frobenius_map(2)
-         result = D * C
+         * Computes result = elt^((q^6-1)*(q^2+1)).
+         * Follows, e.g., Beuchat et al page 9, by computing result as follows:
+         * elt^((q^6-1)*(q^2+1)) = (conj(elt) * elt^(-1))^(q^2+1)
+         * More precisely:
+         * A = conj(elt)
+         * B = elt.inverse()
+         * C = A * B
+         * D = C.Frobenius_map(2)
+         * result = D * C
          */
 
         final BNFq12T A = elt.unitaryInverse();
@@ -172,40 +193,40 @@ public abstract class BNPairing<
 
     private BNFq12T finalExponentiationLastChunk(final BNFq12T elt) {
         /**
-         Follows Laura Fuentes-Castaneda et al. "Faster hashing to AbstractG2"
-         by computing:
-         result = elt^(q^3 * (12*z^3 + 6z^2 + 4z - 1) +
-         q^2 * (12*z^3 + 6z^2 + 6z) +
-         q   * (12*z^3 + 6z^2 + 4z) +
-         1   * (12*z^3 + 12z^2 + 6z + 1))
-         which equals
-         result = elt^( 2z * ( 6z^2 + 3z + 1 ) * (q^4 - q^2 + 1)/r ).
-         Using the following addition chain:
-         A = exp_by_neg_z(elt)  // = elt^(-z)
-         B = A^2                // = elt^(-2*z)
-         C = B^2                // = elt^(-4*z)
-         D = C * B              // = elt^(-6*z)
-         E = exp_by_neg_z(D)    // = elt^(6*z^2)
-         F = E^2                // = elt^(12*z^2)
-         G = epx_by_neg_z(F)    // = elt^(-12*z^3)
-         H = conj(D)            // = elt^(6*z)
-         I = conj(G)            // = elt^(12*z^3)
-         J = I * E              // = elt^(12*z^3 + 6*z^2)
-         K = J * H              // = elt^(12*z^3 + 6*z^2 + 6*z)
-         L = K * B              // = elt^(12*z^3 + 6*z^2 + 4*z)
-         M = K * E              // = elt^(12*z^3 + 12*z^2 + 6*z)
-         N = M * elt            // = elt^(12*z^3 + 12*z^2 + 6*z + 1)
-         O = L.Frobenius_map(1) // = elt^(q*(12*z^3 + 6*z^2 + 4*z))
-         P = O * N              // = elt^(q*(12*z^3 + 6*z^2 + 4*z) * (12*z^3 + 12*z^2 + 6*z + 1))
-         Q = K.Frobenius_map(2) // = elt^(q^2 * (12*z^3 + 6*z^2 + 6*z))
-         R = Q * P              // = elt^(q^2 * (12*z^3 + 6*z^2 + 6*z) + q*(12*z^3 + 6*z^2 +
-         4*z) * (12*z^3 + 12*z^2 + 6*z + 1))
-         S = conj(elt)          // = elt^(-1)
-         T = S * L              // = elt^(12*z^3 + 6*z^2 + 4*z - 1)
-         U = T.Frobenius_map(3) // = elt^(q^3(12*z^3 + 6*z^2 + 4*z - 1))
-         V = U * R              // = elt^(q^3(12*z^3 + 6*z^2 + 4*z - 1) + q^2 * (12*z^3 + 6*z^2
-         + 6*z) + q*(12*z^3 + 6*z^2 + 4*z) * (12*z^3 + 12*z^2 + 6*z + 1))
-         result = V
+         * Follows Laura Fuentes-Castaneda et al. "Faster hashing to AbstractG2"
+         * by computing:
+         * result = elt^(q^3 * (12*z^3 + 6z^2 + 4z - 1) +
+         * q^2 * (12*z^3 + 6z^2 + 6z) +
+         * q   * (12*z^3 + 6z^2 + 4z) +
+         * 1   * (12*z^3 + 12z^2 + 6z + 1))
+         * which equals
+         * result = elt^( 2z * ( 6z^2 + 3z + 1 ) * (q^4 - q^2 + 1)/r ).
+         * Using the following addition chain:
+         * A = exp_by_neg_z(elt)  // = elt^(-z)
+         * B = A^2                // = elt^(-2*z)
+         * C = B^2                // = elt^(-4*z)
+         * D = C * B              // = elt^(-6*z)
+         * E = exp_by_neg_z(D)    // = elt^(6*z^2)
+         * F = E^2                // = elt^(12*z^2)
+         * G = epx_by_neg_z(F)    // = elt^(-12*z^3)
+         * H = conj(D)            // = elt^(6*z)
+         * I = conj(G)            // = elt^(12*z^3)
+         * J = I * E              // = elt^(12*z^3 + 6*z^2)
+         * K = J * H              // = elt^(12*z^3 + 6*z^2 + 6*z)
+         * L = K * B              // = elt^(12*z^3 + 6*z^2 + 4*z)
+         * M = K * E              // = elt^(12*z^3 + 12*z^2 + 6*z)
+         * N = M * elt            // = elt^(12*z^3 + 12*z^2 + 6*z + 1)
+         * O = L.Frobenius_map(1) // = elt^(q*(12*z^3 + 6*z^2 + 4*z))
+         * P = O * N              // = elt^(q*(12*z^3 + 6*z^2 + 4*z) * (12*z^3 + 12*z^2 + 6*z + 1))
+         * Q = K.Frobenius_map(2) // = elt^(q^2 * (12*z^3 + 6*z^2 + 6*z))
+         * R = Q * P              // = elt^(q^2 * (12*z^3 + 6*z^2 + 6*z) + q*(12*z^3 + 6*z^2 +
+         *                             4*z) * (12*z^3 + 12*z^2 + 6*z + 1))
+         * S = conj(elt)          // = elt^(-1)
+         * T = S * L              // = elt^(12*z^3 + 6*z^2 + 4*z - 1)
+         * U = T.Frobenius_map(3) // = elt^(q^3(12*z^3 + 6*z^2 + 4*z - 1))
+         * V = U * R              // = elt^(q^3(12*z^3 + 6*z^2 + 4*z - 1) + q^2 * (12*z^3 + 6*z^2
+         *                              + 6*z) + q*(12*z^3 + 6*z^2 + 4*z) * (12*z^3 + 12*z^2 + 6*z + 1))
+         * result = V
          */
 
         final BNFq12T A = ExpByNegativeZ(elt);

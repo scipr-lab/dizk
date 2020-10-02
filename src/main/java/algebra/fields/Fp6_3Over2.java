@@ -30,35 +30,36 @@ public class Fp6_3Over2 extends AbstractFieldElement<Fp6_3Over2> {
         return this;
     }
 
-    public Fp6_3Over2 add(final Fp6_3Over2 that) {
-        return new Fp6_3Over2(c0.add(that.c0), c1.add(that.c1), c2.add(that.c2), Fp6Parameters);
+    public Fp6_3Over2 add(final Fp6_3Over2 other) {
+        return new Fp6_3Over2(c0.add(other.c0), c1.add(other.c1), c2.add(other.c2), Fp6Parameters);
     }
 
-    public Fp6_3Over2 sub(final Fp6_3Over2 that) {
-        return new Fp6_3Over2(c0.sub(that.c0), c1.sub(that.c1), c2.sub(that.c2), Fp6Parameters);
+    public Fp6_3Over2 sub(final Fp6_3Over2 other) {
+        return new Fp6_3Over2(c0.sub(other.c0), c1.sub(other.c1), c2.sub(other.c2), Fp6Parameters);
     }
 
-    public Fp6_3Over2 mul(final Fp that) {
-        return new Fp6_3Over2(c0.mul(that), c1.mul(that), c2.mul(that), Fp6Parameters);
+    public Fp6_3Over2 mul(final Fp other) {
+        return new Fp6_3Over2(c0.mul(other), c1.mul(other), c2.mul(other), Fp6Parameters);
     }
 
-    public Fp6_3Over2 mul(final Fp2 that) {
-        return new Fp6_3Over2(c0.mul(that), c1.mul(that), c2.mul(that), Fp6Parameters);
+    public Fp6_3Over2 mul(final Fp2 other) {
+        return new Fp6_3Over2(c0.mul(other), c1.mul(other), c2.mul(other), Fp6Parameters);
     }
 
-    public Fp2 mulByNonResidue(final Fp2 that) {
-        return Fp6Parameters.nonresidue().mul(that);
+    public Fp2 mulByNonResidue(final Fp2 other) {
+        return Fp6Parameters.nonresidue().mul(other);
     }
 
-    public Fp6_3Over2 mul(final Fp6_3Over2 that) {
-    /* Devegili OhEig Scott Dahab --- Multiplication and Squaring on AbstractPairing-Friendly
-     Fields.pdf; Section 4 (Karatsuba) */
-        final Fp2 c0C0 = c0.mul(that.c0);
-        final Fp2 c1C1 = c1.mul(that.c1);
-        final Fp2 c2C2 = c2.mul(that.c2);
-        final Fp2 c0Factor = c1.add(c2).mul(that.c1.add(that.c2)).sub(c1C1).sub(c2C2);
-        final Fp2 c1Factor = c0.add(c1).mul(that.c0.add(that.c1)).sub(c0C0).sub(c1C1);
-        final Fp2 c2Factor = c0.add(c2).mul(that.c0.add(that.c2)).sub(c0C0).add(c1C1).sub(c2C2);
+    public Fp6_3Over2 mul(final Fp6_3Over2 other) {
+        // Devegili OhEig, Scott Dahab
+        // "Multiplication and Squaring on Pairing-Friendly Fields"
+        // Section 4 (Karatsuba)
+        final Fp2 c0C0 = c0.mul(other.c0);
+        final Fp2 c1C1 = c1.mul(other.c1);
+        final Fp2 c2C2 = c2.mul(other.c2);
+        final Fp2 c0Factor = c1.add(c2).mul(other.c1.add(other.c2)).sub(c1C1).sub(c2C2);
+        final Fp2 c1Factor = c0.add(c1).mul(other.c0.add(other.c1)).sub(c0C0).sub(c1C1);
+        final Fp2 c2Factor = c0.add(c2).mul(other.c0.add(other.c2)).sub(c0C0).add(c1C1).sub(c2C2);
 
         return new Fp6_3Over2(
                 c0C0.add(mulByNonResidue(c0Factor)),
@@ -96,8 +97,9 @@ public class Fp6_3Over2 extends AbstractFieldElement<Fp6_3Over2> {
     }
 
     public Fp6_3Over2 square() {
-    /* Devegili OhEig Scott Dahab --- Multiplication and Squaring on AbstractPairing-Friendly
-     Fields.pdf; Section 4 (CH-SQR2) */
+        // Devegili OhEig, Scott Dahab
+        // "Multiplication and Squaring on Pairing-Friendly Fields"
+        // Section 4 (CH-SQR2)
         final Fp2 s0 = c0.square();
         final Fp2 c0c1 = c0.mul(c1);
         final Fp2 s1 = c0c1.add(c0c1);
@@ -114,8 +116,9 @@ public class Fp6_3Over2 extends AbstractFieldElement<Fp6_3Over2> {
     }
 
     public Fp6_3Over2 inverse() {
-    /* From "High-Speed Software Implementation of the Optimal Ate AbstractPairing over
-    Barreto-Naehrig Curves"; Algorithm 17 */
+        // See "High-Speed Software Implementation of the Optimal Ate Pairing over
+        // Barreto-Naehrig Curves"
+        // Algorithm 17
         final Fp2 t0 = c0.square();
         final Fp2 t1 = c1.square();
         final Fp2 t2 = c2.square();
@@ -124,8 +127,9 @@ public class Fp6_3Over2 extends AbstractFieldElement<Fp6_3Over2> {
         final Fp2 t5 = c1.mul(c2);
         final Fp2 s0 = t0.sub(mulByNonResidue(t5));
         final Fp2 s1 = mulByNonResidue(t2).sub(t3);
-        final Fp2 s2 = t1
-                .sub(t4); // typo in paper referenced above. should be "-" as per Scott, but is "*"
+        // /!\ Typo in paper referenced above
+        // Should be "-" as per Scott, but is "*"
+        final Fp2 s2 = t1.sub(t4);
         final Fp2 t6 = c0.mul(s0).add(mulByNonResidue(c2.mul(s1).add(c1.mul(s2)))).inverse();
 
         return new Fp6_3Over2(t6.mul(s0), t6.mul(s1), t6.mul(s2), Fp6Parameters);
@@ -150,11 +154,11 @@ public class Fp6_3Over2 extends AbstractFieldElement<Fp6_3Over2> {
         return c0.toString() + " / " + c1.toString() + " / " + c2.toString();
     }
 
-    public boolean equals(final Fp6_3Over2 that) {
-        if (that == null) {
+    public boolean equals(final Fp6_3Over2 other) {
+        if (other == null) {
             return false;
         }
 
-        return c0.equals(that.c0) && c1.equals(that.c1) && c2.equals(that.c2);
+        return c0.equals(other.c0) && c1.equals(other.c1) && c2.equals(other.c2);
     }
 }

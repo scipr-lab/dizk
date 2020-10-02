@@ -15,14 +15,14 @@ public abstract class AbstractFieldElement<FieldT extends AbstractFieldElement<F
     /* Returns self element */
     public abstract FieldT self();
 
-    /* Returns this + that */
-    public abstract FieldT add(final FieldT that);
+    /* Returns this + other */
+    public abstract FieldT add(final FieldT other);
 
-    /* Returns this - that */
-    public abstract FieldT sub(final FieldT that);
+    /* Returns this - other */
+    public abstract FieldT sub(final FieldT other);
 
-    /* Returns this * that */
-    public abstract FieldT mul(final FieldT that);
+    /* Returns this * other */
+    public abstract FieldT mul(final FieldT other);
 
     /* Returns the zero element */
     public abstract FieldT zero();
@@ -87,8 +87,8 @@ public abstract class AbstractFieldElement<FieldT extends AbstractFieldElement<F
      */
     public abstract FieldT random(final Long seed, final byte[] secureSeed);
 
-    /* Returns this == that */
-    public abstract boolean equals(final FieldT that);
+    /* Returns this == other */
+    public abstract boolean equals(final FieldT other);
 
     /* Returns this as string */
     public abstract String toString();

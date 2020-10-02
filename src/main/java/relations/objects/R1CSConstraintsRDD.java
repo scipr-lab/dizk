@@ -15,13 +15,13 @@ import java.io.Serializable;
 /**
  * A system of R1CSRelation constraints looks like
  * <p>
- * { < A_k , X > * < B_k , X > = < C_k , X > }_{k=1}^{n}  .
+ * { < A_k , X > * < B_k , X > = < C_k , X > }_{k=1}^{n}
  * <p>
  * In other words, the system is satisfied if and only if there exist a
  * USCS variable assignment for which each R1CSRelation constraint is satisfied.
  * <p>
  * NOTE:
- * The 0-th variable (i.e., "x_{0}") always represents the constant 1.
+ * The 0-th variable (i.e., "x_{0}") always represents the constant 1
  * Thus, the 0-th variable is not included in num_variables.
  */
 public class R1CSConstraintsRDD<FieldT extends AbstractFieldElementExpanded<FieldT>> implements

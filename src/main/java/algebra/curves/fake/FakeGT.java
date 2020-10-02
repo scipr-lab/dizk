@@ -36,12 +36,12 @@ public class FakeGT extends AbstractGT<FakeGT> implements Serializable {
         this(new Fp(Long.toString(number), FakeGTParameters.FqParameters()), FakeGTParameters);
     }
 
-    public FakeGT add(final FakeGT that) {
-        return new FakeGT(this.element.add(that.element), FakeGTParameters);
+    public FakeGT add(final FakeGT other) {
+        return new FakeGT(this.element.add(other.element), FakeGTParameters);
     }
 
-    public FakeGT mul(final BigInteger that) {
-        return new FakeGT(this.element.toBigInteger().multiply(that), FakeGTParameters);
+    public FakeGT mul(final BigInteger other) {
+        return new FakeGT(this.element.toBigInteger().multiply(other), FakeGTParameters);
     }
 
     public FakeGT one() {
@@ -56,12 +56,12 @@ public class FakeGT extends AbstractGT<FakeGT> implements Serializable {
         return this.element.toString();
     }
 
-    public boolean equals(final FakeGT that) {
-        if (that == null) {
+    public boolean equals(final FakeGT other) {
+        if (other == null) {
             return false;
         }
 
-        return this.element.equals(that.element);
+        return this.element.equals(other.element);
     }
 
 }

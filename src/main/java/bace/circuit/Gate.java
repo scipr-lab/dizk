@@ -53,12 +53,12 @@ public abstract class Gate<FieldT extends AbstractFieldElementExpanded<FieldT>> 
 
     public abstract Map<Long, BigInteger> degrees();
 
-    public <GateT extends Gate<FieldT>> Gate<FieldT> add(GateT that) {
-        return new SumGate<FieldT>(this, that);
+    public <GateT extends Gate<FieldT>> Gate<FieldT> add(GateT other) {
+        return new SumGate<FieldT>(this, other);
     }
 
-    public <GateT extends Gate<FieldT>> Gate<FieldT> mul(GateT that) {
-        return new ProductGate<FieldT>(this, that);
+    public <GateT extends Gate<FieldT>> Gate<FieldT> mul(GateT other) {
+        return new ProductGate<FieldT>(this, other);
     }
 
 }

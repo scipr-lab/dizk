@@ -18,11 +18,11 @@ public abstract class AbstractGroup<GroupT extends AbstractGroup<GroupT>> implem
     /* Returns self element */
     public abstract GroupT self();
 
-    /* Returns this + that */
-    public abstract GroupT add(final GroupT that);
+    /* Returns this + other */
+    public abstract GroupT add(final GroupT other);
 
-    /* Returns this - that */
-    public abstract GroupT sub(final GroupT that);
+    /* Returns this - other */
+    public abstract GroupT sub(final GroupT other);
 
     /* Returns (BigInteger) scalar * this */
     public GroupT mul(final BigInteger scalar) {
@@ -50,8 +50,8 @@ public abstract class AbstractGroup<GroupT extends AbstractGroup<GroupT>> implem
     }
 
     /* Returns (FieldT) scalar * this */
-    public GroupT mul(final AbstractFieldElementExpanded that) {
-        return this.mul(that.toBigInteger());
+    public GroupT mul(final AbstractFieldElementExpanded other) {
+        return this.mul(other.toBigInteger());
     }
 
     /* Returns the zero element of the group */
@@ -82,7 +82,7 @@ public abstract class AbstractGroup<GroupT extends AbstractGroup<GroupT>> implem
      */
     public abstract GroupT random(final Long seed, final byte[] secureSeed);
 
-    /* Returns this == that */
-    public abstract boolean equals(final GroupT that);
+    /* Returns this == other */
+    public abstract boolean equals(final GroupT other);
 
 }

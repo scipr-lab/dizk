@@ -24,15 +24,16 @@ public class R1CStoQAP {
 
     /**
      * Instance map for the R1CSRelation-to-QAP reduction followed by evaluation of the resulting
-     * QAP
-     * instance.
+     * QAP instance.
      * <p>
      * Namely, given a R1CSRelation constraint system r1cs and a field element x, construct a QAP
-     * instance (evaluated at t) for which: At := (A_0(t),A_1(t),...,A_m(t)) Bt :=
-     * (B_0(t),B_1(t),...,B_m(t)) Ct := (C_0(t),C_1(t),...,C_m(t)) Ht := (1,t,t^2,...,t^n) Zt :=
-     * Z(t)
-     * = "vanishing polynomial of a certain set S, evaluated at t" where m = number of variables of
-     * the QAP
+     * instance (evaluated at t) for which:
+     *  - At := (A_0(t),A_1(t),...,A_m(t))
+     *  - Bt := (B_0(t),B_1(t),...,B_m(t))
+     *  - Ct := (C_0(t),C_1(t),...,C_m(t))
+     *  - Ht := (1,t,t^2,...,t^n)
+     *  - Zt := Z(t) ("vanishing polynomial of a certain set S, evaluated at t")
+     * where m = number of variables of the QAP
      */
     public static <FieldT extends AbstractFieldElementExpanded<FieldT>> QAPRelation<FieldT>
     R1CStoQAPRelation(
@@ -83,14 +84,14 @@ public class R1CStoQAP {
             }
         }
 
-        // Compute H(t).
+        // Compute H(t)
         FieldT ti = t.one();
         for (int i = 0; i < domain.domainSize + 1; i++) {
             Ht.add(ti);
             ti = ti.mul(t);
         }
 
-        // Compute vanishing polynomial at t.
+        // Compute vanishing polynomial at t
         final FieldT Zt = domain.computeZ(t);
 
         return new QAPRelation<>(At, Bt, Ct, Ht, Zt, t, numInputs, numVariables, domain.domainSize);
@@ -99,15 +100,13 @@ public class R1CStoQAP {
     /**
      * Witness map for the R1CSRelation-to-QAP reduction.
      * <p>
-     * More precisely, compute the coefficients
-     * h_0,h_1,...,h_n
-     * of the polynomial
-     * H(z) := (A(z)*B(z)-C(z))/Z(z)
-     * where
-     * A(z) := A_0(z) + \sum_{k=1}^{m} w_k A_k(z) + d1 * Z(z)
-     * B(z) := B_0(z) + \sum_{k=1}^{m} w_k B_k(z) + d2 * Z(z)
-     * C(z) := C_0(z) + \sum_{k=1}^{m} w_k C_k(z) + d3 * Z(z)
-     * Z(z) := "vanishing polynomial of set S"
+     * More precisely, compute the coefficients <h_0,h_1,...,h_n>
+     * of the polynomial H(z) := (A(z)*B(z)-C(z))/Z(z)
+     * where:
+     *  - A(z) := A_0(z) + \sum_{k=1}^{m} w_k A_k(z) + d1 * Z(z)
+     *  - B(z) := B_0(z) + \sum_{k=1}^{m} w_k B_k(z) + d2 * Z(z)
+     *  - C(z) := C_0(z) + \sum_{k=1}^{m} w_k C_k(z) + d3 * Z(z)
+     *  - Z(z) := "vanishing polynomial of set S"
      * and
      * m = number of variables of the QAP
      * n = degree of the QAP

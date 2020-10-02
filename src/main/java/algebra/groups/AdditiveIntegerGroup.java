@@ -52,12 +52,12 @@ public class AdditiveIntegerGroup extends AbstractGroup<AdditiveIntegerGroup> {
         return this;
     }
 
-    public AdditiveIntegerGroup add(final AdditiveIntegerGroup that) {
-        return new AdditiveIntegerGroup(this.number.add(that.number), GroupParameters);
+    public AdditiveIntegerGroup add(final AdditiveIntegerGroup other) {
+        return new AdditiveIntegerGroup(this.number.add(other.number), GroupParameters);
     }
 
-    public AdditiveIntegerGroup sub(final AdditiveIntegerGroup that) {
-        return new AdditiveIntegerGroup(this.number.subtract(that.number), GroupParameters);
+    public AdditiveIntegerGroup sub(final AdditiveIntegerGroup other) {
+        return new AdditiveIntegerGroup(this.number.subtract(other.number), GroupParameters);
     }
 
     public AdditiveIntegerGroup mul(final BigInteger scalar) {
@@ -127,10 +127,10 @@ public class AdditiveIntegerGroup extends AbstractGroup<AdditiveIntegerGroup> {
         return this.number.toString();
     }
 
-    public boolean equals(final AdditiveIntegerGroup that) {
-        if (that == null) {
+    public boolean equals(final AdditiveIntegerGroup other) {
+        if (other == null) {
             return false;
         }
-        return this.number.equals(that.number);
+        return this.number.equals(other.number);
     }
 }
