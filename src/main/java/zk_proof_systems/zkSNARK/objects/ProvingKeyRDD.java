@@ -21,15 +21,28 @@ public class ProvingKeyRDD<
         G2T extends AbstractG2<G2T>>
     implements Serializable {
 
+  // Below, [x]_1 (resp. [x]_2 and []_T) represents the encoding of x in G1 (resp. G2 and GT)
+  // We follow the notations in Groth16 (namely, polynomials are denoted u, v, w, h, t instead of A, B, C, H, Z. Moreoverm the evaluation point is denoted by x)
+  //
+  // [alpha]_1
   private final G1T alphaG1;
+  // [beta]_1
   private final G1T betaG1;
+  // [beta]_2
   private final G2T betaG2;
+  // [delta]_1
   private final G1T deltaG1;
+  // [delta]_2
   private final G2T deltaG2;
+  // {[(beta * u_i(x) + alpha * v_i(x) + w_i(x))/delta]_1}
   private final JavaPairRDD<Long, G1T> deltaABCG1;
+  // {[u_i(x)]_1}
   private final JavaPairRDD<Long, G1T> queryA;
+  // {[v_i(x)]_1}
   private final JavaPairRDD<Long, Tuple2<G1T, G2T>> queryB;
+  // {[(x^i * t(x))/delta]_1}
   private final JavaPairRDD<Long, G1T> queryH;
+  // The proving key contains an arithmetized relation
   private final R1CSRelationRDD<FieldT> r1cs;
 
   public ProvingKeyRDD(
