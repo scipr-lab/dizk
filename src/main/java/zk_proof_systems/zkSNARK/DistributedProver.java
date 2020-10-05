@@ -94,7 +94,7 @@ public class DistributedProver {
     config.beginRuntime("Generate proof");
 
     config.beginLog("Computing evaluation to query A: summation of variable_i*A_i(t)");
-    // Get an RDD containing all pairs of elements with matching keys in `oneFullAssignment` and `provingKey.queryA()`. The result of this .join will be a (k, (v1, v2)) tuple, where (k, v1) is in `oneFullAssignment` and (k, v2) is in `provingKey.queryA()`. Then, the `.value()` returns the tuple (v1, v2) - removing the keys - which is just an index used to associate the right scalar to the right group element in light of the `VariableBaseMSM` triggered at the next line.
+    // Get an RDD containing all pairs of elements with **matching keys** in `oneFullAssignment` and `provingKey.queryA()`. The result of this `.join()` will be a (k, (v1, v2)) tuple, where (k, v1) is in `oneFullAssignment` and (k, v2) is in `provingKey.queryA()`. Then, the `.value()` returns the tuple (v1, v2) - removing the keys - which is just an index used to associate the right scalar to the right group element in light of the `VariableBaseMSM` triggered at the next line.
     final JavaRDD<Tuple2<FieldT, G1T>> computationA =
         oneFullAssignment.join(provingKey.queryA(), numPartitions).values();
     // `evaluationAt` = \sum_{i=0}^{m} a_i * u_i(x) (in Groth16)
@@ -111,8 +111,7 @@ public class DistributedProver {
     // `evaluationBt` = \sum_{i=0}^{m} a_i * v_i(x) (in Groth16)
     // where m = total number of wires
     //       a_i = ith wire/variable
-    // Note: B is evaluated in G1 and G2, because B \in G2 but
-    // the encoded B in G1 also shows up in C (\in G1)
+    // Note: We get an evaluation in G1 and G2, because B \in G2 is formed using this term, and C (\in G1) also uses this term (see below, B is of type `Tuple2<G1T, G2T>` and will actually be computed in both G1 and G2 for this exact purpose).
     final Tuple2<G1T, G2T> evaluationBt = VariableBaseMSM.distributedDoubleMSM(computationB);
     provingKey.queryB().unpersist();
     config.endLog("Computing evaluation to query B: summation of variable_i*B_i(t)");
@@ -131,15 +130,15 @@ public class DistributedProver {
     config.endLog("Computing evaluation to deltaABC");
 
     config.beginLog("Computing evaluation to query H");
-    // In Groth16 notations, queryH is the encoding in G1 of the vector <(x^i * t(x))/delta>, for i \in [0, n-2]
-    // As such, the value of `evaluationHtZt` actually is: (h(x)t(x))/delta if we follow Groth's notations
+    // In Groth16 notations, `queryH` is the encoding in G1 of the vector <(x^i * t(x))/delta>, for i \in [0, n-2]
+    // As such, the value of `evaluationHtZtOverDelta` actually is: (h(x)t(x))/delta if we follow Groth's notations
     final JavaRDD<Tuple2<FieldT, G1T>> computationH =
         qapWitness.coefficientsH().join(provingKey.queryH(), numPartitions).values();
-    final G1T evaluationHtZt = VariableBaseMSM.distributedMSM(computationH);
+    final G1T evaluationHtZtOverDelta = VariableBaseMSM.distributedMSM(computationH);
     provingKey.queryH().unpersist();
     // Add H(t)*Z(t)/delta to `evaluationABC` to get the first term of C, namely (following Groth's notations):
     // [\sum_{i = l+1}^{m} a_i * (beta * u_i(x) + alpha * v_i(x) + w_i(x) + h(x)t(x))]/delta
-    evaluationABC = evaluationABC.add(evaluationHtZt);
+    evaluationABC = evaluationABC.add(evaluationHtZtOverDelta);
     config.endLog("Computing evaluation to query H");
 
     // A = alpha + sum_i(a_i*A_i(t)) + r*delta
