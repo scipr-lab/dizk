@@ -30,17 +30,18 @@ public class DistributedProver {
       Proof<G1T, G2T> prove(
           final ProvingKeyRDD<FieldT, G1T, G2T> provingKey,
           final Assignment<FieldT> primary,
-          final JavaPairRDD<Long, FieldT> oneFullAssignment,
+          final JavaPairRDD<Long, FieldT> fullAssignment,
           final FieldT fieldFactory,
           final Configuration config) {
-    if (config.debugFlag()) {
-      assert (provingKey.r1cs().isSatisfied(primary, oneFullAssignment));
-    }
+    // Note: `R1CStoQAPWitness` already checks the value of the configuration `debugFlag`, and already checks that the R1CS is satisfied on input `primary` and `fullAssignment`. No need to do it again it, this is redundant.
+    //if (config.debugFlag()) {
+    //  assert (provingKey.r1cs().isSatisfied(primary, fullAssignment));
+    //}
 
     config.beginLog("Computing witness polynomial");
     final QAPWitnessRDD<FieldT> qapWitness =
         R1CStoQAPRDD.R1CStoQAPWitness(
-            provingKey.r1cs(), primary, oneFullAssignment, fieldFactory, config);
+            provingKey.r1cs(), primary, fullAssignment, fieldFactory, config);
     config.endLog("Computing witness polynomial");
 
     if (config.debugFlag()) {
@@ -94,9 +95,9 @@ public class DistributedProver {
     config.beginRuntime("Generate proof");
 
     config.beginLog("Computing evaluation to query A: summation of variable_i*A_i(t)");
-    // Get an RDD containing all pairs of elements with **matching keys** in `oneFullAssignment` and `provingKey.queryA()`. The result of this `.join()` will be a (k, (v1, v2)) tuple, where (k, v1) is in `oneFullAssignment` and (k, v2) is in `provingKey.queryA()`. Then, the `.value()` returns the tuple (v1, v2) - removing the keys - which is just an index used to associate the right scalar to the right group element in light of the `VariableBaseMSM` triggered at the next line.
+    // Get an RDD containing all pairs of elements with **matching keys** in `fullAssignment` and `provingKey.queryA()`. The result of this `.join()` will be a (k, (v1, v2)) tuple, where (k, v1) is in `fullAssignment` and (k, v2) is in `provingKey.queryA()`. Then, the `.value()` returns the tuple (v1, v2) - removing the keys - which is just an index used to associate the right scalar to the right group element in light of the `VariableBaseMSM` triggered at the next line.
     final JavaRDD<Tuple2<FieldT, G1T>> computationA =
-        oneFullAssignment.join(provingKey.queryA(), numPartitions).values();
+        fullAssignment.join(provingKey.queryA(), numPartitions).values();
     // `evaluationAt` = \sum_{i=0}^{m} a_i * u_i(x) (in Groth16)
     // where m = total number of wires
     //       a_i = ith wire/variable
@@ -107,7 +108,7 @@ public class DistributedProver {
 
     config.beginLog("Computing evaluation to query B: summation of variable_i*B_i(t)");
     final JavaRDD<Tuple2<FieldT, Tuple2<G1T, G2T>>> computationB =
-        oneFullAssignment.join(provingKey.queryB(), numPartitions).values();
+        fullAssignment.join(provingKey.queryB(), numPartitions).values();
     // `evaluationBt` = \sum_{i=0}^{m} a_i * v_i(x) (in Groth16)
     // where m = total number of wires
     //       a_i = ith wire/variable
@@ -123,10 +124,10 @@ public class DistributedProver {
     //       a_i = ith wire/variable
     config.beginLog("Computing evaluation to deltaABC");
     final JavaRDD<Tuple2<FieldT, G1T>> deltaABCAuxiliary =
-        oneFullAssignment.join(provingKey.deltaABCG1(), numPartitions).values();
+        fullAssignment.join(provingKey.deltaABCG1(), numPartitions).values();
     G1T evaluationABC = VariableBaseMSM.distributedMSM(deltaABCAuxiliary);
     provingKey.deltaABCG1().unpersist();
-    oneFullAssignment.unpersist();
+    fullAssignment.unpersist();
     config.endLog("Computing evaluation to deltaABC");
 
     config.beginLog("Computing evaluation to query H");
