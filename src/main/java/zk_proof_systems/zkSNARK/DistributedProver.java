@@ -47,6 +47,10 @@ public class DistributedProver {
       // We are dividing degree 2(d-1) polynomial by degree d polynomial
       // and not adding a PGHR-style ZK-patch, so our H is degree d-2.
       final FieldT zero = fieldFactory.zero();
+      // 1. Filter the coeffs to only get the 3 coeffs at indices d-2, d-1, d
+      // 2. Carry out checks on these 3 coeffs, namely:
+      //    - coeff at d-2 can not be 0 (we want a poly of deg d-2)
+      //    - coeffs at d-1, d must be 0 (we want a poly of deg d-2)
       qapWitness
           .coefficientsH()
           .filter(e -> e._1 >= qapWitness.degree() - 2)
@@ -58,7 +62,9 @@ public class DistributedProver {
                   assert (coeff._2.equals(zero));
                 }
               });
-      // Check that the witness satisfies the QAP relation.
+      // Check that the witness satisfies the QAP relation
+      // To that end, we pick a random evaluation point t and check
+      // that the QAP is satisfied (i.e. this random evaluation point is not the one in the SRS)
       final FieldT t = fieldFactory.random(config.seed(), config.secureSeed());
       final QAPRelationRDD<FieldT> qap =
           R1CStoQAPRDD.R1CStoQAPRelation(provingKey.r1cs(), t, config);
@@ -82,25 +88,40 @@ public class DistributedProver {
     final G2T deltaG2 = provingKey.deltaG2();
     final G1T rsDelta = deltaG1.mul(r.mul(s));
 
+    // Number of partitions per RDD set in the config
     final int numPartitions = config.numPartitions();
 
-    config.beginRuntime("Proof");
+    config.beginRuntime("Generate proof");
 
     config.beginLog("Computing evaluation to query A: summation of variable_i*A_i(t)");
+    // Get an RDD containing all pairs of elements with matching keys in `oneFullAssignment` and `provingKey.queryA()`. The result of this .join will be a (k, (v1, v2)) tuple, where (k, v1) is in `oneFullAssignment` and (k, v2) is in `provingKey.queryA()`. Then, the `.value()` returns the tuple (v1, v2) - removing the keys - which is just an index used to associate the right scalar to the right group element in light of the `VariableBaseMSM` triggered at the next line.
     final JavaRDD<Tuple2<FieldT, G1T>> computationA =
         oneFullAssignment.join(provingKey.queryA(), numPartitions).values();
+    // `evaluationAt` = \sum_{i=0}^{m} a_i * u_i(x) (in Groth16)
+    // where m = total number of wires
+    //       a_i = ith wire/variable
     final G1T evaluationAt = VariableBaseMSM.distributedMSM(computationA);
+    // Once `queryA` is not useful anymore, mark the RDD as non-persistent, and remove all blocks for it from memory and disk.
     provingKey.queryA().unpersist();
     config.endLog("Computing evaluation to query A: summation of variable_i*A_i(t)");
 
     config.beginLog("Computing evaluation to query B: summation of variable_i*B_i(t)");
     final JavaRDD<Tuple2<FieldT, Tuple2<G1T, G2T>>> computationB =
         oneFullAssignment.join(provingKey.queryB(), numPartitions).values();
+    // `evaluationBt` = \sum_{i=0}^{m} a_i * v_i(x) (in Groth16)
+    // where m = total number of wires
+    //       a_i = ith wire/variable
+    // Note: B is evaluated in G1 and G2, because B \in G2 but
+    // the encoded B in G1 also shows up in C (\in G1)
     final Tuple2<G1T, G2T> evaluationBt = VariableBaseMSM.distributedDoubleMSM(computationB);
     provingKey.queryB().unpersist();
     config.endLog("Computing evaluation to query B: summation of variable_i*B_i(t)");
 
-    // Compute evaluationABC = a_i*((beta*A_i(t) + alpha*B_i(t) + C_i(t)) + H(t)*Z(t))/delta.
+    // Compute evaluationABC = variable_i*((beta*A_i(t) + alpha*B_i(t) + C_i(t)) + H(t)*Z(t))/delta.
+    // In Groth16 notation, this is used for the computation of C:
+    // [\sum_{i=l+1}^{m} a_i*((beta*u_i(x) + alpha*v_i(x) + w_i(x))] /delta.
+    // where m = total number of wires
+    //       a_i = ith wire/variable
     config.beginLog("Computing evaluation to deltaABC");
     final JavaRDD<Tuple2<FieldT, G1T>> deltaABCAuxiliary =
         oneFullAssignment.join(provingKey.deltaABCG1(), numPartitions).values();
@@ -110,11 +131,15 @@ public class DistributedProver {
     config.endLog("Computing evaluation to deltaABC");
 
     config.beginLog("Computing evaluation to query H");
+    // In Groth16 notations, queryH is the encoding in G1 of the vector <(x^i * t(x))/delta>, for i \in [0, n-2]
+    // As such, the value of `evaluationHtZt` actually is: (h(x)t(x))/delta if we follow Groth's notations
     final JavaRDD<Tuple2<FieldT, G1T>> computationH =
         qapWitness.coefficientsH().join(provingKey.queryH(), numPartitions).values();
     final G1T evaluationHtZt = VariableBaseMSM.distributedMSM(computationH);
     provingKey.queryH().unpersist();
-    evaluationABC = evaluationABC.add(evaluationHtZt); // H(t)*Z(t)/delta
+    // Add H(t)*Z(t)/delta to `evaluationABC` to get the first term of C, namely (following Groth's notations):
+    // [\sum_{i = l+1}^{m} a_i * (beta * u_i(x) + alpha * v_i(x) + w_i(x) + h(x)t(x))]/delta
+    evaluationABC = evaluationABC.add(evaluationHtZt);
     config.endLog("Computing evaluation to query H");
 
     // A = alpha + sum_i(a_i*A_i(t)) + r*delta
@@ -126,11 +151,10 @@ public class DistributedProver {
             betaG1.add(evaluationBt._1).add(deltaG1.mul(s)),
             betaG2.add(evaluationBt._2).add(deltaG2.mul(s)));
 
-    // C = sum_i(a_i*((beta*A_i(t) + alpha*B_i(t) + C_i(t)) + H(t)*Z(t))/delta) + A*s + r*b -
-    // r*s*delta
+    // C = sum_i(a_i*((beta*A_i(t) + alpha*B_i(t) + C_i(t)) + H(t)*Z(t))/delta) + A*s + r*b - r*s*delta
     final G1T C = evaluationABC.add(A.mul(s)).add(B._1.mul(r)).sub(rsDelta);
 
-    config.endRuntime("Proof");
+    config.endRuntime("Generate proof");
 
     return new Proof<>(A, B._2, C);
   }
