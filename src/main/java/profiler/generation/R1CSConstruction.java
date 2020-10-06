@@ -151,9 +151,12 @@ public class R1CSConstruction implements Serializable {
                       part == numPartitions
                           ? totalSize % (totalSize / numPartitions)
                           : totalSize / numPartitions;
-                  // Linear combinations are now represented as: `ArrayList<Tuple2<Long, LinearTerm<FieldT>>>`.
-                  // For instance, [Tuple2<0, LinearTerm(0,1)>, Tuple2<0, LinearTerm(1,5)>, Tuple2<0, LinearTerm(2,10)>]
-                  // represents the 0th linear combination (0th line in the A matrix): A_0 = [1,5,10]
+                  // Linear combinations are now represented as: `ArrayList<Tuple2<Long,
+                  // LinearTerm<FieldT>>>`.
+                  // For instance, [Tuple2<0, LinearTerm(0,1)>, Tuple2<0, LinearTerm(1,5)>,
+                  // Tuple2<0, LinearTerm(2,10)>]
+                  // represents the 0th linear combination (0th line in the A matrix): A_0 =
+                  // [1,5,10]
                   // In other words, the `Long` key in the tuple is the linear combination index.
                   final ArrayList<Tuple2<Long, LinearTerm<FieldT>>> A = new ArrayList<>();
                   for (long i = 0; i < partSize; i++) {

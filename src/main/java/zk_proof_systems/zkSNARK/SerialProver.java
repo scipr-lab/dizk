@@ -49,7 +49,8 @@ public class SerialProver {
       final FieldT zero = fieldFactory.zero();
       // 1. Verify that H has a non-zero d-2 coefficient
       assert (!qapWitness.coefficientsH(qapWitness.degree() - 2).equals(zero));
-      // 2. Make sure that coefficients d-1 and d are 0 to make sure that the polynomial hasn't a degree higher than d-2
+      // 2. Make sure that coefficients d-1 and d are 0 to make sure that the polynomial hasn't a
+      // degree higher than d-2
       assert (qapWitness.coefficientsH(qapWitness.degree() - 1).equals(zero));
       assert (qapWitness.coefficientsH(qapWitness.degree()).equals(zero));
       // Check that the witness satisfies the QAP relation.

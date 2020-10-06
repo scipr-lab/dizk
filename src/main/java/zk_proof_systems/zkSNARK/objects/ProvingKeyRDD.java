@@ -22,7 +22,8 @@ public class ProvingKeyRDD<
     implements Serializable {
 
   // Below, [x]_1 (resp. [x]_2 and []_T) represents the encoding of x in G1 (resp. G2 and GT)
-  // We follow the notations in Groth16 (namely, polynomials are denoted u, v, w, h, t instead of A, B, C, H, Z. Moreoverm the evaluation point is denoted by x)
+  // We follow the notations in Groth16 (namely, polynomials are denoted u, v, w, h, t instead of A,
+  // B, C, H, Z. Moreover the evaluation point is denoted by x)
   //
   // [alpha]_1
   private final G1T alphaG1;
