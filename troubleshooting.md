@@ -61,7 +61,7 @@ Compile the project without running or compiling unit tests.
 
 Copy the **jar** file to `/home/ec2-user/` (because this is where the profiler scripts are looking for it.
 
-Notice that the $SIZE in profile.sh must be greater than the hard-coded values for number of inputs (1023) that are provided in the R1CSConstruction class. 
+Notice that the $SIZE in profile.sh must be greater than the hard-coded values for number of inputs (1023) that are provided in the R1CSConstructor class. 
 
 [This](https://spark.apache.org/docs/1.6.2/ec2-scripts.html) is useful.
 

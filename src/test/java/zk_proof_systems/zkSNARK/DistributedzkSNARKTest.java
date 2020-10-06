@@ -30,7 +30,7 @@ import org.apache.spark.storage.StorageLevel;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import profiler.generation.R1CSConstruction;
+import profiler.generation.R1CSConstructor;
 import profiler.utils.SparkUtils;
 import relations.objects.Assignment;
 import relations.r1cs.R1CSRelationRDD;
@@ -99,7 +99,7 @@ public class DistributedzkSNARKTest implements Serializable {
           BNG2T g2Factory,
           BNPairingT pairing) {
     final Tuple3<R1CSRelationRDD<BNFrT>, Assignment<BNFrT>, JavaPairRDD<Long, BNFrT>> construction =
-        R1CSConstruction.parallelConstruct(numConstraints, numInputs, fieldFactory, config);
+        R1CSConstructor.parallelConstruct(numConstraints, numInputs, fieldFactory, config);
     final R1CSRelationRDD<BNFrT> r1cs = construction._1();
     final Assignment<BNFrT> primary = construction._2();
     final JavaPairRDD<Long, BNFrT> fullAssignment = construction._3();
@@ -132,7 +132,7 @@ public class DistributedzkSNARKTest implements Serializable {
       final FakePairing fakePairing = new FakePairing();
 
       final Tuple3<R1CSRelationRDD<Fp>, Assignment<Fp>, JavaPairRDD<Long, Fp>> construction =
-              R1CSConstruction.parallelConstruct(numConstraints, numInputs, fieldFactory, config);
+              R1CSConstructor.parallelConstruct(numConstraints, numInputs, fieldFactory, config);
       final R1CSRelationRDD<Fp> r1cs = construction._1();
       final Assignment<Fp> primary = construction._2();
       final JavaPairRDD<Long, Fp> fullAssignment = construction._3();

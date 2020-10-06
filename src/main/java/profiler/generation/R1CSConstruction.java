@@ -22,7 +22,7 @@ import relations.r1cs.R1CSRelationRDD;
 import scala.Tuple2;
 import scala.Tuple3;
 
-public class R1CSConstruction implements Serializable {
+public class R1CSConstructor implements Serializable {
 
   public static <FieldT extends AbstractFieldElementExpanded<FieldT>>
       Tuple3<R1CSRelation<FieldT>, Assignment<FieldT>, Assignment<FieldT>> serialConstruct(
@@ -464,7 +464,7 @@ public class R1CSConstruction implements Serializable {
               new Tuple2<>(index, new LinearTerm<>(zOffset + (row * n3 + col) * (n2) + i, one)));
           break;
         default:
-          System.out.println("[R1CSConstruction.constraintAssignment] unknown constraint");
+          System.out.println("[R1CSConstructor.constraintAssignment] unknown constraint");
           break;
       }
 
@@ -498,7 +498,7 @@ public class R1CSConstruction implements Serializable {
                 new Tuple2<>(index, new LinearTerm<>(cOffset + row * n3 + col, one)));
             break;
           default:
-            System.out.println("[R1CSConstruction.constraintAssignment] unknown constraint");
+            System.out.println("[R1CSConstructor.constraintAssignment] unknown constraint");
             break;
         }
 
@@ -519,7 +519,7 @@ public class R1CSConstruction implements Serializable {
                 new Tuple2<>(index, new LinearTerm<>(sOffset + (row * n3 + col) * (n2 - 1), one)));
             break;
           default:
-            System.out.println("[R1CSConstruction.constraintAssignment] unknown constraint");
+            System.out.println("[R1CSConstructor.constraintAssignment] unknown constraint");
             break;
         }
 
@@ -542,7 +542,7 @@ public class R1CSConstruction implements Serializable {
                     index, new LinearTerm<>(sOffset + (row * n3 + col) * (n2 - 1) + i, one)));
             break;
           default:
-            System.out.println("[R1CSConstruction.constraintAssignment] unknown constraint");
+            System.out.println("[R1CSConstructor.constraintAssignment] unknown constraint");
             break;
         }
       }
@@ -1624,25 +1624,25 @@ public class R1CSConstruction implements Serializable {
     JavaPairRDD<Long, Tuple2<Long, FieldT>> aFullRDD =
         A.<Long, Tuple2<Long, FieldT>>flatMapToPair(
             data ->
-                R1CSConstruction.<FieldT>matmulParAssignShuffleHelper(
+                R1CSConstructor.<FieldT>matmulParAssignShuffleHelper(
                     data, 0, n1, n2, n3, b1, b2, b3));
 
     JavaPairRDD<Long, Tuple2<Long, FieldT>> bFullRDD =
         B.<Long, Tuple2<Long, FieldT>>flatMapToPair(
             data ->
-                R1CSConstruction.<FieldT>matmulParAssignShuffleHelper(
+                R1CSConstructor.<FieldT>matmulParAssignShuffleHelper(
                     data, 1, n1, n2, n3, b1, b2, b3));
 
     // Shuffle to cogroup the tuples together
     // Map each group to do the matrix multiplication locally
-    // config.beginLog("[R1CSConstruction] cogroup");
+    // config.beginLog("[R1CSConstructor] cogroup");
     JavaPairRDD<Long, Tuple2<Iterable<Tuple2<Long, FieldT>>, Iterable<Tuple2<Long, FieldT>>>>
         cogroupResult = aFullRDD.cogroup(bFullRDD);
     // cogroupResult.cache();
     // cogroupResult.count();
-    // config.endLog("[R1CSConstruction] cogroup");
+    // config.endLog("[R1CSConstructor] cogroup");
 
-    // config.beginLog("[R1CSConstruction] witness calculation");
+    // config.beginLog("[R1CSConstructor] witness calculation");
     JavaPairRDD<Long, FieldT> fullAssignment =
         cogroupResult.flatMapToPair(
             x ->
@@ -1652,14 +1652,14 @@ public class R1CSConstruction implements Serializable {
     // long assignmentCount = fullAssignment.count();
     // cogroupResult.unpersist();
 
-    // config.endLog("[R1CSConstruction] witness calculation (fullAssignment count is " +
+    // config.endLog("[R1CSConstructor] witness calculation (fullAssignment count is " +
     // assignmentCount + ")");
     ArrayList<Integer> intList = new ArrayList<>();
     for (int i = 0; i < b1 * b3; i++) {
       intList.add(i);
     }
 
-    // config.beginLog("[R1CSConstruction] constraint generation");
+    // config.beginLog("[R1CSConstructor] constraint generation");
     // Generate the constraints in parallel
     JavaPairRDD<Long, LinearTerm<FieldT>> ALC =
         config
@@ -1728,7 +1728,7 @@ public class R1CSConstruction implements Serializable {
     // BLC.cache().count();
     // CLC.cache().count();
 
-    // config.endLog("[R1CSConstruction] constraint generation");
+    // config.endLog("[R1CSConstructor] constraint generation");
 
     // Iterable<Tuple2<Long, FieldT>> assignments = fullAssignment.collect();
     // for (Tuple2<Long, FieldT> a : assignments) {
@@ -1743,7 +1743,7 @@ public class R1CSConstruction implements Serializable {
     //                 fullAssignment.filter(e -> e._1 >= 0 && e._1 < numInputs).collect(),
     //                 numInputs));
 
-    System.out.println("[R1CSConstruction::matmulParConstruct] numConstraints = " + numConstraints);
+    System.out.println("[R1CSConstructor::matmulParConstruct] numConstraints = " + numConstraints);
 
     return new Tuple3<>(constraints, fullAssignment, numAssignments);
   }
@@ -2278,7 +2278,7 @@ public class R1CSConstruction implements Serializable {
             break;
           default:
             System.out.println(
-                "[R1CSConstruction.linearCombinationConstraintGen] unknown constraint");
+                "[R1CSConstructor.linearCombinationConstraintGen] unknown constraint");
             break;
         }
       }
@@ -2384,7 +2384,7 @@ public class R1CSConstruction implements Serializable {
       LinearIndexer newOutputOffset = new LinearIndexer(outputOffset.getIndex(0) + li.getIndex(0));
 
       ArrayList<Tuple2<Long, LinearTerm<FieldT>>> tmp =
-          R1CSConstruction.<FieldT>linearCombinationConstraintsGen(
+          R1CSConstructor.<FieldT>linearCombinationConstraintsGen(
               fieldFactory,
               cType,
               inputOffsets,
@@ -2733,7 +2733,7 @@ public class R1CSConstruction implements Serializable {
     indexers.add(new LinearIndexer(cLowerCols));
     CompositeIndexer newMeanOffset = new CompositeIndexer(indexers);
     ArrayList<Tuple2<Long, LinearTerm<FieldT>>> ret =
-        R1CSConstruction.<FieldT>linearCombinationConstraintsGen(
+        R1CSConstructor.<FieldT>linearCombinationConstraintsGen(
             fieldFactory,
             cType,
             inputOffsets,

@@ -34,7 +34,7 @@ import configuration.Configuration;
 import java.io.Serializable;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import profiler.generation.R1CSConstruction;
+import profiler.generation.R1CSConstructor;
 import relations.objects.Assignment;
 import relations.r1cs.R1CSRelation;
 import scala.Tuple3;
@@ -88,7 +88,7 @@ public class SerialzkSNARKTest implements Serializable {
           BNG2T g2Factory,
           BNPairingT pairing) {
     final Tuple3<R1CSRelation<BNFrT>, Assignment<BNFrT>, Assignment<BNFrT>> construction =
-        R1CSConstruction.serialConstruct(numConstraints, numInputs, fieldFactory, config);
+        R1CSConstructor.serialConstruct(numConstraints, numInputs, fieldFactory, config);
     final R1CSRelation<BNFrT> r1cs = construction._1();
     final Assignment<BNFrT> primary = construction._2();
     final Assignment<BNFrT> fullAssignment = construction._3();
@@ -117,7 +117,7 @@ public class SerialzkSNARKTest implements Serializable {
     final FakePairing fakePairing = new FakePairing();
 
     final Tuple3<R1CSRelation<Fp>, Assignment<Fp>, Assignment<Fp>> construction =
-        R1CSConstruction.serialConstruct(numConstraints, numInputs, fieldFactory, config);
+        R1CSConstructor.serialConstruct(numConstraints, numInputs, fieldFactory, config);
     final R1CSRelation<Fp> r1cs = construction._1();
     final Assignment<Fp> primary = construction._2();
     final Assignment<Fp> auxiliary = construction._3();
