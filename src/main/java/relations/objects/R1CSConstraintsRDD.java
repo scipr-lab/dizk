@@ -33,7 +33,9 @@ public class R1CSConstraintsRDD<FieldT extends AbstractFieldElementExpanded<Fiel
   // linear combinations.
   //
   // NOTE: `R1CSConstraintsRDD` is handled differently than "normal"/non-distributed R1CS which is a set of "constraints" each of which being a triple of linear combinations.
-  // TODO: Understand how the RDD R1CS is structured and processed.
+  // In fact, here the linear combinations are represented using "lists" of Linear Terms. The `Long` key of the tuple/pair `Tuple2<Long, LinearTerm<FieldT>>` (which is "implied" by the `JavaPairRDD`) represents the "index" of the linear combination of interest.
+  // For instance, the 1*a+2*b+5*d represented by <1,2,0,5> . <a,b,c,d>, leading to the ith matrix line [1 2 0 5] in the R1CS can be represented by:
+  // < Tuple2<Long, LinearTerm<Field>>(i, LinearTerm(0, 1)), Tuple2<Long, LinearTerm<Field>>(i, LinearTerm(1, 2)), Tuple2<Long, LinearTerm<Field>>(i, LinearTerm(3, 0)), Tuple2<Long, LinearTerm<Field>>(i, LinearTerm(4, 5)) >
   private JavaPairRDD<Long, LinearTerm<FieldT>> A;
   private JavaPairRDD<Long, LinearTerm<FieldT>> B;
   private JavaPairRDD<Long, LinearTerm<FieldT>> C;
