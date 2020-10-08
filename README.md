@@ -94,8 +94,10 @@ While other libraries for zero knowledge proof systems are written in low-level 
 
 Start by cloning this repository and entering the repository working directory:
 ```bash
-git clone https://github.com/scipr-lab/dizk.git
+git clone https://github.com/clearmatics/dizk.git
 cd dizk
+# Set up your environment
+. ./setup_env
 ```
 
 Next, fetch the dependency modules:
