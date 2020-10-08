@@ -39,11 +39,11 @@ public class JSONR1CSLoader {
             JSONObject r1cs = (JSONObject) obj;
             System.out.println(r1cs);
 
-            JSONObject constraints = (JSONObject) r1cs.get("constraints");
+            JSONArray constraints = (JSONArray) r1cs.get("constraints");
             System.out.println(constraints);
 
-            JSONObject numInputs = (JSONObject) r1cs.get("num_inputs");
-            System.out.println(numInputs); 
+            Long numInputs = (Long) r1cs.get("num_inputs");
+            System.out.println(numInputs);
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         } catch (IOException e) {

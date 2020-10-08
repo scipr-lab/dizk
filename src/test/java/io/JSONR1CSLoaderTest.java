@@ -9,18 +9,25 @@ import relations.objects.R1CSConstraintsRDD;
 
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.fail;
 
 import algebra.curves.barreto_naehrig.bn254b.BN254bFields.BN254bFr;
 import io.JSONR1CSLoader;
+import java.nio.file.Paths;
+import java.nio.file.Path;
+import java.nio.file.Files; 
 
 public class JSONR1CSLoaderTest {
     
     @Test
     public void loadSerialTest(){
         // Load the test data file
-        // TODO: Use the java equivalent to boost::filesystem to support path manip on all platforms
-        String pathToTestFile = "test/java/data/simple_gadget_r1cs.json";
-        JSONR1CSLoader loader = new JSONR1CSLoader(pathToTestFile);
+        String dizkHome = System.getenv("DIZK");
+        Path pathToFile = Paths.get(dizkHome, "src", "test", "java", "data", "simple_gadget_r1cs.json");
+        if (!Files.exists(pathToFile)) {
+            fail("Test r1cs file not found.");
+        }
+        JSONR1CSLoader loader = new JSONR1CSLoader(pathToFile.toString());
         loader.loadSerial();
     }
 }
