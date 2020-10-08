@@ -57,6 +57,10 @@ public class BN254bFields {
       return MULTIPLICATIVE_GENERATOR;
     }
 
+    public BN254bFr construct(final BigInteger number) {
+      return new BN254bFr(number);
+    }
+
     public BN254bFr construct(final long number) {
       return new BN254bFr(number);
     }
@@ -115,6 +119,10 @@ public class BN254bFields {
 
     public BN254bFq multiplicativeGenerator() {
       return MULTIPLICATIVE_GENERATOR;
+    }
+
+    public BN254bFq construct(final BigInteger number) {
+      return new BN254bFq(number);
     }
 
     public BN254bFq construct(final Fp element) {
