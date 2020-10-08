@@ -33,13 +33,14 @@ public class JSONR1CSLoader {
     };
 
     // Loads the file to a "local" (i.e. non-distributed) R1CS instance
+    // Need to pass `fieldONE` as a was to bypass the limitations of java generics.
+    // The `construct` function is used to instantiate elements of type FieldT from `fieldONE`
     public <FieldT extends AbstractFieldElementExpanded<FieldT>>
-    void loadSerial(){
+    void loadSerial(FieldT fieldONE){
         //JSON parser object to parse read file
         JSONParser jsonParser = new JSONParser();
          
         try (FileReader reader = new FileReader(this.filename)) {
-            //Read JSON file
             Object obj = jsonParser.parse(reader);
  
             JSONObject jsonR1CS = (JSONObject) obj;
@@ -54,23 +55,20 @@ public class JSONR1CSLoader {
                 JSONObject constraint = (JSONObject) jsonConstraints.get(i);
                 JSONObject linCombs = (JSONObject) constraint.get("linear_combination");
                 JSONArray linCombA = (JSONArray) linCombs.get("A");
-                ///ArrayList<LinearTerm<FieldT>> termsA;
+                ArrayList<LinearTerm<FieldT>> termsA = new ArrayList<LinearTerm<FieldT>>();
                 for (int j = 0; j < linCombA.size(); j++) {
-                    JSONObject jsonTerm = (JSONObject) linCombA.get(i);
+                    JSONObject jsonTerm = (JSONObject) linCombA.get(j);
                     String valueStr = (String) jsonTerm.get("value");
-                    System.out.println("HERE2: valueStr = " + valueStr);
                     // Wire values are exported as hexadecimal strings
                     // (we remove the '0x' prefix using `substring`)
                     BigInteger value = new BigInteger(valueStr.substring(2), 16);
                     System.out.println("value = " + value.toString());
-                    // fieldFactory is assumed to follow the same "interface" as the "BN fields"
-                    // and must, hence, have a `FrParameters` attibute as in: https://github.com/clearmatics/dizk/blob/master/src/main/java/algebra/curves/barreto_naehrig/bn254b/BN254bFields.java#L16
-                    // Likewise, we assume below that the constuctor of FieldT follows the convention of
-                    // https://github.com/clearmatics/dizk/blob/master/src/main/java/algebra/curves/barreto_naehrig/bn254b/BN254bFields.java#L24-L26
-                    // and thus does not require to pass the parameters as second attribute
-                    ///FieldT valueField = (FieldT) new FieldT(value);
-                    ///termsA.add(new LinearTerm<FieldT>((Long) jsonTerm.get("index"), valueField));
+                    // FieldT is restricted to extend `AbstractFieldElementExpanded`
+                    // which has a constructor from BigInteger
+                    FieldT valueField = fieldONE.construct(value);
+                    termsA.add(new LinearTerm<FieldT>((Long) jsonTerm.get("index"), valueField));
                 }
+                System.out.println("termsA = " + termsA.toString());
                 JSONArray linCombB = (JSONArray) linCombs.get("B");
                 System.out.println("linCombB = " + linCombB.toString());
                 JSONArray linCombC = (JSONArray) linCombs.get("C");

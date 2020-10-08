@@ -29,6 +29,6 @@ public class JSONR1CSLoaderTest {
             fail("Test r1cs file not found.");
         }
         JSONR1CSLoader loader = new JSONR1CSLoader(pathToFile.toString());
-        loader.<BN254bFr>loadSerial();
+        loader.<BN254bFr>loadSerial(BN254bFr.ONE);
     }
 }
