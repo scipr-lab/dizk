@@ -23,11 +23,12 @@ public class JSONR1CSLoaderTest {
     public void loadSerialTest(){
         // Load the test data file
         String dizkHome = System.getenv("DIZK");
-        Path pathToFile = Paths.get(dizkHome, "src", "test", "java", "data", "simple_gadget_r1cs.json");
+        Path pathToFile = Paths.get(
+            dizkHome, "src", "test", "java", "data", "simple_gadget_r1cs.json");
         if (!Files.exists(pathToFile)) {
             fail("Test r1cs file not found.");
         }
         JSONR1CSLoader loader = new JSONR1CSLoader(pathToFile.toString());
-        loader.loadSerial();
+        loader.<BN254bFr>loadSerial();
     }
 }
