@@ -1,29 +1,22 @@
 package io;
 
-import relations.r1cs.R1CSRelation;
-import relations.r1cs.R1CSRelationRDD;
-import algebra.fields.AbstractFieldElementExpanded;
-import algebra.fields.abstractfieldparameters.AbstractFpParameters;
-import configuration.Configuration;
-import relations.objects.LinearTerm;
-import relations.objects.R1CSConstraintsRDD;
-import relations.objects.R1CSConstraints;
-
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
+import java.math.BigInteger;
 
-import org.apache.arrow.memory.BaseAllocator.Reservation;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 
-import java.util.ArrayList;
-import java.math.BigInteger;
-
+import algebra.fields.AbstractFieldElementExpanded;
+import algebra.fields.abstractfieldparameters.AbstractFpParameters;
 import relations.objects.LinearCombination;
+import relations.objects.LinearTerm;
 import relations.objects.R1CSConstraint;
+import relations.objects.R1CSConstraints;
+import relations.r1cs.R1CSRelation;
 
 /**
  * Class that implements all necessary functions to import and load an R1CS in JSON format
@@ -61,17 +54,14 @@ public class JSONR1CSLoader {
         // Load `linear_combination.A` in memory
         JSONArray jsonLinCombA = (JSONArray) jsonLinCombs.get("A");
         LinearCombination<FieldT> linearCombA = loadLinearCombination(fieldONE, jsonLinCombA);
-        System.out.println("linearCombA = " + linearCombA.toString());
     
         // Load `linear_combination.B` in memory
         JSONArray jsonLinCombB = (JSONArray) jsonLinCombs.get("B");
         LinearCombination<FieldT> linearCombB = loadLinearCombination(fieldONE, jsonLinCombB);
-        System.out.println("linearCombB = " + linearCombB.toString());
     
         // Load `linear_combination.C` in memory
         JSONArray jsonLinCombC = (JSONArray) jsonLinCombs.get("C");
         LinearCombination<FieldT> linearCombC = loadLinearCombination(fieldONE, jsonLinCombC);
-        System.out.println("linearCombC = " + linearCombC.toString());
     
         R1CSConstraint<FieldT> res = new R1CSConstraint<FieldT>(linearCombA, linearCombB, linearCombC);
         return res;
@@ -81,10 +71,11 @@ public class JSONR1CSLoader {
     // Need to pass `fieldONE` as a was to bypass the limitations of java generics.
     // The `construct` function is used to instantiate elements of type FieldT from `fieldONE`
     public <FieldT extends AbstractFieldElementExpanded<FieldT>, FieldParamsT extends AbstractFpParameters>
-    void loadSerial(FieldT fieldONE, FieldParamsT fieldParams){
+    R1CSRelation<FieldT> loadSerial(FieldT fieldONE, FieldParamsT fieldParams){
         //JSON parser object to parse read file
         JSONParser jsonParser = new JSONParser();
-         
+
+        R1CSRelation<FieldT> empty = new R1CSRelation<FieldT>(new R1CSConstraints<FieldT>(), 0, 0);
         try (FileReader reader = new FileReader(this.filename)) {
             Object obj = jsonParser.parse(reader);
             JSONObject jsonR1CS = (JSONObject) obj;
@@ -102,9 +93,17 @@ public class JSONR1CSLoader {
                 constraintArray.add(constraint);
             }
 
-            //Long numInputs = (Long) jsonR1CS.get("num_inputs");
-            // TODO: Compute numAuxiliay inputs
-            //R1CSRelation<FieldT> relation = new R1CSRelation<FieldT>(constraintArray, numInputs, 42/*numAuxiliary*/);
+            // Convert Long to int "safely": an exception is raised if Long overflows the int
+            // see: https://docs.oracle.com/javase/10/docs/api/java/lang/Math.html#toIntExact(long)
+            // Add +1 to `numInputs` to account for the manual handling of ONE
+            int numInputs = Math.toIntExact((Long) jsonR1CS.get("num_inputs")) + 1;
+            // Add +1 to `numVariables` to account for the manual handling of ONE
+            int numVariables = Math.toIntExact((Long) jsonR1CS.get("num_variables")) + 1;
+            int numAuxiliary = numVariables - numInputs;
+            R1CSRelation<FieldT> relation = new R1CSRelation<FieldT>(constraintArray, numInputs, numAuxiliary);
+
+            assert relation.isValid(): "Loaded relation is invalid";
+            return relation;
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         } catch (IOException e) {
@@ -112,6 +111,9 @@ public class JSONR1CSLoader {
         } catch (ParseException e) {
             e.printStackTrace();
         }
+
+        // Return the empty relation if the body of the `try` threw
+        return empty;
     }
 
     // Loads the file to an RDD (i.e. distributed) R1CS instance
