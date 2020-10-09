@@ -3,6 +3,7 @@ package io;
 import relations.r1cs.R1CSRelation;
 import relations.r1cs.R1CSRelationRDD;
 import algebra.fields.AbstractFieldElementExpanded;
+import algebra.fields.abstractfieldparameters.AbstractFpParameters;
 import configuration.Configuration;
 import relations.objects.LinearTerm;
 import relations.objects.R1CSConstraintsRDD;
@@ -79,8 +80,8 @@ public class JSONR1CSLoader {
     // Loads the file to a "local" (i.e. non-distributed) R1CS instance
     // Need to pass `fieldONE` as a was to bypass the limitations of java generics.
     // The `construct` function is used to instantiate elements of type FieldT from `fieldONE`
-    public <FieldT extends AbstractFieldElementExpanded<FieldT>>
-    void loadSerial(FieldT fieldONE){
+    public <FieldT extends AbstractFieldElementExpanded<FieldT>, FieldParamsT extends AbstractFpParameters>
+    void loadSerial(FieldT fieldONE, FieldParamsT fieldParams){
         //JSON parser object to parse read file
         JSONParser jsonParser = new JSONParser();
          
@@ -88,10 +89,11 @@ public class JSONR1CSLoader {
             Object obj = jsonParser.parse(reader);
             JSONObject jsonR1CS = (JSONObject) obj;
 
-            // TODO: Retrieve the field characteristic for type safety
-            // Once recovered, we can assert that r = FieldT::r to make sure types match
-            // Long fieldChar = (Long) jsonR1CS.get("scalar_field_characteristic");
-            // assert (fieldChar == FieldT::mod);
+            // Retrieve the field characteristic for type safety
+            // Once recovered, we assert that r = FieldT::r to make sure types match
+            String jsonMod = (String) jsonR1CS.get("scalar_field_characteristic");
+            BigInteger mod = new BigInteger(jsonMod.substring(2), 16);
+            assert (mod.equals(fieldParams.modulus())) : "Modulus mismatch while loading R1CS";
 
             JSONArray jsonConstraintArray = (JSONArray) jsonR1CS.get("constraints");
             R1CSConstraints<FieldT> constraintArray =  new R1CSConstraints<FieldT>();
