@@ -17,6 +17,11 @@ import java.nio.file.Paths;
 import java.nio.file.Path;
 import java.nio.file.Files; 
 
+import relations.objects.Assignment;
+
+import java.util.ArrayList;
+import java.util.List;
+
 public class JSONR1CSLoaderTest {
     
     @Test
@@ -29,6 +34,21 @@ public class JSONR1CSLoaderTest {
             fail("Test r1cs file not found.");
         }
         JSONR1CSLoader loader = new JSONR1CSLoader(pathToFile.toString());
-        loader.loadSerial(BN254aFr.ONE, BN254aFr.FrParameters);
+        R1CSRelation<BN254aFr> loadedRelation = loader.loadSerial(BN254aFr.ONE, BN254aFr.FrParameters);
+        assertTrue(loadedRelation.isValid());
+
+        // Make sure the loaded relation is satisfied with a valid assignment
+        Assignment<BN254aFr> primary = new Assignment<BN254aFr>();
+        // Allocate ONE - needs to be done manually (as opposed to how things are done in libsnark)
+        // see further discussion in the `evaluate` function in `LinearCombination.java`
+        primary.add(BN254aFr.ONE);
+        primary.add(new BN254aFr("12"));
+        Assignment<BN254aFr> auxiliary = new Assignment<BN254aFr>();
+        auxiliary.add(new BN254aFr("1"));
+        auxiliary.add(new BN254aFr("1"));
+        auxiliary.add(new BN254aFr("1"));
+        //assertTrue(loadedRelation.isSatisfied(primary, auxiliary));
+        boolean res = loadedRelation.isSatisfied(primary, auxiliary);
+        System.out.println("Res: " + res);
     }
 }
