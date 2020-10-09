@@ -9,6 +9,7 @@ import relations.objects.R1CSConstraintsRDD;
 
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.fail;
 
 import algebra.curves.barreto_naehrig.bn254a.BN254aFields.BN254aFr;
@@ -37,7 +38,7 @@ public class JSONR1CSLoaderTest {
         R1CSRelation<BN254aFr> loadedRelation = loader.loadSerial(BN254aFr.ONE, BN254aFr.FrParameters);
         assertTrue(loadedRelation.isValid());
 
-        // Make sure the loaded relation is satisfied with a valid assignment
+        // Make sure the loaded relation is satisfied with a VALID assignment
         Assignment<BN254aFr> primary = new Assignment<BN254aFr>();
         // Allocate ONE - needs to be done manually (as opposed to how things are done in libsnark)
         // see further discussion in the `evaluate` function in `LinearCombination.java`
@@ -47,8 +48,16 @@ public class JSONR1CSLoaderTest {
         auxiliary.add(new BN254aFr("1"));
         auxiliary.add(new BN254aFr("1"));
         auxiliary.add(new BN254aFr("1"));
-        //assertTrue(loadedRelation.isSatisfied(primary, auxiliary));
-        boolean res = loadedRelation.isSatisfied(primary, auxiliary);
-        System.out.println("Res: " + res);
+        assertTrue(loadedRelation.isSatisfied(primary, auxiliary));
+
+        // Make sure the loaded relation is satisfied with an INVALID assignment
+        Assignment<BN254aFr> invalidPrimary = new Assignment<BN254aFr>();
+        invalidPrimary.add(BN254aFr.ONE);
+        invalidPrimary.add(new BN254aFr("12"));
+        Assignment<BN254aFr> invalidAuxiliary = new Assignment<BN254aFr>();
+        invalidAuxiliary.add(new BN254aFr("2"));
+        invalidAuxiliary.add(new BN254aFr("1"));
+        invalidAuxiliary.add(new BN254aFr("1"));
+        assertFalse(loadedRelation.isSatisfied(invalidPrimary, invalidAuxiliary));
     }
 }
