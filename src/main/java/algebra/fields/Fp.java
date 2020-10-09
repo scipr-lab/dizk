@@ -111,6 +111,10 @@ public class Fp extends AbstractFieldElementExpanded<Fp> {
     return number.bitLength();
   }
 
+  public Fp construct(final BigInteger number) {
+    return new Fp(number, FpParameters);
+  }
+
   public Fp construct(final long value) {
     return new Fp(value, FpParameters);
   }

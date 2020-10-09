@@ -122,6 +122,13 @@ public class ComplexField extends AbstractFieldElementExpanded<ComplexField> {
     return DOUBLE_LENGTH;
   }
 
+  // Additional function required to comply with the extended `AbstractFieldElementExpanded`
+  // abstract class (with a constructor from BigInt). Do not use, converting BigInts to double isn't
+  // without risks (lose precision + risk to obtain `Double.NEGATIVE_INFINITY` or `Double.POSITIVE_INFINITY`)
+  public ComplexField construct(final BigInteger number) {
+    return new ComplexField(number.doubleValue());
+  }
+
   public ComplexField construct(final long value) {
     return new ComplexField(value);
   }
