@@ -36,10 +36,20 @@ public class Configuration implements Serializable {
   /* HashMap<context, LinkedHashMap<header, Stack<Tuple2<nanotime, isEndTime>>>> */
   private HashMap<String, LinkedHashMap<String, Stack<Tuple2<Long, Boolean>>>> runtimeLogs;
 
-  /* System Configurations */
+  /* System Configuration */
+  // Nb of executors
+  // Note: Executors are worker nodes' processes in charge of running
+  // individual tasks in a given Spark job.
   private int numExecutors;
+  // Nb cores per executor
   private int numCores;
+  // Amount GB RAM memory per executor
   private int numMemory;
+  // Nb of partitions per RDD
+  // Resilient Distributed Datasets (RDD) are a collection of various data
+  // that are so big in size, that they cannot fit into a single node and
+  // should be partitioned across various nodes.
+  // See: https://www.talend.com/blog/2018/03/05/intro-apache-spark-partitioning-need-know/
   private int numPartitions;
   private StorageLevel storageLevel;
   private JavaSparkContext sc;
