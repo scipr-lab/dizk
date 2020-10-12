@@ -123,6 +123,27 @@ public class JSONR1CSLoaderTest {
             boolean result = loadedRelationRDD.isSatisfied(primary, pairAssignmentRDD);
             System.out.println("==========> Result after assignment: " + result);
             assertTrue(result);
+
+            // Make sure the loaded relation is NOT satisfied with an INVALID assignment
+            Assignment<BN254aFr> primaryInvalid = new Assignment<BN254aFr>();
+            // Allocate ONE - needs to be done manually (as opposed to how things are done in libsnark)
+            // see further discussion in the `evaluate` function in `LinearCombination.java`
+            primaryInvalid.add(BN254aFr.ONE);
+            primaryInvalid.add(new BN254aFr("12"));
+
+            List<Tuple2<Long, BN254aFr>> fullAssignmentInvalid = Arrays.asList(
+                new Tuple2<>((long) 0, BN254aFr.ONE), // Primary
+                new Tuple2<>((long) 1, new BN254aFr("12")),
+                new Tuple2<>((long) 2, new BN254aFr("2")), // Invalid Auxiliary
+                new Tuple2<>((long) 3, new BN254aFr("1")),
+                new Tuple2<>((long) 4, new BN254aFr("1"))
+            );
+            JavaRDD<Tuple2<Long, BN254aFr>> invalidAssignmentRDD = sc.parallelize(fullAssignmentInvalid);
+            JavaPairRDD<Long, BN254aFr> invalidPairAssignmentRDD = JavaPairRDD.<Long, BN254aFr>fromJavaRDD(invalidAssignmentRDD);
+
+            boolean invalidResult = loadedRelationRDD.isSatisfied(primaryInvalid, invalidPairAssignmentRDD);
+            System.out.println("==========> Result after INVALID assignment: " + invalidResult);
+            assertFalse(invalidResult);
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         } catch (IOException e) {
