@@ -261,6 +261,7 @@ public class JSONR1CSLoader {
             fieldONE, partitions, jsonConstraintArray, "C", config);
 
         // Make sure that the loaded data is sound
+        // `.count()` returns the number of elements in the RDD.
         assert linCombinationA.count() == linCombinationB.count();
         assert linCombinationB.count() == linCombinationC.count();
         assert linCombinationC.count() == nbJSONConstraintArray;
