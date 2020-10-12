@@ -19,13 +19,13 @@ import org.apache.spark.storage.StorageLevel;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import profiler.generation.R1CSConstruction;
+import profiler.generation.R1CSConstructor;
 import relations.objects.Assignment;
 import relations.r1cs.R1CSRelation;
 import relations.r1cs.R1CSRelationRDD;
 import scala.Tuple3;
 
-public class R1CSConstructionTest implements Serializable {
+public class R1CSConstructorTest implements Serializable {
   private transient JavaSparkContext sc;
   private Configuration config;
   private Fp fieldFactory;
@@ -49,14 +49,14 @@ public class R1CSConstructionTest implements Serializable {
     final int numConstraints = 1024;
 
     final Tuple3<R1CSRelation<Fp>, Assignment<Fp>, Assignment<Fp>> construction =
-        R1CSConstruction.serialConstruct(numConstraints, numInputs, fieldFactory, config);
+        R1CSConstructor.serialConstruct(numConstraints, numInputs, fieldFactory, config);
     final R1CSRelation<Fp> r1cs = construction._1();
     final Assignment<Fp> primary = construction._2();
     final Assignment<Fp> auxiliary = construction._3();
     final Assignment<Fp> oneFullAssignment = new Assignment<>(primary, auxiliary);
 
     final Tuple3<R1CSRelationRDD<Fp>, Assignment<Fp>, JavaPairRDD<Long, Fp>> constructionRDD =
-        R1CSConstruction.parallelConstruct(numConstraints, numInputs, fieldFactory, config);
+        R1CSConstructor.parallelConstruct(numConstraints, numInputs, fieldFactory, config);
     final R1CSRelationRDD<Fp> r1csRDD = constructionRDD._1();
     final Assignment<Fp> primaryTwo = constructionRDD._2();
     final JavaPairRDD<Long, Fp> oneFullAssignmentRDD = constructionRDD._3();

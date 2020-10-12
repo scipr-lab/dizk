@@ -27,6 +27,10 @@ public class R1CSConstraints<FieldT extends AbstractFieldElementExpanded<FieldT>
 
   private ArrayList<R1CSConstraint<FieldT>> constraints;
 
+  // TODO:
+  // We may want to add "annotations" as in libsnark. Something like:
+  // private ArrayList<String> constraints_annotations;
+
   public R1CSConstraints() {
     constraints = new ArrayList<>();
   }

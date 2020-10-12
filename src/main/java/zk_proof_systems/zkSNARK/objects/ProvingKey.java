@@ -31,6 +31,7 @@ public class ProvingKey<
   private final List<G1T> queryA;
   private final List<Tuple2<G1T, G2T>> queryB;
   private final List<G1T> queryH;
+  // The proving key holds the arithmetized relation
   private final R1CSRelation<FieldT> r1cs;
 
   public ProvingKey(

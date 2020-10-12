@@ -167,9 +167,9 @@ public class R1CStoQAPRDD implements Serializable {
    * Witness map for the R1CSRelation-to-QAP reduction.
    *
    * <p>More precisely, compute the coefficients h_0,h_1,...,h_n of the polynomial H(z) :=
-   * (A(z)*B(z)-C(z))/Z(z) where: - A(z) := A_0(z) + \sum_{k=1}^{m} w_k A_k(z) + d1 * Z(z) - B(z) :=
-   * B_0(z) + \sum_{k=1}^{m} w_k B_k(z) + d2 * Z(z) - C(z) := C_0(z) + \sum_{k=1}^{m} w_k C_k(z) +
-   * d3 * Z(z) - Z(z) := "vanishing polynomial of set S" and m = number of variables of the QAP n =
+   * (A(z)*B(z)-C(z))/Z(z) where: A(z) := A_0(z) + \sum_{k=1}^{m} w_k A_k(z) + d1 * Z(z), B(z) :=
+   * B_0(z) + \sum_{k=1}^{m} w_k B_k(z) + d2 * Z(z), C(z) := C_0(z) + \sum_{k=1}^{m} w_k C_k(z) + d3
+   * * Z(z), Z(z) := "vanishing polynomial of set S" and m = number of variables of the QAP n =
    * degree of the QAP
    *
    * <p>This is done as follows: (1) compute evaluations of A,B,C on S = {sigma_1,...,sigma_n} (2)
@@ -183,16 +183,18 @@ public class R1CStoQAPRDD implements Serializable {
       QAPWitnessRDD<FieldT> R1CStoQAPWitness(
           final R1CSRelationRDD<FieldT> r1cs,
           final Assignment<FieldT> primary,
-          final JavaPairRDD<Long, FieldT> oneFullAssignment,
+          final JavaPairRDD<Long, FieldT> fullAssignment,
           final FieldT fieldFactory,
           final Configuration config) {
 
     if (config.debugFlag()) {
-      assert (r1cs.isSatisfied(primary, oneFullAssignment));
+      assert (r1cs.isSatisfied(primary, fullAssignment));
     }
 
     final FieldT multiplicativeGenerator = fieldFactory.multiplicativeGenerator();
     final FieldT zero = fieldFactory.zero();
+    // We do a Radix2-FFT to retrieve the QAP (polynomial form) from the R1CS (matrix form)
+    // via interpolation on a given domain of size a "big enough" power of 2
     final long domainSize = MathUtils.lowestPowerOfTwo(r1cs.numConstraints() + r1cs.numInputs());
 
     config.beginLog("Account for the additional constraints input_i * 0 = 0.");
@@ -207,6 +209,10 @@ public class R1CStoQAPRDD implements Serializable {
     // TODO (howardwu): Replace hardcoded popular variable assignment indices with list of
     // these indices from R1CSRelationRDD.
     config.beginLog("Compute evaluation of polynomials A, B, and C, on set S.");
+    // r1cs.constraints() returns a `R1CSConstraintsRDD` which is a set of `JavaPairRDD<Long,
+    // LinearTerm<FieldT>>`.
+    // In other, words, A, B, C are all vectors of linear terms (i.e. matrices that will be
+    // intepolated on the chosen domain)
     final JavaPairRDD<Long, FieldT> zeroIndexedA =
         r1cs.constraints()
             .A()
@@ -237,7 +243,7 @@ public class R1CStoQAPRDD implements Serializable {
                   // Swap the constraint and term index positions.
                   return new Tuple2<>(term._2.index(), new Tuple2<>(term._1, term._2.value()));
                 })
-            .join(oneFullAssignment, config.numPartitions())
+            .join(fullAssignment, config.numPartitions())
             .mapToPair(
                 term -> {
                   // Multiply the constraint value by the input value.
@@ -256,7 +262,7 @@ public class R1CStoQAPRDD implements Serializable {
                   // Swap the constraint and term index positions.
                   return new Tuple2<>(term._2.index(), new Tuple2<>(term._1, term._2.value()));
                 })
-            .join(oneFullAssignment, config.numPartitions())
+            .join(fullAssignment, config.numPartitions())
             .mapToPair(
                 term -> {
                   // Multiply the constraint value by the input value.
@@ -274,7 +280,7 @@ public class R1CStoQAPRDD implements Serializable {
                   // Swap the constraint and term index positions.
                   return new Tuple2<>(term._2.index(), new Tuple2<>(term._1, term._2.value()));
                 })
-            .join(oneFullAssignment, config.numPartitions())
+            .join(fullAssignment, config.numPartitions())
             .mapToPair(
                 term -> {
                   // Multiply the constraint value by the input value.
@@ -322,6 +328,6 @@ public class R1CStoQAPRDD implements Serializable {
     config.endLog("Compute coefficients of polynomial H.");
 
     return new QAPWitnessRDD<>(
-        oneFullAssignment, coefficientsH, r1cs.numInputs(), r1cs.numVariables(), domainSize);
+        fullAssignment, coefficientsH, r1cs.numInputs(), r1cs.numVariables(), domainSize);
   }
 }

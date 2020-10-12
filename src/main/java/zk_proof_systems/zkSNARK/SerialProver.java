@@ -31,6 +31,7 @@ public class SerialProver {
           final Assignment<FieldT> auxiliary,
           final FieldT fieldFactory,
           final Configuration config) {
+    // If the debug flag is set, check up-front that the R1CS is satisfied
     if (config.debugFlag()) {
       assert (provingKey.r1cs().isSatisfied(primary, auxiliary));
     }
@@ -46,7 +47,10 @@ public class SerialProver {
       // We are dividing degree 2(d-1) polynomial by degree d polynomial
       // and not adding a PGHR-style ZK-patch, so our H is degree d-2.
       final FieldT zero = fieldFactory.zero();
+      // 1. Verify that H has a non-zero d-2 coefficient
       assert (!qapWitness.coefficientsH(qapWitness.degree() - 2).equals(zero));
+      // 2. Make sure that coefficients d-1 and d are 0 to make sure that the polynomial hasn't a
+      // degree higher than d-2
       assert (qapWitness.coefficientsH(qapWitness.degree() - 1).equals(zero));
       assert (qapWitness.coefficientsH(qapWitness.degree()).equals(zero));
       // Check that the witness satisfies the QAP relation.

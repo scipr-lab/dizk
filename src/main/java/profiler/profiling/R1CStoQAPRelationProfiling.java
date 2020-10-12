@@ -3,7 +3,7 @@ package profiler.profiling;
 import algebra.curves.barreto_naehrig.bn254a.BN254aFields.BN254aFr;
 import configuration.Configuration;
 import org.apache.spark.api.java.JavaPairRDD;
-import profiler.generation.R1CSConstruction;
+import profiler.generation.R1CSConstructor;
 import reductions.r1cs_to_qap.R1CStoQAP;
 import reductions.r1cs_to_qap.R1CStoQAPRDD;
 import relations.objects.Assignment;
@@ -20,7 +20,7 @@ public class R1CStoQAPRelationProfiling {
     final int numInputs = 1023;
 
     final Tuple3<R1CSRelation<BN254aFr>, Assignment<BN254aFr>, Assignment<BN254aFr>> R1CSExample =
-        R1CSConstruction.serialConstruct((int) numConstraints, numInputs, fieldFactory, config);
+        R1CSConstructor.serialConstruct((int) numConstraints, numInputs, fieldFactory, config);
     final R1CSRelation<BN254aFr> r1cs = R1CSExample._1();
 
     config.setContext("QAPRelation-Serial");
@@ -40,7 +40,7 @@ public class R1CStoQAPRelationProfiling {
 
     final Tuple3<R1CSRelationRDD<BN254aFr>, Assignment<BN254aFr>, JavaPairRDD<Long, BN254aFr>>
         R1CSExampleRDD =
-            R1CSConstruction.parallelConstruct(numConstraints, numInputs, fieldFactory, config);
+            R1CSConstructor.parallelConstruct(numConstraints, numInputs, fieldFactory, config);
     final R1CSRelationRDD<BN254aFr> r1csRDD = R1CSExampleRDD._1();
 
     config.setContext("QAPRelation");
