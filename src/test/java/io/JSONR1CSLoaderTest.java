@@ -110,7 +110,7 @@ public class JSONR1CSLoaderTest {
             primary.add(BN254aFr.ONE);
             primary.add(new BN254aFr("12"));
 
-            List<Tuple2<Long, BN254aFr>> fullAssignment =  Arrays.asList(
+            List<Tuple2<Long, BN254aFr>> fullAssignment = Arrays.asList(
                 new Tuple2<>((long) 0, BN254aFr.ONE), // Primary
                 new Tuple2<>((long) 1, new BN254aFr("12")),
                 new Tuple2<>((long) 2, new BN254aFr("1")), // Auxiliary
@@ -121,7 +121,7 @@ public class JSONR1CSLoaderTest {
             JavaPairRDD<Long, BN254aFr> pairAssignmentRDD = JavaPairRDD.<Long, BN254aFr>fromJavaRDD(assignmentRDD);
 
             boolean result = loadedRelationRDD.isSatisfied(primary, pairAssignmentRDD);
-            System.out.println("Result after assignment: " + result);
+            System.out.println("==========> Result after assignment: " + result);
             assertTrue(result);
         } catch (FileNotFoundException e) {
             e.printStackTrace();

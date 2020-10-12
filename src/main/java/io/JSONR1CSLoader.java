@@ -262,9 +262,19 @@ public class JSONR1CSLoader {
 
         // Make sure that the loaded data is sound
         // `.count()` returns the number of elements in the RDD.
-        assert linCombinationA.count() == linCombinationB.count();
-        assert linCombinationB.count() == linCombinationC.count();
-        assert linCombinationC.count() == nbJSONConstraintArray;
+
+        // [BEGIN DEBUG BLOCK]
+        // Be careful, these operations are very expensive, only do with very small datasets!
+        //System.out.println("linCombinationA.groupByKey().count() = " + linCombinationA.groupByKey().count());
+        //System.out.println("linCombinationB.groupByKey().count() = " + linCombinationB.groupByKey().count());
+        //System.out.println("linCombinationC.groupByKey().count() = " + linCombinationC.groupByKey().count());
+        //for(Tuple2<Long,Iterable<LinearTerm<FieldT>>> entry:linCombinationA.groupByKey().collect()){
+        //    System.out.println("* " + entry);
+        //}
+        assert linCombinationA.groupByKey().count() == linCombinationB.groupByKey().count();
+        assert linCombinationB.groupByKey().count() == linCombinationC.groupByKey().count();
+        assert linCombinationC.groupByKey().count() == nbJSONConstraintArray;
+        // [END DEBUG BLOCK]
         
         final R1CSConstraintsRDD<FieldT> constraints = new R1CSConstraintsRDD<>(
             linCombinationA, linCombinationB, linCombinationC, nbJSONConstraintArray);
