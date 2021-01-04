@@ -15,25 +15,18 @@ import scala.Tuple2;
 public class NaiveEvaluation {
 
   /**
-   * Function evaluating polynomials using Horner's rule.
-   * i.e. a polynomial of the form:
-   *  p(x) = c_m * x^m + ... + c_1 * x + c_0
-   * is decomposed as:
-   *  p(x) = (c_m * x^{m-1} + ... + c_1) * x + c_0, where q(x) = c_m * x^{m-1} + ... c_2 * x + c_1
-   * is also defined as the product of a polynomial r(x) times x, deg(r) = deg(q) - 1.
-   * Example:
-   *  p(x) = 3x^3 + 7x^2 + x + 10
-   *       = (3x^2 + 7x + 1)*x + 10
-   *       = ((3x + 7)*x + 1)*x + 10
-   *       = (((3)*x + 7)*x + 1)*x + 10
-   * which is equal to:
-   *       (((0*x + 3)*x + 7)*x + 1)*x + 10
+   * Function evaluating polynomials using Horner's rule. i.e. a polynomial of the form: p(x) = c_m
+   * * x^m + ... + c_1 * x + c_0 is decomposed as: p(x) = (c_m * x^{m-1} + ... + c_1) * x + c_0,
+   * where q(x) = c_m * x^{m-1} + ... c_2 * x + c_1 is also defined as the product of a polynomial
+   * r(x) times x, deg(r) = deg(q) - 1. Example: p(x) = 3x^3 + 7x^2 + x + 10 = (3x^2 + 7x + 1)*x +
+   * 10 = ((3x + 7)*x + 1)*x + 10 = (((3)*x + 7)*x + 1)*x + 10 which is equal to: (((0*x + 3)*x +
+   * 7)*x + 1)*x + 10
    *
-   * Hence a polynomial of degree m will be evaluated via m iterations of a loop in which a single
-   * muliplication by the evaluation point is done + a coefficient addition.
+   * <p>Hence a polynomial of degree m will be evaluated via m iterations of a loop in which a
+   * single muliplication by the evaluation point is done + a coefficient addition.
    */
-  public static <FieldT extends AbstractFieldElementExpanded<FieldT>>
-  FieldT evaluatePolynomial(final List<FieldT> input, final FieldT t) {
+  public static <FieldT extends AbstractFieldElementExpanded<FieldT>> FieldT evaluatePolynomial(
+      final List<FieldT> input, final FieldT t) {
     final int m = input.size();
 
     FieldT result = t.zero();

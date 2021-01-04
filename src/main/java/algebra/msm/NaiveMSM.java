@@ -15,14 +15,13 @@ import java.util.List;
 import org.apache.spark.api.java.JavaPairRDD;
 
 /**
- * Class exposing naive methods for MSM (i.e. no speedup used to compute the sum
- * of multiple EC multiplications, the MSM result is obtained by summing the
- * individual multiplications.)
+ * Class exposing naive methods for MSM (i.e. no speedup used to compute the sum of multiple EC
+ * multiplications, the MSM result is obtained by summing the individual multiplications.)
  */
 public class NaiveMSM {
 
-  public static <GroupT extends AbstractGroup<GroupT>>
-  ArrayList<GroupT> fixedBaseMSM(List<BigInteger> scalars, GroupT base) {
+  public static <GroupT extends AbstractGroup<GroupT>> ArrayList<GroupT> fixedBaseMSM(
+      List<BigInteger> scalars, GroupT base) {
     ArrayList<GroupT> result = new ArrayList<>(scalars.size());
 
     for (int i = 0; i < scalars.size(); i++) {
@@ -33,12 +32,11 @@ public class NaiveMSM {
   }
 
   /**
-   * Computes a Multi-Scalar Multiplication.
-   * i.e. on input bases <P1, ..., Pn> and scalars <s1, ..., sn>, the function
-   * returns the group element R = s1 * P1 + ... + sn * Pn
+   * Computes a Multi-Scalar Multiplication. i.e. on input bases <P1, ..., Pn> and scalars <s1, ...,
+   * sn>, the function returns the group element R = s1 * P1 + ... + sn * Pn
    */
-  public static <GroupT extends AbstractGroup<GroupT>>
-  GroupT variableBaseMSM(ArrayList<BigInteger> scalars, ArrayList<GroupT> bases) {
+  public static <GroupT extends AbstractGroup<GroupT>> GroupT variableBaseMSM(
+      ArrayList<BigInteger> scalars, ArrayList<GroupT> bases) {
     assert (scalars.size() == bases.size());
     assert (scalars.size() > 0);
 
@@ -52,12 +50,11 @@ public class NaiveMSM {
   }
 
   /**
-   * Computes a Multi-Scalar Multiplication.
-   * i.e. on input bases <P1, ..., Pn> and scalars <s1, ..., sn>, the function
-   * returns the field element R = s1 * P1 + ... + sn * Pn
+   * Computes a Multi-Scalar Multiplication. i.e. on input bases <P1, ..., Pn> and scalars <s1, ...,
+   * sn>, the function returns the field element R = s1 * P1 + ... + sn * Pn
    */
-  public static <FieldT extends AbstractFieldElementExpanded<FieldT>>
-  FieldT variableBaseMSM(List<FieldT> scalars, List<FieldT> bases) {
+  public static <FieldT extends AbstractFieldElementExpanded<FieldT>> FieldT variableBaseMSM(
+      List<FieldT> scalars, List<FieldT> bases) {
     assert (scalars.size() == bases.size());
     assert (scalars.size() > 0);
 
