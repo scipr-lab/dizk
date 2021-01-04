@@ -22,8 +22,8 @@ public class Utils {
    * Pads the given array input to length size. Note, if the input is already of length size or
    * greater, then nothing is done.
    */
-  public static <FieldT extends AbstractFieldElementExpanded<FieldT>> ArrayList<FieldT> padArray(
-      final ArrayList<FieldT> input, final int size) {
+  public static <FieldT extends AbstractFieldElementExpanded<FieldT>>
+  ArrayList<FieldT> padArray(final ArrayList<FieldT> input, final int size) {
     if (input.size() >= size) {
       return input;
     } else {
@@ -41,7 +41,8 @@ public class Utils {
   }
 
   /** Indexes the given list of inputs and returns an ArrayList of (Long, T) pairs. */
-  public static <T> ArrayList<Tuple2<Long, T>> convertToPairs(final List<T> input) {
+  public static <T>
+  ArrayList<Tuple2<Long, T>> convertToPairs(final List<T> input) {
     ArrayList<Tuple2<Long, T>> result = new ArrayList<>(input.size());
 
     for (int i = 0; i < input.size(); i++) {
@@ -56,7 +57,7 @@ public class Utils {
    * elements of input indexed by the Long value storing the FieldT element.
    */
   public static <FieldT extends AbstractFieldElementExpanded<FieldT>>
-      ArrayList<FieldT> convertFromPairs(final List<Tuple2<Long, FieldT>> input, final int size) {
+  ArrayList<FieldT> convertFromPairs(final List<Tuple2<Long, FieldT>> input, final int size) {
     // assert (input.size() == size);
     final FieldT zero = input.get(0)._2.zero();
     ArrayList<FieldT> result = new ArrayList<>(Collections.nCopies(size, zero));
@@ -82,8 +83,8 @@ public class Utils {
   }
 
   /** Initializes a new JavaPairRDD of length size, indexed and filled with the given element. */
-  public static <T> JavaPairRDD<Long, T> fillRDD(
-      final long size, final T element, final Configuration config) {
+  public static <T>
+  JavaPairRDD<Long, T> fillRDD(final long size, final T element, final Configuration config) {
     final int numPartitions = size >= config.numPartitions() ? config.numPartitions() : (int) size;
 
     final ArrayList<Integer> partitions = new ArrayList<>(numPartitions);

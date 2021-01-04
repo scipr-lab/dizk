@@ -15,10 +15,12 @@ public class MathUtils {
     return (x & (x - 1)) == 0;
   }
 
+  /** Returns the smallest power of 2 greater or equal to n (where n is int) */
   public static int lowestPowerOfTwo(final int n) {
     if (n < 1) {
       return 1;
     }
+
     int result = 1;
     while (result < n) {
       result <<= 1;
@@ -26,6 +28,7 @@ public class MathUtils {
     return result;
   }
 
+  /** Returns the smallest power of 2 greater or equal to n (where n is long) */
   public static long lowestPowerOfTwo(final long n) {
     if (n < 1) {
       return 1;

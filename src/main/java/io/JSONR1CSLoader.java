@@ -73,7 +73,7 @@ public class JSONR1CSLoader {
   }
 
   /// Loads the file to a "local" (i.e. non-distributed) R1CS instance
-  /// Need to pass `fieldONE` as a was to bypass the limitations of java generics.
+  /// Need to pass `fieldONE` as a way to bypass the limitations of java generics.
   /// The `construct` function is used to instantiate elements of type FieldT from `fieldONE`
   public <
           FieldT extends AbstractFieldElementExpanded<FieldT>,
