@@ -16,25 +16,25 @@ import java.util.List;
 public class VerificationKey<
     G1T extends AbstractG1<G1T>, G2T extends AbstractG2<G2T>, GTT extends AbstractGT<GTT>> {
 
-  private final GTT alphaG1betaG2;
-  private final G2T gammaG2;
+  private final G1T alphaG1;
+  private final G2T betaG2;
   private final G2T deltaG2;
   private final List<G1T> gammaABC;
 
   public VerificationKey(
-      final GTT _alphaG1betaG2, final G2T _gammaG2, final G2T _deltaG2, final List<G1T> _gammaABC) {
-    alphaG1betaG2 = _alphaG1betaG2;
-    gammaG2 = _gammaG2;
+      final G1T _alphaG1, final G2T _betaG2, final G2T _deltaG2, final List<G1T> _gammaABC) {
+    alphaG1 = _alphaG1;
+    betaG2 = _betaG2;
     deltaG2 = _deltaG2;
     gammaABC = _gammaABC;
   }
 
   public boolean equals(final VerificationKey<G1T, G2T, GTT> other) {
-    if (!alphaG1betaG2.equals(other.alphaG1betaG2())) {
+    if (!alphaG1.equals(other.alphaG1())) {
       return false;
     }
 
-    if (!gammaG2.equals(other.gammaG2())) {
+    if (!betaG2.equals(other.betaG2())) {
       return false;
     }
 
@@ -55,12 +55,12 @@ public class VerificationKey<
     return true;
   }
 
-  public GTT alphaG1betaG2() {
-    return alphaG1betaG2;
+  public G1T alphaG1() {
+    return alphaG1;
   }
 
-  public G2T gammaG2() {
-    return gammaG2;
+  public G2T betaG2() {
+    return betaG2;
   }
 
   public G2T deltaG2() {
