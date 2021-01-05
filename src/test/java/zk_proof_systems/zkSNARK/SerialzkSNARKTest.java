@@ -13,7 +13,7 @@ import algebra.curves.barreto_naehrig.*;
 import algebra.curves.barreto_naehrig.abstract_bn_parameters.AbstractBNG1Parameters;
 import algebra.curves.barreto_naehrig.abstract_bn_parameters.AbstractBNG2Parameters;
 import algebra.curves.barreto_naehrig.abstract_bn_parameters.AbstractBNGTParameters;
-import algebra.curves.barreto_naehrig.bn254a.BN254aFields.BN254aFr;
+import algebra.curves.barreto_naehrig.bn254a.BN254aFields;
 import algebra.curves.barreto_naehrig.bn254a.BN254aG1;
 import algebra.curves.barreto_naehrig.bn254a.BN254aG2;
 import algebra.curves.barreto_naehrig.bn254a.BN254aPairing;
@@ -93,8 +93,8 @@ public class SerialzkSNARKTest implements Serializable {
     final Assignment<BNFrT> primary = construction._2();
     final Assignment<BNFrT> fullAssignment = construction._3();
 
-    final CRS<BNFrT, BNG1T, BNG2T, BNGTT> CRS =
-        SerialSetup.generate(r1cs, fieldFactory, g1Factory, g2Factory, pairing, config);
+    final CRS<BNFrT, BNG1T, BNG2T> CRS =
+        SerialSetup.generate(r1cs, fieldFactory, g1Factory, g2Factory, config);
 
     final Proof<BNG1T, BNG2T> proof =
         SerialProver.prove(CRS.provingKey(), primary, fullAssignment, fieldFactory, config);
@@ -122,8 +122,8 @@ public class SerialzkSNARKTest implements Serializable {
     final Assignment<Fp> primary = construction._2();
     final Assignment<Fp> auxiliary = construction._3();
 
-    final CRS<Fp, FakeG1, FakeG2, FakeGT> CRS =
-        SerialSetup.generate(r1cs, fieldFactory, fakeG1Factory, fakeG2Factory, fakePairing, config);
+    final CRS<Fp, FakeG1, FakeG2> CRS =
+        SerialSetup.generate(r1cs, fieldFactory, fakeG1Factory, fakeG2Factory, config);
     final Proof<FakeG1, FakeG2> proof =
         SerialProver.prove(CRS.provingKey(), primary, auxiliary, fieldFactory, config);
     final boolean isValid =
@@ -137,7 +137,8 @@ public class SerialzkSNARKTest implements Serializable {
   public void SerialBN254aProofSystemTest() {
     final int numInputs = 1023;
     final int numConstraints = 1024;
-    final BN254aFr fieldFactory = BN254aFr.ONE;
+    //final BN254aFr fieldFactory = BN254aFr.ONE;
+    final BN254aFields.BN254aFr fieldFactory = new BN254aFields.BN254aFr(1);
     final BN254aG1 g1Factory = BN254aG1Parameters.ONE;
     final BN254aG2 g2Factory = BN254aG2Parameters.ONE;
     final BN254aPairing pairing = new BN254aPairing();
