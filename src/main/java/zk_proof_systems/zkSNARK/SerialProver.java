@@ -57,7 +57,7 @@ public class SerialProver {
       final FieldT t = fieldFactory.random(config.seed(), config.secureSeed());
       final QAPRelation<FieldT> qap = R1CStoQAP.R1CStoQAPRelation(provingKey.r1cs(), t);
       assert (qap.isSatisfied(qapWitness));
-      System.out.println("\n\t ===== qap.isSatisfied(qapWitness) TRUTH value: " + qap.isSatisfied(qapWitness));
+      System.out.println("\n\t ===== [DEBUG] qap.isSatisfied(qapWitness) TRUTH value: " + qap.isSatisfied(qapWitness));
     }
 
     // Choose two random field elements for prover zero-knowledge.
@@ -67,9 +67,8 @@ public class SerialProver {
     if (config.debugFlag()) {
         assert(qapWitness.coefficientsABC().size() == qapWitness.numVariables());
         assert(provingKey.queryA().size() == qapWitness.numVariables());
-        assert(provingKey.queryH().size() == qapWitness.degree() - 1);
         assert(provingKey.deltaABCG1().size() == qapWitness.numVariables() - qapWitness.numInputs());
-        System.out.println("\n\t ===== Asserts on size pass =====");
+        System.out.println("\n\t ===== [DEBUG] Asserts on size pass =====");
       }
 
     // Get initial parameters from the proving key.
