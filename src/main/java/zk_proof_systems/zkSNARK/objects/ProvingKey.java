@@ -22,14 +22,21 @@ public class ProvingKey<
         G2T extends AbstractG2<G2T>>
     implements Serializable {
 
+  // [alpha]_1
   private final G1T alphaG1;
+  // [beta]
   private final G1T betaG1;
   private final G2T betaG2;
+  // [delta]
   private final G1T deltaG1;
   private final G2T deltaG2;
+  // {[(beta * A_i(t) + alpha * B_i(t) + C_i(t))/delta]_1}_{i=numInputs+1}^{numVariables}
   private final List<G1T> deltaABCG1;
+  // {[A_i(t)]_1}_{i=0}^{numVariables}
   private final List<G1T> queryA;
+  // {[B_i(t)]}_{i=1}^{numVariables}
   private final List<Tuple2<G1T, G2T>> queryB;
+  // {[t^i * Z(t)/delta]_1}_{i=1}^{numVariables - 2}
   private final List<G1T> queryH;
   // The proving key holds the arithmetized relation
   private final R1CSRelation<FieldT> r1cs;

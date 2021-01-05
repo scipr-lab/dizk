@@ -9,25 +9,23 @@ package zk_proof_systems.zkSNARK.objects;
 
 import algebra.curves.AbstractG1;
 import algebra.curves.AbstractG2;
-import algebra.curves.AbstractGT;
 import algebra.fields.AbstractFieldElementExpanded;
 import java.io.Serializable;
 
-/** Groth16 Common Reference String (CRS) */
+/** Groth16-BGM17 Common Reference String (CRS) */
 public class CRS<
         FieldT extends AbstractFieldElementExpanded<FieldT>,
         G1T extends AbstractG1<G1T>,
-        G2T extends AbstractG2<G2T>,
-        GTT extends AbstractGT<GTT>>
+        G2T extends AbstractG2<G2T>>
     implements Serializable {
 
   private final ProvingKey<FieldT, G1T, G2T> provingKey;
   private final ProvingKeyRDD<FieldT, G1T, G2T> provingKeyRDD;
-  private final VerificationKey<G1T, G2T, GTT> verificationKey;
+  private final VerificationKey<G1T, G2T> verificationKey;
 
   public CRS(
       final ProvingKeyRDD<FieldT, G1T, G2T> _provingKeyRDD,
-      final VerificationKey<G1T, G2T, GTT> _verificationKey) {
+      final VerificationKey<G1T, G2T> _verificationKey) {
     provingKey = null;
     provingKeyRDD = _provingKeyRDD;
     verificationKey = _verificationKey;
@@ -35,7 +33,7 @@ public class CRS<
 
   public CRS(
       final ProvingKey<FieldT, G1T, G2T> _provingKey,
-      final VerificationKey<G1T, G2T, GTT> _verificationKey) {
+      final VerificationKey<G1T, G2T> _verificationKey) {
     provingKey = _provingKey;
     provingKeyRDD = null;
     verificationKey = _verificationKey;
@@ -49,7 +47,7 @@ public class CRS<
     return provingKeyRDD;
   }
 
-  public VerificationKey<G1T, G2T, GTT> verificationKey() {
+  public VerificationKey<G1T, G2T> verificationKey() {
     return verificationKey;
   }
 }

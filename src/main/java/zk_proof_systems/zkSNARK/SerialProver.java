@@ -57,11 +57,20 @@ public class SerialProver {
       final FieldT t = fieldFactory.random(config.seed(), config.secureSeed());
       final QAPRelation<FieldT> qap = R1CStoQAP.R1CStoQAPRelation(provingKey.r1cs(), t);
       assert (qap.isSatisfied(qapWitness));
+      System.out.println("\n\t ===== qap.isSatisfied(qapWitness) TRUTH value: " + qap.isSatisfied(qapWitness));
     }
 
     // Choose two random field elements for prover zero-knowledge.
     final FieldT r = fieldFactory.random(config.seed(), config.secureSeed());
     final FieldT s = fieldFactory.random(config.seed(), config.secureSeed());
+
+    if (config.debugFlag()) {
+        assert(qapWitness.coefficientsABC().size() == qapWitness.numVariables());
+        assert(provingKey.queryA().size() == qapWitness.numVariables());
+        assert(provingKey.queryH().size() == qapWitness.degree() - 1);
+        assert(provingKey.deltaABCG1().size() == qapWitness.numVariables() - qapWitness.numInputs());
+        System.out.println("\n\t ===== Asserts on size pass =====");
+      }
 
     // Get initial parameters from the proving key.
     final G1T alphaG1 = provingKey.alphaG1();
@@ -77,6 +86,9 @@ public class SerialProver {
     config.beginRuntime("Proof");
 
     config.beginLog("Computing evaluation to query A: summation of variable_i*A_i(t)");
+    // A = alpha + \sum_{i=0}^{numVariables} var_i * A_i(t) + r * delta
+    // Below, the summation is decomposed as:
+    // \sum_{i=0}^{numInputs} pubInp_i * A_i(t) + \sum_{i=numInputs + 1}^{numVariables} auxInp_i * A_i(t)
     G1T evaluationAt =
         VariableBaseMSM.serialMSM(primary.elements(), provingKey.queryA().subList(0, numInputs));
     evaluationAt =
@@ -86,6 +98,9 @@ public class SerialProver {
     config.endLog("Computing evaluation to query A: summation of variable_i*A_i(t)");
 
     config.beginLog("Computing evaluation to query B: summation of variable_i*B_i(t)");
+    // B = beta + \sum_{i=0}^{numVariables} var_i * B_i(t) +  s * delta
+    // Below, the summation is decomposed as:
+    // \sum_{i=0}^{numInputs} pubInp_i * B_i(t) + \sum_{i=numInputs + 1}^{numVariables} auxInp_i * B_i(t)
     final Tuple2<G1T, G2T> evaluationBtPrimary =
         VariableBaseMSM.doubleMSM(primary.elements(), provingKey.queryB().subList(0, numInputs));
     final Tuple2<G1T, G2T> evaluationBtWitness =
@@ -100,12 +115,15 @@ public class SerialProver {
         VariableBaseMSM.serialMSM(qapWitness.coefficientsH(), provingKey.queryH());
     config.endLog("Computing evaluation to query H");
 
-    // Compute evaluationABC = a_i*((beta*A_i(t) + alpha*B_i(t) + C_i(t)) + H(t)*Z(t))/delta.
+    // Compute evaluationABC = \sum_{i=numInputs+1}^{numVariables} inp_i * ((beta*A_i(t) + alpha*B_i(t) + C_i(t)) + H(t)*Z(t))/delta.
     config.beginLog("Computing evaluation to deltaABC");
     final int numWitness = numVariables - numInputs;
+    //G1T evaluationABC =
+    //    VariableBaseMSM.serialMSM(
+    //        auxiliary.subList(0, numWitness), provingKey.deltaABCG1().subList(0, numWitness));
     G1T evaluationABC =
         VariableBaseMSM.serialMSM(
-            auxiliary.subList(0, numWitness), provingKey.deltaABCG1().subList(0, numWitness));
+            auxiliary.elements(), provingKey.deltaABCG1().subList(0, numWitness));
     evaluationABC = evaluationABC.add(evaluationHtZt); // H(t)*Z(t)/delta
     config.endLog("Computing evaluation to deltaABC");
 
@@ -118,8 +136,7 @@ public class SerialProver {
             betaG1.add(evaluationBtG1).add(deltaG1.mul(s)),
             betaG2.add(evaluationBtG2).add(deltaG2.mul(s)));
 
-    // C = sum_i(a_i*((beta*A_i(t) + alpha*B_i(t) + C_i(t)) + H(t)*Z(t))/delta) + A*s + r*b -
-    // r*s*delta
+    // C = sum_i(a_i*((beta*A_i(t) + alpha*B_i(t) + C_i(t)) + H(t)*Z(t))/delta) + A*s + r*b - r*s*delta
     final G1T C = evaluationABC.add(A.mul(s)).add(B._1.mul(r)).sub(rsDelta);
 
     config.endRuntime("Proof");

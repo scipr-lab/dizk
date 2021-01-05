@@ -31,20 +31,17 @@ public class SerialSetup {
           G2T extends AbstractG2<G2T>,
           GTT extends AbstractGT<GTT>,
           PairingT extends AbstractPairing<G1T, G2T, GTT>>
-      CRS<FieldT, G1T, G2T, GTT> generate(
+      CRS<FieldT, G1T, G2T> generate(
           final R1CSRelation<FieldT> r1cs,
           final FieldT fieldFactory,
           final G1T g1Factory,
           final G2T g2Factory,
-          final PairingT pairing,
           final Configuration config) {
     // Generate secret randomness.
     final FieldT t = fieldFactory.random(config.seed(), config.secureSeed());
     final FieldT alpha = fieldFactory.random(config.seed(), config.secureSeed());
     final FieldT beta = fieldFactory.random(config.seed(), config.secureSeed());
-    final FieldT gamma = fieldFactory.random(config.seed(), config.secureSeed());
     final FieldT delta = fieldFactory.random(config.seed(), config.secureSeed());
-    final FieldT inverseGamma = gamma.inverse();
     final FieldT inverseDelta = delta.inverse();
 
     // A quadratic arithmetic program evaluated at t.
@@ -55,18 +52,22 @@ public class SerialSetup {
     System.out.println("\tQAP - pre degree: " + r1cs.numConstraints());
     System.out.println("\tQAP - degree: " + qap.degree());
 
+    // Size of the instance
     final int numInputs = qap.numInputs();
+    // Number of circuit wires
     final int numVariables = qap.numVariables();
 
-    // The gamma inverse product component: (beta*A_i(t) + alpha*B_i(t) + C_i(t)) * gamma^{-1}.
-    config.beginLog("Computing gammaABC for R1CS verification key");
-    final List<FieldT> gammaABC = new ArrayList<>(numInputs);
+    // ABC for vk: {[beta * A_i(t) + alpha * B_i(t) + C_i(t)]}_{i=0}^{numInputs}
+    config.beginLog("Computing ABC for R1CS verification key");
+    final List<FieldT> vkABC = new ArrayList<>(numInputs);
+    // TODO: (Double check) I don't think we need to add 1 to the upper bound here (i.e. < numInputs + 1)
+    // because we manually add ONE to the inputs outside of this function when we construct the R1CS.
     for (int i = 0; i < numInputs; i++) {
-      gammaABC.add(beta.mul(qap.At(i)).add(alpha.mul(qap.Bt(i))).add(qap.Ct(i)).mul(inverseGamma));
+      vkABC.add(beta.mul(qap.At(i)).add(alpha.mul(qap.Bt(i))).add(qap.Ct(i)));
     }
-    config.endLog("Computing gammaABC for R1CS verification key");
+    config.endLog("Computing ABC for R1CS verification key");
 
-    // The delta inverse product component: (beta*A_i(t) + alpha*B_i(t) + C_i(t)) * delta^{-1}.
+    // The delta inverse product component: {[beta * A_i(t) + alpha * B_i(t) + C_i(t)]}_{i=numInputs+1}^{numVariables}
     config.beginLog("Computing deltaABC for R1CS proving key");
     final List<FieldT> deltaABC = new ArrayList<>(numVariables - numInputs);
     for (int i = numInputs; i < numVariables; i++) {
@@ -88,7 +89,10 @@ public class SerialSetup {
     config.endLog("Computing query densities");
 
     config.beginLog("Generating G1 MSM Window Table");
-    final G1T generatorG1 = g1Factory.random(config.seed(), config.secureSeed());
+    //final G1T generatorG1 = g1Factory.random(config.seed(), config.secureSeed());
+    // We take ONE in both G1 and G2 as generator, else we need to add the choosen generator
+    // as part of the SRS for the verifier to use it in the computation of [evaluationABC*1]_T
+    final G1T generatorG1 = g1Factory.one();
     final int scalarCountG1 = nonZeroAt + nonZeroBt + numVariables;
     final int scalarSizeG1 = generatorG1.bitSize();
     final int windowSizeG1 = FixedBaseMSM.getWindowSize(scalarCountG1, generatorG1);
@@ -97,7 +101,10 @@ public class SerialSetup {
     config.endLog("Generating G1 MSM Window Table");
 
     config.beginLog("Generating G2 MSM Window Table");
-    final G2T generatorG2 = g2Factory.random(config.seed(), config.secureSeed());
+    //final G2T generatorG2 = g2Factory.random(config.seed(), config.secureSeed());
+    // We take ONE in both G1 and G2 as generator, else we need to add the choosen generator
+    // as part of the SRS for the verifier to use it in the computation of [evaluationABC*1]_T
+    final G2T generatorG2 = g2Factory.one();
     final int scalarCountG2 = nonZeroBt;
     final int scalarSizeG2 = generatorG2.bitSize();
     final int windowSizeG2 = FixedBaseMSM.getWindowSize(scalarCountG2, generatorG2);
@@ -137,7 +144,7 @@ public class SerialSetup {
     config.endLog("Computing query B", false);
 
     config.beginLog("Computing query H", false);
-    final FieldT inverseDeltaZt = qap.Zt().mul(delta.inverse());
+    final FieldT inverseDeltaZt = qap.Zt().mul(inverseDelta);
     for (int i = 0; i < qap.Ht().size(); i++) {
       qap.Ht().set(i, qap.Ht().get(i).mul(inverseDeltaZt));
     }
@@ -151,13 +158,10 @@ public class SerialSetup {
     config.beginLog("Generating R1CS verification key");
     config.beginRuntime("Verification Key");
 
-    final GTT alphaG1betaG2 = pairing.reducedPairing(alphaG1, betaG2);
-    final G2T gammaG2 = generatorG2.mul(gamma);
-
-    config.beginLog("Encoding gammaABC for R1CS verification key");
-    final List<G1T> gammaABCG1 =
-        FixedBaseMSM.batchMSM(scalarSizeG1, windowSizeG1, windowTableG1, gammaABC);
-    config.endLog("Encoding gammaABC for R1CS verification key");
+    config.beginLog("Encoding ABC for R1CS verification key");
+    final List<G1T> vkABCG1 =
+        FixedBaseMSM.batchMSM(scalarSizeG1, windowSizeG1, windowTableG1, vkABC);
+    config.endLog("Encoding ABC for R1CS verification key");
 
     config.endLog("Generating R1CS verification key");
     config.endRuntime("Verification Key");
@@ -168,8 +172,8 @@ public class SerialSetup {
             alphaG1, betaG1, betaG2, deltaG1, deltaG2, deltaABCG1, queryA, queryB, queryH, r1cs);
 
     // Construct the verification key.
-    final VerificationKey<G1T, G2T, GTT> verificationKey =
-        new VerificationKey<>(alphaG1betaG2, gammaG2, deltaG2, gammaABCG1);
+    final VerificationKey<G1T, G2T> verificationKey =
+        new VerificationKey<>(alphaG1, betaG2, deltaG2, vkABCG1);
 
     return new CRS<>(provingKey, verificationKey);
   }
