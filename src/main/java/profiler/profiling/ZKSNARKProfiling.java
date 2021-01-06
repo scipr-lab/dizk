@@ -3,14 +3,12 @@ package profiler.profiling;
 import algebra.curves.barreto_naehrig.bn254a.BN254aFields.BN254aFr;
 import algebra.curves.barreto_naehrig.bn254a.BN254aG1;
 import algebra.curves.barreto_naehrig.bn254a.BN254aG2;
-import algebra.curves.barreto_naehrig.bn254a.BN254aGT;
 import algebra.curves.barreto_naehrig.bn254a.BN254aPairing;
 import algebra.curves.barreto_naehrig.bn254a.bn254a_parameters.BN254aG1Parameters;
 import algebra.curves.barreto_naehrig.bn254a.bn254a_parameters.BN254aG2Parameters;
 import algebra.curves.barreto_naehrig.bn254b.BN254bFields.BN254bFr;
 import algebra.curves.barreto_naehrig.bn254b.BN254bG1;
 import algebra.curves.barreto_naehrig.bn254b.BN254bG2;
-import algebra.curves.barreto_naehrig.bn254b.BN254bGT;
 import algebra.curves.barreto_naehrig.bn254b.BN254bPairing;
 import algebra.curves.barreto_naehrig.bn254b.bn254b_parameters.BN254bG1Parameters;
 import algebra.curves.barreto_naehrig.bn254b.bn254b_parameters.BN254bG2Parameters;
@@ -46,8 +44,8 @@ public class ZKSNARKProfiling {
 
     config.beginLog(config.context());
     config.beginRuntime("Setup");
-    final CRS<BN254aFr, BN254aG1, BN254aG2, BN254aGT> CRS =
-        SerialSetup.generate(r1cs, fieldFactory, g1Factory, g2Factory, pairing, config);
+    final CRS<BN254aFr, BN254aG1, BN254aG2> CRS =
+        SerialSetup.generate(r1cs, fieldFactory, g1Factory, g2Factory, config);
     config.endLog(config.context());
     config.endRuntime("Setup");
 
@@ -101,8 +99,8 @@ public class ZKSNARKProfiling {
 
     config.beginLog(config.context());
     config.beginRuntime("Setup");
-    final CRS<BN254bFr, BN254bG1, BN254bG2, BN254bGT> CRS =
-        SerialSetup.generate(r1cs, fieldFactory, g1Factory, g2Factory, pairing, config);
+    final CRS<BN254bFr, BN254bG1, BN254bG2> CRS =
+        SerialSetup.generate(r1cs, fieldFactory, g1Factory, g2Factory, config);
     config.endLog(config.context());
     config.endRuntime("Setup");
 
@@ -157,7 +155,7 @@ public class ZKSNARKProfiling {
 
     config.beginLog(config.context());
     config.beginRuntime("Setup");
-    final CRS<BN254aFr, BN254aG1, BN254aG2, BN254aGT> CRS =
+    final CRS<BN254aFr, BN254aG1, BN254aG2> CRS =
         DistributedSetup.generate(r1cs, fieldFactory, g1Factory, g2Factory, pairing, config);
     config.endLog(config.context());
     config.endRuntime("Setup");
@@ -213,7 +211,7 @@ public class ZKSNARKProfiling {
 
     config.beginLog(config.context());
     config.beginRuntime("Setup");
-    final CRS<BN254bFr, BN254bG1, BN254bG2, BN254bGT> CRS =
+    final CRS<BN254bFr, BN254bG1, BN254bG2> CRS =
         DistributedSetup.generate(r1cs, fieldFactory, g1Factory, g2Factory, pairing, config);
     config.endLog(config.context());
     config.endRuntime("Setup");
