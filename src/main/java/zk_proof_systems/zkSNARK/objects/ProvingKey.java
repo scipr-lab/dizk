@@ -34,9 +34,12 @@ public class ProvingKey<
   private final List<G1T> deltaABCG1;
   // {[A_i(t)]_1}_{i=0}^{numVariables}
   private final List<G1T> queryA;
-  // {[B_i(t)]}_{i=1}^{numVariables}
+  // {[B_i(t)]}_{i=0}^{numVariables}
+  // Note: queryB is taken in both G1 and G2 because its fastens the prover:
+  // - the G2 part is used in the computation of proof.B (encoded in G2)
+  // - the G1 part is used in the computation of proof.C (i.e. the  + rB term, encoded in G1)
   private final List<Tuple2<G1T, G2T>> queryB;
-  // {[t^i * Z(t)/delta]_1}_{i=1}^{numVariables - 2}
+  // {[t^i * Z(t)/delta]_1}_{i=0}^{deg(Z(x)) - 2}
   private final List<G1T> queryH;
   // The proving key holds the arithmetized relation
   private final R1CSRelation<FieldT> r1cs;

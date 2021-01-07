@@ -31,11 +31,11 @@ public class Verifier {
           final Proof<G1T, G2T> proof,
           final PairingT pairing,
           final Configuration config) {
-    // Assert first element == FieldT.one().
+    // Assert first element of the primary inputs to be FieldT.one().
     final FieldT firstElement = primaryInput.get(0);
     assert (firstElement.equals(firstElement.one()));
 
-    // LHS: Compute A * B
+    // LHS: Compute [A * B]_T
     final GTT LHS = pairing.reducedPairing(proof.gA(), proof.gB());
 
     // RHS: Compute [alpha * beta]_T

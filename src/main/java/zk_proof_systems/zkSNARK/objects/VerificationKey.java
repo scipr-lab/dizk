@@ -20,7 +20,7 @@ public class VerificationKey<G1T extends AbstractG1<G1T>, G2T extends AbstractG2
   private final G2T betaG2;
   // [delta]_2
   private final G2T deltaG2;
-  // {[beta * A_i(t) + alpha * B_i(t) + C_i(t)]}_{i=0}^{numInputs}
+  // {[beta * A_i(t) + alpha * B_i(t) + C_i(t)]_1}_{i=0}^{numInputs}
   private final List<G1T> ABC;
 
   public VerificationKey(

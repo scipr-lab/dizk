@@ -47,12 +47,14 @@ public class SerialProver {
       // We are dividing degree 2(d-1) polynomial by degree d polynomial
       // and not adding a PGHR-style ZK-patch, so our H is degree d-2.
       final FieldT zero = fieldFactory.zero();
-      // 1. Verify that H has a non-zero d-2 coefficient
-      assert (!qapWitness.coefficientsH(qapWitness.degree() - 2).equals(zero));
-      // 2. Make sure that coefficients d-1 and d are 0 to make sure that the polynomial hasn't a
-      // degree higher than d-2
+      // Make sure that H has at most d+1 coeffs (which bounds deg(H(x)) <= d)
+      assert (qapWitness.coefficientsH().size() == qapWitness.degree() + 1);
+      // 1. Make sure that coefficients d-1 and d are 0 to make sure that the polynomial hasn't a
+      // degree higher than d-2 (these steps refine the upper bound deg(H(x)) <= d-2)
       assert (qapWitness.coefficientsH(qapWitness.degree() - 1).equals(zero));
       assert (qapWitness.coefficientsH(qapWitness.degree()).equals(zero));
+      // 2. Make sure that H has a non-zero d-2 coefficient (deg(H(x)) = d-2)
+      assert (!qapWitness.coefficientsH(qapWitness.degree() - 2).equals(zero));
       // Check that the witness satisfies the QAP relation.
       final FieldT t = fieldFactory.random(config.seed(), config.secureSeed());
       final QAPRelation<FieldT> qap = R1CStoQAP.R1CStoQAPRelation(provingKey.r1cs(), t);
@@ -61,6 +63,7 @@ public class SerialProver {
     }
 
     // Choose two random field elements for prover zero-knowledge.
+    // r, s \sample \FF^2
     final FieldT r = fieldFactory.random(config.seed(), config.secureSeed());
     final FieldT s = fieldFactory.random(config.seed(), config.secureSeed());
 
@@ -114,28 +117,27 @@ public class SerialProver {
         VariableBaseMSM.serialMSM(qapWitness.coefficientsH(), provingKey.queryH());
     config.endLog("Computing evaluation to query H");
 
-    // Compute evaluationABC = \sum_{i=numInputs+1}^{numVariables} inp_i * ((beta*A_i(t) + alpha*B_i(t) + C_i(t)) + H(t)*Z(t))/delta.
+    // Compute evaluationABC = \sum_{i=numInputs+1}^{numVariables} var_i * ((beta*A_i(t) + alpha*B_i(t) + C_i(t)) + H(t)*Z(t))/delta.
     config.beginLog("Computing evaluation to deltaABC");
     final int numWitness = numVariables - numInputs;
     //G1T evaluationABC =
     //    VariableBaseMSM.serialMSM(
     //        auxiliary.subList(0, numWitness), provingKey.deltaABCG1().subList(0, numWitness));
     G1T evaluationABC =
-        VariableBaseMSM.serialMSM(
-            auxiliary.elements(), provingKey.deltaABCG1().subList(0, numWitness));
+        VariableBaseMSM.serialMSM(auxiliary.elements(), provingKey.deltaABCG1());
     evaluationABC = evaluationABC.add(evaluationHtZt); // H(t)*Z(t)/delta
     config.endLog("Computing evaluation to deltaABC");
 
-    // A = alpha + sum_i(a_i*A_i(t)) + r*delta
+    // A = alpha + \sum_{i=0}^{numVariables}(var_i*A_i(t)) + r*delta
     final G1T A = alphaG1.add(evaluationAt).add(deltaG1.mul(r));
 
-    // B = beta + sum_i(a_i*B_i(t)) + s*delta
+    // B = beta + sum_{i=0}^{numVariables}(var_i*B_i(t)) + s*delta
     final Tuple2<G1T, G2T> B =
         new Tuple2<>(
             betaG1.add(evaluationBtG1).add(deltaG1.mul(s)),
             betaG2.add(evaluationBtG2).add(deltaG2.mul(s)));
 
-    // C = sum_i(a_i*((beta*A_i(t) + alpha*B_i(t) + C_i(t)) + H(t)*Z(t))/delta) + A*s + r*b - r*s*delta
+    // C = \sum_{i=numInputs+1}^{numVariables}(var_i*((beta*A_i(t) + alpha*B_i(t) + C_i(t)) + H(t)*Z(t))/delta) + A*s + r*b - r*s*delta
     final G1T C = evaluationABC.add(A.mul(s)).add(B._1.mul(r)).sub(rsDelta);
 
     config.endRuntime("Proof");

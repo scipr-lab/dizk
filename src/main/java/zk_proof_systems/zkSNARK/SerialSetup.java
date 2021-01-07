@@ -57,17 +57,19 @@ public class SerialSetup {
     // Number of circuit wires
     final int numVariables = qap.numVariables();
 
-    // ABC for vk: {[beta * A_i(t) + alpha * B_i(t) + C_i(t)]}_{i=0}^{numInputs}
+    // ABC for vk:
+    // {[beta * A_i(t) + alpha * B_i(t) + C_i(t)]_1}_{i=0}^{numInputs}
     config.beginLog("Computing ABC for R1CS verification key");
     final List<FieldT> vkABC = new ArrayList<>(numInputs);
-    // TODO: (Double check) I don't think we need to add 1 to the upper bound here (i.e. < numInputs + 1)
+    // TODO: (Double check) I don't think we need to add 1 to the bounds here (i.e. i = 1 and i < numInputs + 1)
     // because we manually add ONE to the inputs outside of this function when we construct the R1CS.
     for (int i = 0; i < numInputs; i++) {
       vkABC.add(beta.mul(qap.At(i)).add(alpha.mul(qap.Bt(i))).add(qap.Ct(i)));
     }
     config.endLog("Computing ABC for R1CS verification key");
 
-    // The delta inverse product component: {[beta * A_i(t) + alpha * B_i(t) + C_i(t)]}_{i=numInputs+1}^{numVariables}
+    // The delta inverse product component:
+    // {[(beta * A_i(t) + alpha * B_i(t) + C_i(t))/delta]_1}_{i=numInputs+1}^{numVariables}
     config.beginLog("Computing deltaABC for R1CS proving key");
     final List<FieldT> deltaABC = new ArrayList<>(numVariables - numInputs);
     for (int i = numInputs; i < numVariables; i++) {
@@ -115,9 +117,12 @@ public class SerialSetup {
     config.beginLog("Generating R1CS proving key");
     config.beginRuntime("Proving Key");
 
+    // [alpha]_1
     final G1T alphaG1 = generatorG1.mul(alpha);
+    // [beta]
     final G1T betaG1 = generatorG1.mul(beta);
     final G2T betaG2 = generatorG2.mul(beta);
+    // [delta]
     final G1T deltaG1 = generatorG1.mul(delta);
     final G2T deltaG2 = generatorG2.mul(delta);
 
@@ -144,6 +149,7 @@ public class SerialSetup {
     config.endLog("Computing query B", false);
 
     config.beginLog("Computing query H", false);
+    // TODO: Check size of queryH to make sure elements are in [0..n-2]
     final FieldT inverseDeltaZt = qap.Zt().mul(inverseDelta);
     for (int i = 0; i < qap.Ht().size(); i++) {
       qap.Ht().set(i, qap.Ht().get(i).mul(inverseDeltaZt));
