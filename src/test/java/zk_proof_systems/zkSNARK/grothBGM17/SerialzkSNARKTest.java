@@ -7,6 +7,7 @@
 
 package zk_proof_systems.zkSNARK.grothBGM17;
 
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import algebra.curves.barreto_naehrig.*;
@@ -96,13 +97,24 @@ public class SerialzkSNARKTest implements Serializable {
     final CRS<BNFrT, BNG1T, BNG2T> CRS =
         SerialSetup.generate(r1cs, fieldFactory, g1Factory, g2Factory, config);
 
-    final Proof<BNG1T, BNG2T> proof =
+    // Make sure that a valid proof verifies
+    final Proof<BNG1T, BNG2T> proofValid =
         SerialProver.prove(CRS.provingKey(), primary, auxiliary, fieldFactory, config);
+    final boolean isValidProofValid =
+        Verifier.verify(CRS.verificationKey(), primary, proofValid, pairing, config);
+    System.out.println("Verification bit of valid proof: " + isValidProofValid);
+    assertTrue(isValidProofValid);
 
-    final boolean isValid = Verifier.verify(CRS.verificationKey(), primary, proof, pairing, config);
-
-    System.out.println(isValid);
-    assertTrue(isValid);
+    // Make sure that an invalid/random proof does NOT verify
+    final Proof<BNG1T, BNG2T> proofInvalid =
+        new Proof<BNG1T, BNG2T>(
+            g1Factory.random(config.seed(), config.secureSeed()),
+            g2Factory.random(config.seed(), config.secureSeed()),
+            g1Factory.random(config.seed(), config.secureSeed()));
+    final boolean isInvalidProofValid =
+        Verifier.verify(CRS.verificationKey(), primary, proofInvalid, pairing, config);
+    System.out.println("Verification bit of invalid proof: " + isInvalidProofValid);
+    assertFalse(isInvalidProofValid);
   }
 
   /*
