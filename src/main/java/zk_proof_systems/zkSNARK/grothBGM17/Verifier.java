@@ -1,10 +1,3 @@
-/* @file
- *****************************************************************************
- * @author     This file is part of zkspark, developed by SCIPR Lab
- *             and contributors (see AUTHORS).
- * @copyright  MIT license (see LICENSE file)
- *****************************************************************************/
-
 package zk_proof_systems.zkSNARK.grothBGM17;
 
 import algebra.curves.AbstractG1;
@@ -47,11 +40,6 @@ public class Verifier {
     final GTT CDelta = pairing.reducedPairing(proof.gC(), delta);
 
     // RHS: Compute \sum_{i=0}^{numInputs} pubInp_i * (beta*A_i(x) + alpha*B_i(x) + C_i(x))
-    System.out.println(
-        "[DEBUG] Verifier RHS, primaryInput.elements().size(): " + primaryInput.elements().size());
-    System.out.println(
-        "[DEBUG] Verifier RHS, verificationKey.ABC().size(): " + verificationKey.ABC().size());
-    System.out.println("[DEBUG] Both expected to be: numInputs");
     final G1T evaluationABC =
         VariableBaseMSM.serialMSM(primaryInput.elements(), verificationKey.ABC());
 

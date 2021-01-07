@@ -1,10 +1,3 @@
-/* @file
- *****************************************************************************
- * @author     This file is part of zkspark, developed by SCIPR Lab
- *             and contributors (see AUTHORS).
- * @copyright  MIT license (see LICENSE file)
- *****************************************************************************/
-
 package zk_proof_systems.zkSNARK.grothBGM17.objects;
 
 import algebra.curves.AbstractG1;
@@ -15,7 +8,7 @@ import java.util.List;
 import relations.r1cs.R1CSRelation;
 import scala.Tuple2;
 
-/** Groth16 proving key */
+/** Groth16-BGM17 Proving key */
 public class ProvingKey<
         FieldT extends AbstractFieldElementExpanded<FieldT>,
         G1T extends AbstractG1<G1T>,

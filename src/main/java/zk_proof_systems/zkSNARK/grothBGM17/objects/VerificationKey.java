@@ -1,17 +1,10 @@
-/* @file
- *****************************************************************************
- * @author     This file is part of zkspark, developed by SCIPR Lab
- *             and contributors (see AUTHORS).
- * @copyright  MIT license (see LICENSE file)
- *****************************************************************************/
-
 package zk_proof_systems.zkSNARK.grothBGM17.objects;
 
 import algebra.curves.AbstractG1;
 import algebra.curves.AbstractG2;
 import java.util.List;
 
-/** Groth16-BGM17 verification key */
+/** Groth16-BGM17 Verification key */
 public class VerificationKey<G1T extends AbstractG1<G1T>, G2T extends AbstractG2<G2T>> {
 
   // [alpha]_1

@@ -1,10 +1,3 @@
-/* @file
- *****************************************************************************
- * @author     This file is part of zkspark, developed by SCIPR Lab
- *             and contributors (see AUTHORS).
- * @copyright  MIT license (see LICENSE file)
- *****************************************************************************/
-
 package zk_proof_systems.zkSNARK.grothBGM17;
 
 import algebra.curves.AbstractG1;
@@ -128,11 +121,6 @@ public class SerialProver {
     // G1T evaluationABC =
     //    VariableBaseMSM.serialMSM(
     //        auxiliary.subList(0, numWitness), provingKey.deltaABCG1().subList(0, numWitness));
-    System.out.println(
-        "[DEBUG] Prover, auxiliary.elements().size(): " + auxiliary.elements().size());
-    System.out.println(
-        "[DEBUG] Prover, provingKey.deltaABCG1().size(): " + provingKey.deltaABCG1().size());
-    System.out.println("[DEBUG] Both expected to be: numWitness = " + numWitness);
     G1T evaluationABC = VariableBaseMSM.serialMSM(auxiliary.elements(), provingKey.deltaABCG1());
     evaluationABC = evaluationABC.add(evaluationHtZt); // H(t)*Z(t)/delta
     config.endLog("Computing evaluation to deltaABC");

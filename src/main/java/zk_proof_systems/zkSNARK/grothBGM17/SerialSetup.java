@@ -1,10 +1,3 @@
-/* @file
- *****************************************************************************
- * @author     This file is part of zkspark, developed by SCIPR Lab
- *             and contributors (see AUTHORS).
- * @copyright  MIT license (see LICENSE file)
- *****************************************************************************/
-
 package zk_proof_systems.zkSNARK.grothBGM17;
 
 import algebra.curves.AbstractG1;
@@ -61,10 +54,6 @@ public class SerialSetup {
     // {[beta * A_i(t) + alpha * B_i(t) + C_i(t)]_1}_{i=0}^{numInputs}
     config.beginLog("Computing ABC for R1CS verification key");
     final List<FieldT> vkABC = new ArrayList<>(numInputs);
-    // TODO: (Double check) I don't think we need to add 1 to the bounds here (i.e. i = 1 and i <
-    // numInputs + 1)
-    // because we manually add ONE to the inputs outside of this function when we construct the
-    // R1CS.
     for (int i = 0; i < numInputs; i++) {
       vkABC.add(beta.mul(qap.At(i)).add(alpha.mul(qap.Bt(i))).add(qap.Ct(i)));
     }
