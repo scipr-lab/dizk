@@ -47,15 +47,15 @@ public class SerialSetup {
     // A quadratic arithmetic program evaluated at t.
     final QAPRelation<FieldT> qap = R1CStoQAP.R1CStoQAPRelation(r1cs, t);
 
-    System.out.println("\tQAP - primary input size: " + qap.numInputs());
-    System.out.println("\tQAP - total input size: " + qap.numVariables());
-    System.out.println("\tQAP - pre degree: " + r1cs.numConstraints());
-    System.out.println("\tQAP - degree: " + qap.degree());
-
     // Size of the instance
     final int numInputs = qap.numInputs();
     // Number of circuit wires
     final int numVariables = qap.numVariables();
+
+    System.out.println("\tQAP - primary input size: " + numInputs);
+    System.out.println("\tQAP - total input size: " + numVariables);
+    System.out.println("\tQAP - pre degree: " + r1cs.numConstraints());
+    System.out.println("\tQAP - degree: " + qap.degree());
 
     // ABC for vk:
     // {[beta * A_i(t) + alpha * B_i(t) + C_i(t)]_1}_{i=0}^{numInputs}
@@ -149,7 +149,6 @@ public class SerialSetup {
     config.endLog("Computing query B", false);
 
     config.beginLog("Computing query H", false);
-    // TODO: Check size of queryH to make sure elements are in [0..n-2]
     final FieldT inverseDeltaZt = qap.Zt().mul(inverseDelta);
     for (int i = 0; i < qap.Ht().size(); i++) {
       qap.Ht().set(i, qap.Ht().get(i).mul(inverseDeltaZt));

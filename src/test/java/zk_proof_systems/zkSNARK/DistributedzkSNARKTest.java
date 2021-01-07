@@ -104,7 +104,7 @@ public class DistributedzkSNARKTest implements Serializable {
     final Assignment<BNFrT> primary = construction._2();
     final JavaPairRDD<Long, BNFrT> fullAssignment = construction._3();
 
-    final CRS<BNFrT, BNG1T, BNG2T, BNGTT> CRS =
+    final CRS<BNFrT, BNG1T, BNG2T> CRS =
         DistributedSetup.generate(r1cs, fieldFactory, g1Factory, g2Factory, pairing, config);
 
     final Proof<BNG1T, BNG2T> proof =

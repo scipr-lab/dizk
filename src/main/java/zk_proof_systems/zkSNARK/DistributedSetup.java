@@ -32,7 +32,7 @@ public class DistributedSetup {
           G2T extends AbstractG2<G2T>,
           GTT extends AbstractGT<GTT>,
           PairingT extends AbstractPairing<G1T, G2T, GTT>>
-      CRS<FieldT, G1T, G2T, GTT> generate(
+      CRS<FieldT, G1T, G2T> generate(
           final R1CSRelationRDD<FieldT> r1cs,
           final FieldT fieldFactory,
           final G1T g1Factory,
@@ -43,16 +43,17 @@ public class DistributedSetup {
     final FieldT t = fieldFactory.random(config.seed(), config.secureSeed());
     final FieldT alpha = fieldFactory.random(config.seed(), config.secureSeed());
     final FieldT beta = fieldFactory.random(config.seed(), config.secureSeed());
-    final FieldT gamma = fieldFactory.random(config.seed(), config.secureSeed());
     final FieldT delta = fieldFactory.random(config.seed(), config.secureSeed());
-    final FieldT inverseGamma = gamma.inverse();
     final FieldT inverseDelta = delta.inverse();
 
     // A quadratic arithmetic program evaluated at t.
     final QAPRelationRDD<FieldT> qap = R1CStoQAPRDD.R1CStoQAPRelation(r1cs, t, config);
 
+    // Size of the instance
     final int numInputs = qap.numInputs();
+    // Number of circuit wires
     final long numVariables = qap.numVariables();
+
     final int numPartitions = config.numPartitions();
 
     System.out.println("\tQAP - primary input size: " + numInputs);
@@ -60,22 +61,22 @@ public class DistributedSetup {
     System.out.println("\tQAP - pre degree: " + r1cs.numConstraints());
     System.out.println("\tQAP - degree: " + qap.degree());
 
-    // The gamma inverse product component: (beta*A_i(t) + alpha*B_i(t) + C_i(t)) * gamma^{-1}
-    // The delta inverse product component: (beta*A_i(t) + alpha*B_i(t) + C_i(t)) * delta^{-1}
-    config.beginLog("Computing deltaABC and gammaABC for R1CS proving key and verification key");
+    config.beginLog("Computing deltaABC for R1CS proving key and verification key");
     final JavaPairRDD<Long, FieldT> betaAt = qap.At().mapValues(a -> a.mul(beta));
     final JavaPairRDD<Long, FieldT> alphaBt = qap.Bt().mapValues(b -> b.mul(alpha));
+    // ABC for vk:
+    // {[beta * A_i(t) + alpha * B_i(t) + C_i(t)]_1}_{i=0}^{numInputs}
     final JavaPairRDD<Long, FieldT> ABC =
         betaAt
             .union(alphaBt)
             .union(qap.Ct())
             .reduceByKey(FieldT::add)
             .persist(config.storageLevel());
-    final JavaPairRDD<Long, FieldT> gammaABC =
-        ABC.filter(e -> e._1 < numInputs).mapValues(e -> e.mul(inverseGamma));
+    // The delta inverse product component:
+    // {[(beta * A_i(t) + alpha * B_i(t) + C_i(t))/delta]_1}_{i=numInputs+1}^{numVariables}
     final JavaPairRDD<Long, FieldT> deltaABC =
         ABC.filter(e -> e._1 >= numInputs).mapValues(e -> e.mul(inverseDelta));
-    config.endLog("Computing deltaABC and gammaABC for R1CS proving key and verification key");
+    config.endLog("Computing deltaABC for R1CS proving key and verification key");
 
     config.beginLog("Computing query densities");
     final long numNonZeroAt = qap.At().filter(e -> !e._2.isZero()).count();
@@ -83,16 +84,20 @@ public class DistributedSetup {
     config.endLog("Computing query densities");
 
     config.beginLog("Generating G1 MSM Window Table");
-    final G1T generatorG1 = g1Factory.random(config.seed(), config.secureSeed());
+    // For testing with the cpp code, take the identity instead of a random generator
+    //final G1T generatorG1 = g1Factory.random(config.seed(), config.secureSeed());
+    final G1T generatorG1 = g1Factory.one();
     final int scalarSizeG1 = generatorG1.bitSize();
     final long scalarCountG1 = numNonZeroAt + numNonZeroBt + numVariables;
+    // Get window size per partition
     final int windowSizeG1 = FixedBaseMSM.getWindowSize(scalarCountG1 / numPartitions, generatorG1);
     final List<List<G1T>> windowTableG1 =
         FixedBaseMSM.getWindowTable(generatorG1, scalarSizeG1, windowSizeG1);
     config.endLog("Generating G1 MSM Window Table");
 
     config.beginLog("Generating G2 MSM Window Table");
-    final G2T generatorG2 = g2Factory.random(config.seed(), config.secureSeed());
+    //final G2T generatorG2 = g2Factory.random(config.seed(), config.secureSeed());
+    final G2T generatorG2 = g2Factory.one();
     final int scalarSizeG2 = generatorG2.bitSize();
     final long scalarCountG2 = numNonZeroBt;
     final int windowSizeG2 = FixedBaseMSM.getWindowSize(scalarCountG2 / numPartitions, generatorG2);
@@ -103,20 +108,14 @@ public class DistributedSetup {
     config.beginLog("Generating R1CS proving key");
     config.beginRuntime("Proving Key");
 
+    // [alpha]_1
     final G1T alphaG1 = generatorG1.mul(alpha);
+    // [beta]
     final G1T betaG1 = generatorG1.mul(beta);
     final G2T betaG2 = generatorG2.mul(beta);
+    // [delta]
     final G1T deltaG1 = generatorG1.mul(delta);
     final G2T deltaG2 = generatorG2.mul(delta);
-
-    config.beginLog("Encoding deltaABC for R1CS proving key");
-    final JavaPairRDD<Long, G1T> deltaABCG1 =
-        FixedBaseMSM.distributedBatchMSM(
-                scalarSizeG1, windowSizeG1, windowTableG1, deltaABC, config.sparkContext())
-            .persist(config.storageLevel());
-    deltaABCG1.count();
-    qap.Ct().unpersist();
-    config.endLog("Encoding deltaABC for R1CS proving key");
 
     config.beginLog("Computing query A");
     final JavaPairRDD<Long, G1T> queryA =
@@ -155,24 +154,29 @@ public class DistributedSetup {
     qap.Ht().unpersist();
     config.endLog("Computing query H");
 
+    config.beginLog("Encoding deltaABC for R1CS proving key");
+    final JavaPairRDD<Long, G1T> deltaABCG1 =
+        FixedBaseMSM.distributedBatchMSM(
+                scalarSizeG1, windowSizeG1, windowTableG1, deltaABC, config.sparkContext())
+            .persist(config.storageLevel());
+    deltaABCG1.count();
+    qap.Ct().unpersist();
+    config.endLog("Encoding deltaABC for R1CS proving key");
+
     config.endLog("Generating R1CS proving key");
     config.endRuntime("Proving Key");
 
-    config.beginLog("Computing gammaABC for R1CS verification key");
+    config.beginLog("Computing ABC for R1CS verification key");
     config.beginRuntime("Verification Key");
-    final GTT alphaG1betaG2 = pairing.reducedPairing(alphaG1, betaG2);
-    final G2T gammaG2 = generatorG2.mul(gamma);
-    final JavaPairRDD<Long, G1T> gammaABCG1 =
-        FixedBaseMSM.distributedBatchMSM(
-                scalarSizeG1, windowSizeG1, windowTableG1, gammaABC, config.sparkContext())
-            .persist(config.storageLevel());
-    final JavaPairRDD<Long, G1T> fullGammaABCG1 =
-        Utils.fillRDD(numInputs, generatorG1.zero(), config)
-            .union(gammaABCG1)
-            .reduceByKey(G1T::add);
-    final List<G1T> UVWGammaG1 = Utils.convertFromPair(fullGammaABCG1.collect(), numInputs);
+    final JavaPairRDD<Long, FieldT> vkABC = ABC.filter(e -> e._1 < numInputs);
+    final JavaPairRDD<Long, G1T> vkABCG1 =
+    FixedBaseMSM.distributedBatchMSM(
+            scalarSizeG1, windowSizeG1, windowTableG1, vkABC, config.sparkContext())
+        .persist(config.storageLevel());
+    // ABC is not stored as an RDD in the verification key, so we recover a `List`
+    final List<G1T> vkABCFinalG1 = Utils.convertFromPair(vkABCG1.collect(), numInputs);
     ABC.unpersist();
-    config.endLog("Computing gammaABC for R1CS verification key");
+    config.endLog("Computing ABC for R1CS verification key");
     config.endRuntime("Verification Key");
 
     // Construct the proving key.
@@ -181,8 +185,8 @@ public class DistributedSetup {
             alphaG1, betaG1, betaG2, deltaG1, deltaG2, deltaABCG1, queryA, queryB, queryH, r1cs);
 
     // Construct the verification key.
-    final VerificationKey<G1T, G2T, GTT> verificationKey =
-        new VerificationKey<>(alphaG1betaG2, gammaG2, deltaG2, UVWGammaG1);
+    final VerificationKey<G1T, G2T> verificationKey =
+        new VerificationKey<>(alphaG1, betaG2, deltaG2, vkABCFinalG1);
 
     return new CRS<>(provingKey, verificationKey);
   }
