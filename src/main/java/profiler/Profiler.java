@@ -1,11 +1,19 @@
 package profiler;
 
-import configuration.Configuration;
 import org.apache.spark.SparkConf;
 import org.apache.spark.api.java.JavaSparkContext;
 import org.apache.spark.sql.SparkSession;
 import org.apache.spark.storage.StorageLevel;
-import profiler.profiling.*;
+
+import configuration.Configuration;
+import profiler.profiling.FFTProfiling;
+import profiler.profiling.FixedBaseMSMProfiling;
+import profiler.profiling.LagrangeProfiling;
+import profiler.profiling.MatrixMultiplicationProfiling;
+import profiler.profiling.R1CStoQAPRelationProfiling;
+import profiler.profiling.R1CStoQAPWitnessProfiling;
+import profiler.profiling.VariableBaseMSMProfiling;
+import profiler.profiling.ZKSNARKProfiling;
 import profiler.utils.SparkUtils;
 
 public class Profiler {

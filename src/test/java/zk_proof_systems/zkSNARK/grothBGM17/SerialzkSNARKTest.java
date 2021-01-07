@@ -5,7 +5,7 @@
  * @copyright  MIT license (see LICENSE file)
  *****************************************************************************/
 
-package zk_proof_systems.zkSNARK;
+package zk_proof_systems.zkSNARK.grothBGM17;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
@@ -38,8 +38,8 @@ import profiler.generation.R1CSConstructor;
 import relations.objects.Assignment;
 import relations.r1cs.R1CSRelation;
 import scala.Tuple3;
-import zk_proof_systems.zkSNARK.objects.CRS;
-import zk_proof_systems.zkSNARK.objects.Proof;
+import zk_proof_systems.zkSNARK.grothBGM17.objects.CRS;
+import zk_proof_systems.zkSNARK.grothBGM17.objects.Proof;
 
 public class SerialzkSNARKTest implements Serializable {
   private Configuration config;

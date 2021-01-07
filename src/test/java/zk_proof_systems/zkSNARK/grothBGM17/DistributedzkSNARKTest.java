@@ -5,7 +5,7 @@
  * @copyright  MIT license (see LICENSE file)
  *****************************************************************************/
 
-package zk_proof_systems.zkSNARK;
+package zk_proof_systems.zkSNARK.grothBGM17;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
@@ -41,8 +41,8 @@ import profiler.utils.SparkUtils;
 import relations.objects.Assignment;
 import relations.r1cs.R1CSRelationRDD;
 import scala.Tuple3;
-import zk_proof_systems.zkSNARK.objects.CRS;
-import zk_proof_systems.zkSNARK.objects.Proof;
+import zk_proof_systems.zkSNARK.grothBGM17.objects.CRS;
+import zk_proof_systems.zkSNARK.grothBGM17.objects.Proof;
 
 public class DistributedzkSNARKTest implements Serializable {
   private transient JavaSparkContext sc;

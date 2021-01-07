@@ -1,5 +1,7 @@
 package profiler.profiling;
 
+import org.apache.spark.api.java.JavaPairRDD;
+
 import algebra.curves.barreto_naehrig.bn254a.BN254aFields.BN254aFr;
 import algebra.curves.barreto_naehrig.bn254a.BN254aG1;
 import algebra.curves.barreto_naehrig.bn254a.BN254aG2;
@@ -13,15 +15,26 @@ import algebra.curves.barreto_naehrig.bn254b.BN254bPairing;
 import algebra.curves.barreto_naehrig.bn254b.bn254b_parameters.BN254bG1Parameters;
 import algebra.curves.barreto_naehrig.bn254b.bn254b_parameters.BN254bG2Parameters;
 import configuration.Configuration;
-import org.apache.spark.api.java.JavaPairRDD;
 import profiler.generation.R1CSConstructor;
 import relations.objects.Assignment;
 import relations.r1cs.R1CSRelation;
 import relations.r1cs.R1CSRelationRDD;
 import scala.Tuple3;
-import zk_proof_systems.zkSNARK.*;
-import zk_proof_systems.zkSNARK.objects.CRS;
-import zk_proof_systems.zkSNARK.objects.Proof;
+import zk_proof_systems.zkSNARK.grothBGM17.DistributedProver;
+import zk_proof_systems.zkSNARK.grothBGM17.DistributedSetup;
+import zk_proof_systems.zkSNARK.grothBGM17.SerialProver;
+import zk_proof_systems.zkSNARK.grothBGM17.SerialSetup;
+import zk_proof_systems.zkSNARK.grothBGM17.Verifier;
+import zk_proof_systems.zkSNARK.grothBGM17.objects.CRS;
+import zk_proof_systems.zkSNARK.grothBGM17.objects.Proof;
+
+// TODO: Implement a more flexible way to switch from one proof system to another
+// (as done in Zeth). This will certainly require to have a type parameter for the
+// SNARK from which we can access the objects.
+
+// WARNING: Switching to groth16 here will not work out of the box. This would require
+// to update the type of the CRS to introduce the GTT parameter back:
+// i.e. CRS<BN254aFr, BN254aG1, BN254aG2> -> CRS<BN254aFr, BN254aG1, BN254aG2, BN254aGTT>
 
 public class ZKSNARKProfiling {
 
