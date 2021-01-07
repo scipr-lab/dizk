@@ -22,3 +22,8 @@ len(bin(r)[2:])
 len(bin(q)[2:])
 # 377
 ```
+
+## References
+
+- https://eprint.iacr.org/2002/088.pdf
+- https://eprint.iacr.org/2018/962.pdf
