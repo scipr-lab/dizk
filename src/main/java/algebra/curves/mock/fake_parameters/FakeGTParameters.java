@@ -7,11 +7,10 @@
 
 package algebra.curves.mock.fake_parameters;
 
-import java.io.Serializable;
-import java.math.BigInteger;
-
 import algebra.curves.mock.FakeGT;
 import algebra.curves.mock.abstract_fake_parameters.AbstractFakeGTParameters;
+import java.io.Serializable;
+import java.math.BigInteger;
 
 public class FakeGTParameters extends AbstractFakeGTParameters implements Serializable {
 

@@ -11,8 +11,8 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import algebra.fields.Fp;
 import algebra.fields.mock.fieldparameters.LargeFpParameters;
-import algebra.groups.AdditiveIntegerGroup;
-import algebra.groups.integergroupparameters.LargeAdditiveIntegerGroupParameters;
+import algebra.groups.mock.AdditiveIntegerGroup;
+import algebra.groups.mock.integergroupparameters.LargeAdditiveIntegerGroupParameters;
 import java.io.Serializable;
 import java.util.ArrayList;
 import org.apache.spark.api.java.JavaRDD;

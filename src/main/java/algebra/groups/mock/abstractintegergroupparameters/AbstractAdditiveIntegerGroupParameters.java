@@ -5,9 +5,9 @@
  * @copyright  MIT license (see LICENSE file)
  *****************************************************************************/
 
-package algebra.groups.abstractintegergroupparameters;
+package algebra.groups.mock.abstractintegergroupparameters;
 
-import algebra.groups.AdditiveIntegerGroup;
+import algebra.groups.mock.AdditiveIntegerGroup;
 import java.math.BigInteger;
 
 public abstract class AbstractAdditiveIntegerGroupParameters {

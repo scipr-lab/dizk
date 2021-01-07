@@ -7,10 +7,9 @@
 
 package algebra.curves.mock.abstract_fake_parameters;
 
-import java.util.ArrayList;
-
 import algebra.curves.mock.FakeG1;
 import algebra.curves.mock.fake_parameters.FakeFqParameters;
+import java.util.ArrayList;
 
 public abstract class AbstractFakeG1Parameters {
 

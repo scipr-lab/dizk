@@ -7,12 +7,11 @@
 
 package algebra.curves.mock.fake_parameters;
 
+import algebra.curves.mock.FakeG1;
+import algebra.curves.mock.abstract_fake_parameters.AbstractFakeG1Parameters;
 import java.io.Serializable;
 import java.math.BigInteger;
 import java.util.ArrayList;
-
-import algebra.curves.mock.FakeG1;
-import algebra.curves.mock.abstract_fake_parameters.AbstractFakeG1Parameters;
 
 public class FakeG1Parameters extends AbstractFakeG1Parameters implements Serializable {
 

@@ -15,8 +15,8 @@ import algebra.curves.barreto_naehrig.bn254a.bn254a_parameters.BN254aG1Parameter
 import algebra.curves.barreto_naehrig.bn254a.bn254a_parameters.BN254aG2Parameters;
 import algebra.fields.Fp;
 import algebra.fields.mock.fieldparameters.LargeFpParameters;
-import algebra.groups.AdditiveIntegerGroup;
-import algebra.groups.integergroupparameters.LargeAdditiveIntegerGroupParameters;
+import algebra.groups.mock.AdditiveIntegerGroup;
+import algebra.groups.mock.integergroupparameters.LargeAdditiveIntegerGroupParameters;
 import common.Utils;
 import java.io.Serializable;
 import java.util.ArrayList;

@@ -2,13 +2,8 @@ package algebra.curves.barreto_lynn_scott.bls12_377;
 
 import algebra.curves.barreto_naehrig.BNFields.*;
 import algebra.curves.barreto_naehrig.bn254a.bn254a_parameters.*;
-import algebra.fields.Fp;
-import algebra.fields.Fp12_2Over3Over2;
-import algebra.fields.Fp2;
-import algebra.fields.Fp6_3Over2;
-import java.math.BigInteger;
 
-//public class BLS12_377Fields {
+// public class BLS12_377Fields {
 //  /* Scalar field Fr */
 //  public static class BLS12_377Fr extends BNFr<BLS12_377Fr> {
 //
@@ -246,7 +241,8 @@ import java.math.BigInteger;
 //  }
 //
 //  /* Field Fq12 */
-//  public static class BLS12_377Fq12 extends BNFq12<BLS12_377Fq, BLS12_377Fq2, BLS12_377Fq6, BLS12_377Fq12> {
+//  public static class BLS12_377Fq12 extends BNFq12<BLS12_377Fq, BLS12_377Fq2, BLS12_377Fq6,
+// BLS12_377Fq12> {
 //
 //    public static final BLS12_377Fq12Parameters Fq12Parameters = new BLS12_377Fq12Parameters();
 //    public static BLS12_377Fq12 ZERO = new BLS12_377Fq12(Fq12Parameters.ZERO());
@@ -286,5 +282,5 @@ import java.math.BigInteger;
 //      return this.element.toString();
 //    }
 //  }
-//}
+// }
 //

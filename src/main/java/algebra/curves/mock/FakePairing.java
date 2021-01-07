@@ -7,11 +7,10 @@
 
 package algebra.curves.mock;
 
-import algebra.curves.AbstractPairing;
-import algebra.fields.Fp;
-
 import static algebra.curves.mock.FakeInitialize.GTParameters;
 
+import algebra.curves.AbstractPairing;
+import algebra.fields.Fp;
 import java.math.BigInteger;
 
 public class FakePairing extends AbstractPairing<FakeG1, FakeG2, FakeGT> {

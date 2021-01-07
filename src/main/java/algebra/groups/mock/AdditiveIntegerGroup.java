@@ -5,9 +5,10 @@
  * @copyright  MIT license (see LICENSE file)
  *****************************************************************************/
 
-package algebra.groups;
+package algebra.groups.mock;
 
-import algebra.groups.abstractintegergroupparameters.AbstractAdditiveIntegerGroupParameters;
+import algebra.groups.AbstractGroup;
+import algebra.groups.mock.abstractintegergroupparameters.AbstractAdditiveIntegerGroupParameters;
 import java.math.BigInteger;
 import java.security.SecureRandom;
 import java.util.ArrayList;

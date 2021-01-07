@@ -9,8 +9,8 @@ package algebra.msm;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-import algebra.groups.AdditiveIntegerGroup;
-import algebra.groups.integergroupparameters.LargeAdditiveIntegerGroupParameters;
+import algebra.groups.mock.AdditiveIntegerGroup;
+import algebra.groups.mock.integergroupparameters.LargeAdditiveIntegerGroupParameters;
 import java.io.Serializable;
 import java.math.BigInteger;
 import java.util.ArrayList;

@@ -5,10 +5,10 @@
  * @copyright  MIT license (see LICENSE file)
  *****************************************************************************/
 
-package algebra.groups.integergroupparameters;
+package algebra.groups.mock.integergroupparameters;
 
-import algebra.groups.AdditiveIntegerGroup;
-import algebra.groups.abstractintegergroupparameters.AbstractAdditiveIntegerGroupParameters;
+import algebra.groups.mock.AdditiveIntegerGroup;
+import algebra.groups.mock.abstractintegergroupparameters.AbstractAdditiveIntegerGroupParameters;
 import java.io.Serializable;
 import java.math.BigInteger;
 
