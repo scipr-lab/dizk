@@ -5,7 +5,7 @@
  * @copyright  MIT license (see LICENSE file)
  *****************************************************************************/
 
-package zk_proof_systems.zkSNARK;
+package zk_proof_systems.zkSNARK.grothBGM17;
 
 import algebra.curves.AbstractG1;
 import algebra.curves.AbstractG2;
@@ -20,9 +20,9 @@ import reductions.r1cs_to_qap.R1CStoQAP;
 import relations.qap.QAPRelation;
 import relations.r1cs.R1CSRelation;
 import scala.Tuple2;
-import zk_proof_systems.zkSNARK.objects.CRS;
-import zk_proof_systems.zkSNARK.objects.ProvingKey;
-import zk_proof_systems.zkSNARK.objects.VerificationKey;
+import zk_proof_systems.zkSNARK.grothBGM17.objects.CRS;
+import zk_proof_systems.zkSNARK.grothBGM17.objects.ProvingKey;
+import zk_proof_systems.zkSNARK.grothBGM17.objects.VerificationKey;
 
 public class SerialSetup {
   public static <

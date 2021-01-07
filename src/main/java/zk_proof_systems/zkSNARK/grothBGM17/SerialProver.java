@@ -5,7 +5,7 @@
  * @copyright  MIT license (see LICENSE file)
  *****************************************************************************/
 
-package zk_proof_systems.zkSNARK;
+package zk_proof_systems.zkSNARK.grothBGM17;
 
 import algebra.curves.AbstractG1;
 import algebra.curves.AbstractG2;
@@ -17,8 +17,8 @@ import relations.objects.Assignment;
 import relations.qap.QAPRelation;
 import relations.qap.QAPWitness;
 import scala.Tuple2;
-import zk_proof_systems.zkSNARK.objects.Proof;
-import zk_proof_systems.zkSNARK.objects.ProvingKey;
+import zk_proof_systems.zkSNARK.grothBGM17.objects.Proof;
+import zk_proof_systems.zkSNARK.grothBGM17.objects.ProvingKey;
 
 public class SerialProver {
   public static <
@@ -123,6 +123,9 @@ public class SerialProver {
     //G1T evaluationABC =
     //    VariableBaseMSM.serialMSM(
     //        auxiliary.subList(0, numWitness), provingKey.deltaABCG1().subList(0, numWitness));
+    System.out.println("[DEBUG] Prover, auxiliary.elements().size(): " + auxiliary.elements().size());
+    System.out.println("[DEBUG] Prover, provingKey.deltaABCG1().size(): " + provingKey.deltaABCG1().size());
+    System.out.println("[DEBUG] Both expected to be: numWitness = " + numWitness);
     G1T evaluationABC =
         VariableBaseMSM.serialMSM(auxiliary.elements(), provingKey.deltaABCG1());
     evaluationABC = evaluationABC.add(evaluationHtZt); // H(t)*Z(t)/delta

@@ -14,6 +14,12 @@ import algebra.curves.barreto_naehrig.BNFields.*;
 import algebra.curves.barreto_naehrig.abstract_bn_parameters.AbstractBNG1Parameters;
 import algebra.curves.barreto_naehrig.abstract_bn_parameters.AbstractBNG2Parameters;
 import algebra.curves.barreto_naehrig.abstract_bn_parameters.AbstractBNGTParameters;
+import algebra.curves.barreto_naehrig.bn254a.BN254aFields.BN254aFr;
+import algebra.curves.barreto_naehrig.bn254a.BN254aG1;
+import algebra.curves.barreto_naehrig.bn254a.BN254aG2;
+import algebra.curves.barreto_naehrig.bn254a.BN254aPairing;
+import algebra.curves.barreto_naehrig.bn254a.bn254a_parameters.BN254aG1Parameters;
+import algebra.curves.barreto_naehrig.bn254a.bn254a_parameters.BN254aG2Parameters;
 import algebra.curves.barreto_naehrig.bn254b.BN254bFields.BN254bFr;
 import algebra.curves.barreto_naehrig.bn254b.BN254bG1;
 import algebra.curves.barreto_naehrig.bn254b.BN254bG2;
@@ -94,10 +100,10 @@ public class DistributedzkSNARKTest implements Serializable {
       void DistributedBNProofSystemTest(
           final int numInputs,
           final int numConstraints,
-          BNFrT fieldFactory,
-          BNG1T g1Factory,
-          BNG2T g2Factory,
-          BNPairingT pairing) {
+          final BNFrT fieldFactory,
+          final BNG1T g1Factory,
+          final BNG2T g2Factory,
+          final BNPairingT pairing) {
     final Tuple3<R1CSRelationRDD<BNFrT>, Assignment<BNFrT>, JavaPairRDD<Long, BNFrT>> construction =
         R1CSConstructor.parallelConstruct(numConstraints, numInputs, fieldFactory, config);
     final R1CSRelationRDD<BNFrT> r1cs = construction._1();

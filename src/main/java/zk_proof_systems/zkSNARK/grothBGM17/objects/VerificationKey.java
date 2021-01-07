@@ -5,7 +5,7 @@
  * @copyright  MIT license (see LICENSE file)
  *****************************************************************************/
 
-package zk_proof_systems.zkSNARK.objects;
+package zk_proof_systems.zkSNARK.grothBGM17.objects;
 
 import algebra.curves.AbstractG1;
 import algebra.curves.AbstractG2;

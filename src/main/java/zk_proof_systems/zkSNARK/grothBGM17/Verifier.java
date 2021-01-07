@@ -5,7 +5,7 @@
  * @copyright  MIT license (see LICENSE file)
  *****************************************************************************/
 
-package zk_proof_systems.zkSNARK;
+package zk_proof_systems.zkSNARK.grothBGM17;
 
 import algebra.curves.AbstractG1;
 import algebra.curves.AbstractG2;
@@ -15,8 +15,8 @@ import algebra.fields.AbstractFieldElementExpanded;
 import algebra.msm.VariableBaseMSM;
 import configuration.Configuration;
 import relations.objects.Assignment;
-import zk_proof_systems.zkSNARK.objects.Proof;
-import zk_proof_systems.zkSNARK.objects.VerificationKey;
+import zk_proof_systems.zkSNARK.grothBGM17.objects.Proof;
+import zk_proof_systems.zkSNARK.grothBGM17.objects.VerificationKey;
 
 public class Verifier {
   public static <
@@ -46,6 +46,9 @@ public class Verifier {
     final GTT CDelta = pairing.reducedPairing(proof.gC(), delta);
 
     // RHS: Compute \sum_{i=0}^{numInputs} pubInp_i * (beta*A_i(x) + alpha*B_i(x) + C_i(x))
+    System.out.println("[DEBUG] Verifier RHS, primaryInput.elements().size(): " + primaryInput.elements().size());
+    System.out.println("[DEBUG] Verifier RHS, verificationKey.ABC().size(): " + verificationKey.ABC().size());
+    System.out.println("[DEBUG] Both expected to be: numInputs");
     final G1T evaluationABC =
         VariableBaseMSM.serialMSM(primaryInput.elements(), verificationKey.ABC());
 
