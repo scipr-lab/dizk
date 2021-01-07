@@ -5,12 +5,13 @@
  * @copyright  MIT license (see LICENSE file)
  *****************************************************************************/
 
-package algebra.curves.fake.fake_parameters;
+package algebra.curves.mock.fake_parameters;
 
-import algebra.curves.fake.FakeGT;
-import algebra.curves.fake.abstract_fake_parameters.AbstractFakeGTParameters;
 import java.io.Serializable;
 import java.math.BigInteger;
+
+import algebra.curves.mock.FakeGT;
+import algebra.curves.mock.abstract_fake_parameters.AbstractFakeGTParameters;
 
 public class FakeGTParameters extends AbstractFakeGTParameters implements Serializable {
 

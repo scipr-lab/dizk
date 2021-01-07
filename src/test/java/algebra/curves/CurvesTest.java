@@ -14,11 +14,11 @@ import algebra.curves.barreto_naehrig.bn254a.bn254a_parameters.BN254aG1Parameter
 import algebra.curves.barreto_naehrig.bn254a.bn254a_parameters.BN254aG2Parameters;
 import algebra.curves.barreto_naehrig.bn254b.bn254b_parameters.BN254bG1Parameters;
 import algebra.curves.barreto_naehrig.bn254b.bn254b_parameters.BN254bG2Parameters;
-import algebra.curves.fake.FakeG1;
-import algebra.curves.fake.FakeG2;
-import algebra.curves.fake.FakeInitialize;
-import algebra.curves.fake.fake_parameters.FakeG1Parameters;
-import algebra.curves.fake.fake_parameters.FakeG2Parameters;
+import algebra.curves.mock.FakeG1;
+import algebra.curves.mock.FakeG2;
+import algebra.curves.mock.FakeInitialize;
+import algebra.curves.mock.fake_parameters.FakeG1Parameters;
+import algebra.curves.mock.fake_parameters.FakeG2Parameters;
 import algebra.groups.AbstractGroup;
 import java.math.BigInteger;
 import org.junit.jupiter.api.Test;

@@ -5,14 +5,15 @@
  * @copyright  MIT license (see LICENSE file)
  *****************************************************************************/
 
-package algebra.curves.fake.abstract_fake_parameters;
+package algebra.curves.mock;
 
-import algebra.curves.fake.FakeGT;
-import algebra.curves.fake.fake_parameters.FakeFqParameters;
+import algebra.curves.mock.fake_parameters.FakeGTParameters;
 
-public abstract class AbstractFakeGTParameters {
+public class FakeInitialize {
 
-  public abstract FakeFqParameters FqParameters();
+  static FakeGTParameters GTParameters;
 
-  public abstract FakeGT ONE();
+  public static void init() {
+    GTParameters = new FakeGTParameters();
+  }
 }

@@ -5,10 +5,10 @@
  * @copyright  MIT license (see LICENSE file)
  *****************************************************************************/
 
-package algebra.curves.fake;
+package algebra.curves.mock;
 
 import algebra.curves.AbstractG2;
-import algebra.curves.fake.abstract_fake_parameters.AbstractFakeG2Parameters;
+import algebra.curves.mock.abstract_fake_parameters.AbstractFakeG2Parameters;
 import algebra.fields.Fp;
 import java.math.BigInteger;
 import java.util.ArrayList;

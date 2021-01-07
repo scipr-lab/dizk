@@ -5,12 +5,13 @@
  * @copyright  MIT license (see LICENSE file)
  *****************************************************************************/
 
-package algebra.curves.fake;
-
-import static algebra.curves.fake.FakeInitialize.GTParameters;
+package algebra.curves.mock;
 
 import algebra.curves.AbstractPairing;
 import algebra.fields.Fp;
+
+import static algebra.curves.mock.FakeInitialize.GTParameters;
+
 import java.math.BigInteger;
 
 public class FakePairing extends AbstractPairing<FakeG1, FakeG2, FakeGT> {

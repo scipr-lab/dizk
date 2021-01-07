@@ -5,7 +5,7 @@
  * @copyright  MIT license (see LICENSE file)
  *****************************************************************************/
 
-package algebra.curves.fake.fake_parameters;
+package algebra.curves.mock.fake_parameters;
 
 import algebra.fields.Fp;
 import algebra.fields.abstractfieldparameters.AbstractFpParameters;

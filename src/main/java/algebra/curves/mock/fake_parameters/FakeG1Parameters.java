@@ -5,20 +5,21 @@
  * @copyright  MIT license (see LICENSE file)
  *****************************************************************************/
 
-package algebra.curves.fake.fake_parameters;
+package algebra.curves.mock.fake_parameters;
 
-import algebra.curves.fake.FakeG2;
-import algebra.curves.fake.abstract_fake_parameters.AbstractFakeG2Parameters;
 import java.io.Serializable;
 import java.math.BigInteger;
 import java.util.ArrayList;
 
-public class FakeG2Parameters extends AbstractFakeG2Parameters implements Serializable {
+import algebra.curves.mock.FakeG1;
+import algebra.curves.mock.abstract_fake_parameters.AbstractFakeG1Parameters;
+
+public class FakeG1Parameters extends AbstractFakeG1Parameters implements Serializable {
 
   private FakeFqParameters FqParameters;
 
-  private FakeG2 ZERO;
-  private FakeG2 ONE;
+  private FakeG1 ZERO;
+  private FakeG1 ONE;
 
   private ArrayList<Integer> fixedBaseWindowTable;
 
@@ -30,17 +31,17 @@ public class FakeG2Parameters extends AbstractFakeG2Parameters implements Serial
     return FqParameters;
   }
 
-  public FakeG2 ZERO() {
+  public FakeG1 ZERO() {
     if (ZERO == null) {
-      ZERO = new FakeG2(BigInteger.ZERO, this);
+      ZERO = new FakeG1(BigInteger.ZERO, this);
     }
 
     return ZERO;
   }
 
-  public FakeG2 ONE() {
+  public FakeG1 ONE() {
     if (ONE == null) {
-      ONE = new FakeG2(BigInteger.ONE, this);
+      ONE = new FakeG1(BigInteger.ONE, this);
     }
 
     return ONE;
