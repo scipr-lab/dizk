@@ -14,7 +14,7 @@ import algebra.curves.barreto_naehrig.bn254a.BN254aG2;
 import algebra.curves.barreto_naehrig.bn254a.bn254a_parameters.BN254aG1Parameters;
 import algebra.curves.barreto_naehrig.bn254a.bn254a_parameters.BN254aG2Parameters;
 import algebra.fields.Fp;
-import algebra.fields.fieldparameters.LargeFpParameters;
+import algebra.fields.mock.fieldparameters.LargeFpParameters;
 import algebra.groups.AdditiveIntegerGroup;
 import algebra.groups.integergroupparameters.LargeAdditiveIntegerGroupParameters;
 import common.Utils;

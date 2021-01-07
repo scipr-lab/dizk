@@ -10,7 +10,7 @@ package algebra.msm;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import algebra.fields.Fp;
-import algebra.fields.fieldparameters.LargeFpParameters;
+import algebra.fields.mock.fieldparameters.LargeFpParameters;
 import algebra.groups.AdditiveIntegerGroup;
 import algebra.groups.integergroupparameters.LargeAdditiveIntegerGroupParameters;
 import java.io.Serializable;

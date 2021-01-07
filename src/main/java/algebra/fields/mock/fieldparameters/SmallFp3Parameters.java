@@ -5,48 +5,42 @@
  * @copyright  MIT license (see LICENSE file)
  *****************************************************************************/
 
-package algebra.fields.fieldparameters;
+package algebra.fields.mock.fieldparameters;
 
 import algebra.fields.Fp;
-import algebra.fields.Fp6_2Over3;
-import algebra.fields.abstractfieldparameters.AbstractFp6_2Over3_Parameters;
+import algebra.fields.Fp3;
+import algebra.fields.abstractfieldparameters.AbstractFp3Parameters;
 import java.io.Serializable;
 
-public class SmallFp6_2Over3_Parameters extends AbstractFp6_2Over3_Parameters
-    implements Serializable {
-  private Fp6_2Over3 ZERO;
-  private Fp6_2Over3 ONE;
+public class SmallFp3Parameters extends AbstractFp3Parameters implements Serializable {
+  private Fp3 ZERO;
+  private Fp3 ONE;
 
   private Fp nonresidue;
   private Fp[] FrobeniusCoefficientsC1;
+  private Fp[] FrobeniusCoefficientsC2;
 
   private SmallFpParameters FpParameters;
-  private SmallFp3Parameters Fp3Parameters;
 
-  public SmallFp6_2Over3_Parameters() {
+  public SmallFp3Parameters() {
     FpParameters = new SmallFpParameters();
-    Fp3Parameters = new SmallFp3Parameters();
   }
 
   public SmallFpParameters FpParameters() {
     return FpParameters;
   }
 
-  public SmallFp3Parameters Fp3Parameters() {
-    return Fp3Parameters;
-  }
-
-  public Fp6_2Over3 ZERO() {
+  public Fp3 ZERO() {
     if (ZERO == null) {
-      ZERO = new Fp6_2Over3(Fp3Parameters.ZERO(), Fp3Parameters.ZERO(), this);
+      ZERO = new Fp3(FpParameters.ZERO(), FpParameters.ZERO(), FpParameters.ZERO(), this);
     }
 
     return ZERO;
   }
 
-  public Fp6_2Over3 ONE() {
+  public Fp3 ONE() {
     if (ONE == null) {
-      ONE = new Fp6_2Over3(Fp3Parameters.ONE(), Fp3Parameters.ZERO(), this);
+      ONE = new Fp3(FpParameters.ONE(), FpParameters.ZERO(), FpParameters.ZERO(), this);
     }
 
     return ONE;
@@ -62,15 +56,23 @@ public class SmallFp6_2Over3_Parameters extends AbstractFp6_2Over3_Parameters
 
   public Fp[] FrobeniusMapCoefficientsC1() {
     if (FrobeniusCoefficientsC1 == null) {
-      FrobeniusCoefficientsC1 = new Fp[6];
+      FrobeniusCoefficientsC1 = new Fp[3];
       FrobeniusCoefficientsC1[0] = FpParameters.ONE();
       FrobeniusCoefficientsC1[1] = FpParameters.ONE();
       FrobeniusCoefficientsC1[2] = FpParameters.ONE();
-      FrobeniusCoefficientsC1[3] = FpParameters.ONE();
-      FrobeniusCoefficientsC1[4] = FpParameters.ONE();
-      FrobeniusCoefficientsC1[5] = FpParameters.ONE();
     }
 
     return FrobeniusCoefficientsC1;
+  }
+
+  public Fp[] FrobeniusMapCoefficientsC2() {
+    if (FrobeniusCoefficientsC2 == null) {
+      FrobeniusCoefficientsC2 = new Fp[3];
+      FrobeniusCoefficientsC2[0] = FpParameters.ONE();
+      FrobeniusCoefficientsC2[1] = FpParameters.ONE();
+      FrobeniusCoefficientsC2[2] = FpParameters.ONE();
+    }
+
+    return FrobeniusCoefficientsC2;
   }
 }

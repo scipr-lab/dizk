@@ -10,7 +10,7 @@ package reductions;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import algebra.fields.Fp;
-import algebra.fields.fieldparameters.LargeFpParameters;
+import algebra.fields.mock.fieldparameters.LargeFpParameters;
 import configuration.Configuration;
 import java.io.Serializable;
 import org.apache.spark.api.java.JavaPairRDD;

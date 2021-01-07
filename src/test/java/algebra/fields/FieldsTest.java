@@ -13,7 +13,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import algebra.fields.abstractfieldparameters.AbstractFp12_2Over3Over2_Parameters;
 import algebra.fields.abstractfieldparameters.AbstractFp2Parameters;
 import algebra.fields.abstractfieldparameters.AbstractFp6_3Over2_Parameters;
-import algebra.fields.fieldparameters.*;
+import algebra.fields.mock.fieldparameters.*;
 import org.junit.jupiter.api.Test;
 
 public class FieldsTest {

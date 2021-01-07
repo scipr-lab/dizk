@@ -5,7 +5,7 @@
  * @copyright  MIT license (see LICENSE file)
  *****************************************************************************/
 
-package algebra.fields.fieldparameters;
+package algebra.fields.mock.fieldparameters;
 
 import algebra.fields.Fp12_2Over3Over2;
 import algebra.fields.Fp2;

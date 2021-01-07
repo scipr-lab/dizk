@@ -5,14 +5,14 @@
  * @copyright  MIT license (see LICENSE file)
  *****************************************************************************/
 
-package algebra.fields.fieldparameters;
+package algebra.fields.mock.fieldparameters;
 
 import algebra.fields.Fp;
 import algebra.fields.abstractfieldparameters.AbstractFpParameters;
 import java.io.Serializable;
 import java.math.BigInteger;
 
-public class SmallFpParameters extends AbstractFpParameters implements Serializable {
+public class LargeFpParameters extends AbstractFpParameters implements Serializable {
   private BigInteger modulus;
   private BigInteger root;
   private Fp multiplicativeGenerator;
@@ -29,7 +29,7 @@ public class SmallFpParameters extends AbstractFpParameters implements Serializa
 
   public BigInteger modulus() {
     if (modulus == null) {
-      modulus = new BigInteger("7");
+      modulus = new BigInteger("1532495540865888858358347027150309183618765510462668801");
     }
 
     return modulus;
@@ -37,7 +37,7 @@ public class SmallFpParameters extends AbstractFpParameters implements Serializa
 
   public BigInteger root() {
     if (root == null) {
-      root = new BigInteger("3");
+      root = new BigInteger("6");
     }
 
     return root;
@@ -45,7 +45,7 @@ public class SmallFpParameters extends AbstractFpParameters implements Serializa
 
   public Fp multiplicativeGenerator() {
     if (multiplicativeGenerator == null) {
-      multiplicativeGenerator = new Fp("3", this);
+      multiplicativeGenerator = new Fp("6", this);
     }
 
     return multiplicativeGenerator;

@@ -1,7 +1,7 @@
 package profiler.profiling;
 
 import algebra.fields.Fp;
-import algebra.fields.fieldparameters.LargeFpParameters;
+import algebra.fields.mock.fieldparameters.LargeFpParameters;
 import configuration.Configuration;
 import org.apache.spark.api.java.JavaPairRDD;
 import profiler.generation.R1CSConstructor;

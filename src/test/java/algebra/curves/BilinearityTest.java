@@ -32,7 +32,7 @@ import algebra.curves.fake.fake_parameters.FakeG2Parameters;
 import algebra.curves.fake.fake_parameters.FakeGTParameters;
 import algebra.fields.AbstractFieldElementExpanded;
 import algebra.fields.Fp;
-import algebra.fields.fieldparameters.LargeFpParameters;
+import algebra.fields.mock.fieldparameters.LargeFpParameters;
 import org.junit.jupiter.api.Test;
 
 public class BilinearityTest {
