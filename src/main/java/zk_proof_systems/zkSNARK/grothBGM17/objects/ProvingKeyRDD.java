@@ -1,11 +1,4 @@
-/* @file
- *****************************************************************************
- * @author     This file is part of zkspark, developed by SCIPR Lab
- *             and contributors (see AUTHORS).
- * @copyright  MIT license (see LICENSE file)
- *****************************************************************************/
-
-package zk_proof_systems.zkSNARK.objects;
+package zk_proof_systems.zkSNARK.grothBGM17.objects;
 
 import algebra.curves.AbstractG1;
 import algebra.curves.AbstractG2;
@@ -15,33 +8,35 @@ import org.apache.spark.api.java.JavaPairRDD;
 import relations.r1cs.R1CSRelationRDD;
 import scala.Tuple2;
 
+/** Groth16-BGM17 Proving key for distributed computation */
 public class ProvingKeyRDD<
         FieldT extends AbstractFieldElementExpanded<FieldT>,
         G1T extends AbstractG1<G1T>,
         G2T extends AbstractG2<G2T>>
     implements Serializable {
 
-  // Below, [x]_1 (resp. [x]_2 and []_T) represents the encoding of x in G1 (resp. G2 and GT)
-  // We follow the notations in Groth16 (namely, polynomials are denoted u, v, w, h, t instead of A,
-  // B, C, H, Z. Moreover the evaluation point is denoted by x)
+  // Below, [x]_1 (resp. [x]_2 and [x]_T) represents the encoding of x in G1 (resp. G2 and GT)
+  // We do not follow the notations in Groth16 (namely, polynomials are denoted A, B, C, H, Z
+  // instead of u, v, w, h, t. Moreover the evaluation point is denoted by t)
   //
   // [alpha]_1
   private final G1T alphaG1;
-  // [beta]_1
+  // [beta]
   private final G1T betaG1;
-  // [beta]_2
   private final G2T betaG2;
-  // [delta]_1
+  // [delta]
   private final G1T deltaG1;
-  // [delta]_2
   private final G2T deltaG2;
-  // {[(beta * u_i(x) + alpha * v_i(x) + w_i(x))/delta]_1}
+  // {[(beta * A_i(t) + alpha * B_i(t) + C_i(t))/delta]_1}_{i=numInputs+1}^{numVariables}
   private final JavaPairRDD<Long, G1T> deltaABCG1;
-  // {[u_i(x)]_1}
+  // {[A_i(t)]_1}_{i=0}^{numVariables}
   private final JavaPairRDD<Long, G1T> queryA;
-  // {[v_i(x)]_1}
+  // {[B_i(t)]}_{i=0}^{numVariables}
+  // Note: queryB is taken in both G1 and G2 because its fastens the prover:
+  // - the G2 part is used in the computation of proof.B (encoded in G2)
+  // - the G1 part is used in the computation of proof.C (i.e. the  + rB term, encoded in G1)
   private final JavaPairRDD<Long, Tuple2<G1T, G2T>> queryB;
-  // {[(x^i * t(x))/delta]_1}
+  // {[t^i * Z(t)/delta]_1}_{i=0}^{deg(Z(x)) - 2}
   private final JavaPairRDD<Long, G1T> queryH;
   // The proving key contains an arithmetized relation
   private final R1CSRelationRDD<FieldT> r1cs;

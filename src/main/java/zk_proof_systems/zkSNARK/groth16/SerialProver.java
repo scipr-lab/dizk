@@ -5,7 +5,7 @@
  * @copyright  MIT license (see LICENSE file)
  *****************************************************************************/
 
-package zk_proof_systems.zkSNARK;
+package zk_proof_systems.zkSNARK.groth16;
 
 import algebra.curves.AbstractG1;
 import algebra.curves.AbstractG2;
@@ -17,8 +17,8 @@ import relations.objects.Assignment;
 import relations.qap.QAPRelation;
 import relations.qap.QAPWitness;
 import scala.Tuple2;
-import zk_proof_systems.zkSNARK.objects.Proof;
-import zk_proof_systems.zkSNARK.objects.ProvingKey;
+import zk_proof_systems.zkSNARK.groth16.objects.Proof;
+import zk_proof_systems.zkSNARK.groth16.objects.ProvingKey;
 
 public class SerialProver {
   public static <

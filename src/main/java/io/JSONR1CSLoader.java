@@ -144,6 +144,9 @@ public class JSONR1CSLoader {
     // (e.g. sc.parallelize(data, 10))
     // See: https://spark.apache.org/docs/3.0.0/rdd-programming-guide.html#parallelized-collections
     //
+    // WARNING: SparkContext’s parallelize() method may not be suitable outside of testing and
+    // prototyping because this method requires entire dataset on one machine.
+    //
     // NOTE1: Here "the initial dataset" is just an array of integers (the "partitions" which is
     // an ArrayList<Integer>). This array (e.g. [0,1,2]) is used to build the data in each
     // partitions

@@ -5,7 +5,7 @@
  * @copyright  MIT license (see LICENSE file)
  *****************************************************************************/
 
-package zk_proof_systems.zkSNARK;
+package zk_proof_systems.zkSNARK.groth16;
 
 import algebra.curves.AbstractG1;
 import algebra.curves.AbstractG2;
@@ -15,8 +15,8 @@ import algebra.fields.AbstractFieldElementExpanded;
 import algebra.msm.VariableBaseMSM;
 import configuration.Configuration;
 import relations.objects.Assignment;
-import zk_proof_systems.zkSNARK.objects.Proof;
-import zk_proof_systems.zkSNARK.objects.VerificationKey;
+import zk_proof_systems.zkSNARK.groth16.objects.Proof;
+import zk_proof_systems.zkSNARK.groth16.objects.VerificationKey;
 
 public class Verifier {
   public static <

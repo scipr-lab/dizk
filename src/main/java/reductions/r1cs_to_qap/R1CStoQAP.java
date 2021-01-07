@@ -36,6 +36,7 @@ public class R1CStoQAP {
     final int numInputs = r1cs.numInputs();
     final int numVariables = r1cs.numVariables();
     final int numConstraints = r1cs.numConstraints();
+    // SerialFFT returns a pow 2 domain
     final SerialFFT<FieldT> domain = new SerialFFT<>(numConstraints + numInputs, t);
     final FieldT zero = t.zero();
 

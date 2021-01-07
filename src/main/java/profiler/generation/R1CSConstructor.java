@@ -104,6 +104,7 @@ public class R1CSConstructor implements Serializable {
     constraints.add(new R1CSConstraint<>(A, B, C));
 
     final R1CSRelation<FieldT> r1cs = new R1CSRelation<>(constraints, numInputs, numAuxiliary);
+    // Split the fullAssignment in 2 subsets: fullAssignment = primary \cup auxiliary
     final Assignment<FieldT> primary = new Assignment<>(fullAssignment.subList(0, numInputs));
     final Assignment<FieldT> auxiliary =
         new Assignment<>(fullAssignment.subList(numInputs, fullAssignment.size()));

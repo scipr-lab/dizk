@@ -5,7 +5,7 @@
  * @copyright  MIT license (see LICENSE file)
  *****************************************************************************/
 
-package zk_proof_systems.zkSNARK;
+package zk_proof_systems.zkSNARK.grothBGM17;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
@@ -35,8 +35,8 @@ import profiler.utils.SparkUtils;
 import relations.objects.Assignment;
 import relations.r1cs.R1CSRelationRDD;
 import scala.Tuple3;
-import zk_proof_systems.zkSNARK.objects.CRS;
-import zk_proof_systems.zkSNARK.objects.Proof;
+import zk_proof_systems.zkSNARK.grothBGM17.objects.CRS;
+import zk_proof_systems.zkSNARK.grothBGM17.objects.Proof;
 
 public class DistributedzkSNARKTest implements Serializable {
   private transient JavaSparkContext sc;
@@ -94,17 +94,17 @@ public class DistributedzkSNARKTest implements Serializable {
       void DistributedBNProofSystemTest(
           final int numInputs,
           final int numConstraints,
-          BNFrT fieldFactory,
-          BNG1T g1Factory,
-          BNG2T g2Factory,
-          BNPairingT pairing) {
+          final BNFrT fieldFactory,
+          final BNG1T g1Factory,
+          final BNG2T g2Factory,
+          final BNPairingT pairing) {
     final Tuple3<R1CSRelationRDD<BNFrT>, Assignment<BNFrT>, JavaPairRDD<Long, BNFrT>> construction =
         R1CSConstructor.parallelConstruct(numConstraints, numInputs, fieldFactory, config);
     final R1CSRelationRDD<BNFrT> r1cs = construction._1();
     final Assignment<BNFrT> primary = construction._2();
     final JavaPairRDD<Long, BNFrT> fullAssignment = construction._3();
 
-    final CRS<BNFrT, BNG1T, BNG2T, BNGTT> CRS =
+    final CRS<BNFrT, BNG1T, BNG2T> CRS =
         DistributedSetup.generate(r1cs, fieldFactory, g1Factory, g2Factory, pairing, config);
 
     final Proof<BNG1T, BNG2T> proof =
