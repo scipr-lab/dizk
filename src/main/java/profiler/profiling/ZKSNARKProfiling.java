@@ -1,7 +1,5 @@
 package profiler.profiling;
 
-import org.apache.spark.api.java.JavaPairRDD;
-
 import algebra.curves.barreto_naehrig.bn254a.BN254aFields.BN254aFr;
 import algebra.curves.barreto_naehrig.bn254a.BN254aG1;
 import algebra.curves.barreto_naehrig.bn254a.BN254aG2;
@@ -15,6 +13,7 @@ import algebra.curves.barreto_naehrig.bn254b.BN254bPairing;
 import algebra.curves.barreto_naehrig.bn254b.bn254b_parameters.BN254bG1Parameters;
 import algebra.curves.barreto_naehrig.bn254b.bn254b_parameters.BN254bG2Parameters;
 import configuration.Configuration;
+import org.apache.spark.api.java.JavaPairRDD;
 import profiler.generation.R1CSConstructor;
 import relations.objects.Assignment;
 import relations.r1cs.R1CSRelation;

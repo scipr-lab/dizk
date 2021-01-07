@@ -39,21 +39,25 @@ public class Verifier {
     final GTT LHS = pairing.reducedPairing(proof.gA(), proof.gB());
 
     // RHS: Compute [alpha * beta]_T
-    final GTT alphaBeta = pairing.reducedPairing(verificationKey.alphaG1(),verificationKey.betaG2());
+    final GTT alphaBeta =
+        pairing.reducedPairing(verificationKey.alphaG1(), verificationKey.betaG2());
 
     // RHS: Compute [C * delta]_T
     final G2T delta = verificationKey.deltaG2();
     final GTT CDelta = pairing.reducedPairing(proof.gC(), delta);
 
     // RHS: Compute \sum_{i=0}^{numInputs} pubInp_i * (beta*A_i(x) + alpha*B_i(x) + C_i(x))
-    System.out.println("[DEBUG] Verifier RHS, primaryInput.elements().size(): " + primaryInput.elements().size());
-    System.out.println("[DEBUG] Verifier RHS, verificationKey.ABC().size(): " + verificationKey.ABC().size());
+    System.out.println(
+        "[DEBUG] Verifier RHS, primaryInput.elements().size(): " + primaryInput.elements().size());
+    System.out.println(
+        "[DEBUG] Verifier RHS, verificationKey.ABC().size(): " + verificationKey.ABC().size());
     System.out.println("[DEBUG] Both expected to be: numInputs");
     final G1T evaluationABC =
         VariableBaseMSM.serialMSM(primaryInput.elements(), verificationKey.ABC());
 
     // Compute the RHS: [alpha*beta + evaluationABC*1 + C*delta]_T
-    final G2T generatorG2 = delta.one(); // See SerialSetup, we take ONE in both G1 and G2 as generator.
+    final G2T generatorG2 =
+        delta.one(); // See SerialSetup, we take ONE in both G1 and G2 as generator.
     final GTT RHS = alphaBeta.add(pairing.reducedPairing(evaluationABC, generatorG2)).add(CDelta);
 
     final boolean verifierResult = LHS.equals(RHS);

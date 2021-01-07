@@ -85,7 +85,7 @@ public class DistributedSetup {
 
     config.beginLog("Generating G1 MSM Window Table");
     // For testing with the cpp code, take the identity instead of a random generator
-    //final G1T generatorG1 = g1Factory.random(config.seed(), config.secureSeed());
+    // final G1T generatorG1 = g1Factory.random(config.seed(), config.secureSeed());
     final G1T generatorG1 = g1Factory.one();
     final int scalarSizeG1 = generatorG1.bitSize();
     final long scalarCountG1 = numNonZeroAt + numNonZeroBt + numVariables;
@@ -96,7 +96,7 @@ public class DistributedSetup {
     config.endLog("Generating G1 MSM Window Table");
 
     config.beginLog("Generating G2 MSM Window Table");
-    //final G2T generatorG2 = g2Factory.random(config.seed(), config.secureSeed());
+    // final G2T generatorG2 = g2Factory.random(config.seed(), config.secureSeed());
     final G2T generatorG2 = g2Factory.one();
     final int scalarSizeG2 = generatorG2.bitSize();
     final long scalarCountG2 = numNonZeroBt;
@@ -170,9 +170,9 @@ public class DistributedSetup {
     config.beginRuntime("Verification Key");
     final JavaPairRDD<Long, FieldT> vkABC = ABC.filter(e -> e._1 < numInputs);
     final JavaPairRDD<Long, G1T> vkABCG1 =
-    FixedBaseMSM.distributedBatchMSM(
-            scalarSizeG1, windowSizeG1, windowTableG1, vkABC, config.sparkContext())
-        .persist(config.storageLevel());
+        FixedBaseMSM.distributedBatchMSM(
+                scalarSizeG1, windowSizeG1, windowTableG1, vkABC, config.sparkContext())
+            .persist(config.storageLevel());
     // ABC is not stored as an RDD in the verification key, so we recover a `List`
     final List<G1T> vkABCFinalG1 = Utils.convertFromPair(vkABCG1.collect(), numInputs);
     ABC.unpersist();

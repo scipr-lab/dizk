@@ -61,8 +61,10 @@ public class SerialSetup {
     // {[beta * A_i(t) + alpha * B_i(t) + C_i(t)]_1}_{i=0}^{numInputs}
     config.beginLog("Computing ABC for R1CS verification key");
     final List<FieldT> vkABC = new ArrayList<>(numInputs);
-    // TODO: (Double check) I don't think we need to add 1 to the bounds here (i.e. i = 1 and i < numInputs + 1)
-    // because we manually add ONE to the inputs outside of this function when we construct the R1CS.
+    // TODO: (Double check) I don't think we need to add 1 to the bounds here (i.e. i = 1 and i <
+    // numInputs + 1)
+    // because we manually add ONE to the inputs outside of this function when we construct the
+    // R1CS.
     for (int i = 0; i < numInputs; i++) {
       vkABC.add(beta.mul(qap.At(i)).add(alpha.mul(qap.Bt(i))).add(qap.Ct(i)));
     }
@@ -91,7 +93,7 @@ public class SerialSetup {
     config.endLog("Computing query densities");
 
     config.beginLog("Generating G1 MSM Window Table");
-    //final G1T generatorG1 = g1Factory.random(config.seed(), config.secureSeed());
+    // final G1T generatorG1 = g1Factory.random(config.seed(), config.secureSeed());
     // We take ONE in both G1 and G2 as generator, else we need to add the choosen generator
     // as part of the SRS for the verifier to use it in the computation of [evaluationABC*1]_T
     final G1T generatorG1 = g1Factory.one();
@@ -103,7 +105,7 @@ public class SerialSetup {
     config.endLog("Generating G1 MSM Window Table");
 
     config.beginLog("Generating G2 MSM Window Table");
-    //final G2T generatorG2 = g2Factory.random(config.seed(), config.secureSeed());
+    // final G2T generatorG2 = g2Factory.random(config.seed(), config.secureSeed());
     // We take ONE in both G1 and G2 as generator, else we need to add the choosen generator
     // as part of the SRS for the verifier to use it in the computation of [evaluationABC*1]_T
     final G2T generatorG2 = g2Factory.one();
