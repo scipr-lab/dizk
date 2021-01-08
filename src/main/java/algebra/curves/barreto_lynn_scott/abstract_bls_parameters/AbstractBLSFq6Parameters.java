@@ -1,0 +1,5 @@
+package algebra.curves.barreto_lynn_scott.abstract_bls_parameters;
+
+import algebra.fields.abstractfieldparameters.AbstractFp6_3Over2_Parameters;
+
+public abstract class AbstractBLSFq6Parameters extends AbstractFp6_3Over2_Parameters {}
