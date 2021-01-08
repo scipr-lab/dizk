@@ -1,3 +1,3 @@
 # Mock field parameters
 
-Mock data used for testing purposes.
+Field implementation used as mock data for testing purposes.
