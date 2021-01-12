@@ -5,11 +5,10 @@
  * @copyright  MIT license (see LICENSE file)
  *****************************************************************************/
 
-package algebra.curves;
+package algebra.curves.barreto_naehrig;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-import algebra.curves.barreto_naehrig.*;
 import algebra.curves.barreto_naehrig.BNFields.*;
 import algebra.curves.barreto_naehrig.abstract_bn_parameters.AbstractBNG1Parameters;
 import algebra.curves.barreto_naehrig.abstract_bn_parameters.AbstractBNG2Parameters;
