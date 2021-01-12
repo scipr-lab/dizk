@@ -1,10 +1,3 @@
-/* @file
- *****************************************************************************
- * @author     This file is part of zkspark, developed by SCIPR Lab
- *             and contributors (see AUTHORS).
- * @copyright  MIT license (see LICENSE file)
- *****************************************************************************/
-
 package algebra.curves.barreto_naehrig;
 
 import algebra.curves.barreto_naehrig.bn254a.BN254aFields.BN254aFr;
@@ -27,7 +20,7 @@ import org.junit.jupiter.api.Test;
 
 import algebra.curves.GenericBilinearityTest;
 
-public class BNBilinearityTest {
+public class BNBilinearityTest extends GenericBilinearityTest {
   @Test
   public void BN254aTest() {
     final BN254aG1 g1One = BN254aG1Parameters.ONE;
@@ -39,9 +32,8 @@ public class BNBilinearityTest {
     final BN254aG1 P = g1One.mul(fieldFactory.random(5L, null));
     final BN254aG2 Q = g2One.mul(fieldFactory.random(6L, null));
 
-    GenericBilinearityTest gTest = new GenericBilinearityTest();
-    gTest.PairingTest(P, Q, gtOne, fieldFactory, pairing);
-    gTest.PairingTest(g1One, g2One, gtOne, fieldFactory, pairing);
+    PairingTest(P, Q, gtOne, fieldFactory, pairing);
+    PairingTest(g1One, g2One, gtOne, fieldFactory, pairing);
   }
 
   @Test
@@ -55,8 +47,7 @@ public class BNBilinearityTest {
     final BN254bG1 P = g1One.mul(fieldFactory.random(5L, null));
     final BN254bG2 Q = g2One.mul(fieldFactory.random(6L, null));
 
-    GenericBilinearityTest gTest = new GenericBilinearityTest();
-    gTest.PairingTest(P, Q, gtOne, fieldFactory, pairing);
-    gTest.PairingTest(g1One, g2One, gtOne, fieldFactory, pairing);
+    PairingTest(P, Q, gtOne, fieldFactory, pairing);
+    PairingTest(g1One, g2One, gtOne, fieldFactory, pairing);
   }
 }

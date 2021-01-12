@@ -12,9 +12,7 @@ import algebra.curves.barreto_lynn_scott.bls12_377.bls12_377_parameters.BLS12_37
 import org.junit.jupiter.api.Test;
 import algebra.curves.GenericBilinearityTest;
 
-public class BLSBilinearityTest {
-  GenericBilinearityTest gTest = new GenericBilinearityTest();
-
+public class BLSBilinearityTest extends GenericBilinearityTest {
   @Test
   public void BLS12_377Test() {
     final BLS12_377G1 g1One = BLS12_377G1Parameters.ONE;
@@ -26,7 +24,7 @@ public class BLSBilinearityTest {
     final BLS12_377G1 P = g1One.mul(fieldFactory.random(5L, null));
     final BLS12_377G2 Q = g2One.mul(fieldFactory.random(6L, null));
 
-    gTest.PairingTest(P, Q, gtOne, fieldFactory, pairing);
-    gTest.PairingTest(g1One, g2One, gtOne, fieldFactory, pairing);
+    PairingTest(P, Q, gtOne, fieldFactory, pairing);
+    PairingTest(g1One, g2One, gtOne, fieldFactory, pairing);
   }
 }

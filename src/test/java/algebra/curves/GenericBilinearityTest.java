@@ -6,7 +6,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import algebra.fields.AbstractFieldElementExpanded;
 
 public class GenericBilinearityTest {
-  public <
+  protected <
           G1T extends AbstractG1<G1T>,
           G2T extends AbstractG2<G2T>,
           GTT extends AbstractGT<GTT>,
@@ -35,5 +35,4 @@ public class GenericBilinearityTest {
     assertTrue(ans2.equals(ans3));
     assertFalse(ans1.equals(one));
   }
-
 }

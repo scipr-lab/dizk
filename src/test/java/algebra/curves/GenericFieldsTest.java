@@ -1,10 +1,3 @@
-/* @file
- *****************************************************************************
- * @author     This file is part of zkspark, developed by SCIPR Lab
- *             and contributors (see AUTHORS).
- * @copyright  MIT license (see LICENSE file)
- *****************************************************************************/
-
 package algebra.curves;
 
 import static org.junit.jupiter.api.Assertions.assertFalse;
@@ -16,7 +9,7 @@ import algebra.fields.abstractfieldparameters.AbstractFp2Parameters;
 import algebra.fields.abstractfieldparameters.AbstractFp6_3Over2_Parameters;
 
 public class GenericFieldsTest {
-  public <FieldT extends AbstractFieldElement<FieldT>> void testFieldOperations(
+  protected <FieldT extends AbstractFieldElement<FieldT>> void FieldTest(
       final FieldT fieldFactory) {
     final FieldT zero = fieldFactory.zero();
     assertTrue(zero.equals(zero));
@@ -78,7 +71,7 @@ public class GenericFieldsTest {
     assertTrue((a.add(b)).square().equals(a.square().add(a.mul(b).add(a.mul(b))).add(b.square())));
   }
 
-  public <FieldT extends AbstractFieldElementExpanded<FieldT>> void testFieldExpandedOperations(
+  protected <FieldT extends AbstractFieldElementExpanded<FieldT>> void FieldExpandedTest(
       final FieldT a) {
     final FieldT one = a.one();
     assertTrue(one.equals(one));
@@ -86,7 +79,7 @@ public class GenericFieldsTest {
     assertTrue(a.rootOfUnity(8).pow(8).equals(one));
   }
 
-  public void verifyMulBy024(
+  protected void verifyMulBy024(
       final Fp12_2Over3Over2 a, final AbstractFp12_2Over3Over2_Parameters Fp12Parameters) {
     final AbstractFp2Parameters Fp2Parameters = Fp12Parameters.Fp2Parameters();
     final AbstractFp6_3Over2_Parameters Fp6Parameters = Fp12Parameters.Fp6Parameters();
@@ -106,7 +99,7 @@ public class GenericFieldsTest {
     assertTrue(naiveResult.equals(mulBy024Result));
   }
 
-  public void verifyFrobeniusMap(
+  protected void FrobeniusMapTest(
       final Fp12_2Over3Over2 a, final AbstractFp12_2Over3Over2_Parameters Fp12Parameters) {
     assert (a.FrobeniusMap(0).equals(a));
     Fp12_2Over3Over2 a_q = a.pow(Fp12Parameters.FpParameters().modulus());

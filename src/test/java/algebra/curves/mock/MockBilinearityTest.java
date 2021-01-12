@@ -9,7 +9,7 @@ import org.junit.jupiter.api.Test;
 
 import algebra.curves.GenericBilinearityTest;
 
-public class MockBilinearityTest {
+public class MockBilinearityTest extends GenericBilinearityTest {
   @Test
   public void FakeTest() {
     FakeInitialize.init();
@@ -20,7 +20,6 @@ public class MockBilinearityTest {
 
     FakePairing pairing = new FakePairing();
 
-    GenericBilinearityTest gTest = new GenericBilinearityTest();
-    gTest.PairingTest(g1Factory, g2Factory, gTFactory, fieldFactory, pairing);
+    PairingTest(g1Factory, g2Factory, gTFactory, fieldFactory, pairing);
   }
 }
