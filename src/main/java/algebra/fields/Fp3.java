@@ -153,7 +153,7 @@ public class Fp3 extends AbstractFieldElement<Fp3> {
   }
 
   public String toString() {
-    return c0.toString() + ", " + c1.toString() + ", " + c2.toString();
+    return "c0/c1/c2: " + c0.toString() + ", " + c1.toString() + ", " + c2.toString();
   }
 
   public boolean equals(final Fp3 other) {

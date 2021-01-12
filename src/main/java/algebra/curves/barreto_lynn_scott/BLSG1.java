@@ -30,7 +30,7 @@ public abstract class BLSG1<
     assert (other != null);
 
     // Handle special cases having to do with O
-    if (isZero()) {
+    if (this.isZero()) {
       return other;
     }
 
@@ -39,10 +39,10 @@ public abstract class BLSG1<
     }
 
     // No need to handle points of order 2,4
-    // (they cannot exist in a modulus-order subgroup)
+    // (they cannot exist in a prime-order subgroup)
 
     // Check for doubling case
-
+    //
     // Using Jacobian coordinates so:
     // (X1:Y1:Z1) = (X2:Y2:Z2)
     // iff
@@ -129,7 +129,7 @@ public abstract class BLSG1<
 
   public BLSG1T dbl() {
     // Handle point at infinity
-    if (isZero()) {
+    if (this.isZero()) {
       return this.self();
     }
 
@@ -167,7 +167,7 @@ public abstract class BLSG1<
   }
 
   public BLSG1T toAffineCoordinates() {
-    if (isZero()) {
+    if (this.isZero()) {
       return this.construct(this.X.zero(), this.Y.one(), this.Z.zero());
     } else {
       BLSFqT ZInverse = this.Z.inverse();
@@ -194,7 +194,7 @@ public abstract class BLSG1<
   }
 
   public boolean equals(final BLSG1T other) {
-    if (isZero()) {
+    if (this.isZero()) {
       return other.isZero();
     }
 

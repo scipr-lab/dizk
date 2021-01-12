@@ -1,10 +1,3 @@
-/* @file
- *****************************************************************************
- * @author     This file is part of zkspark, developed by SCIPR Lab
- *             and contributors (see AUTHORS).
- * @copyright  MIT license (see LICENSE file)
- *****************************************************************************/
-
 package algebra.curves.barreto_lynn_scott.bls12_377.bls12_377_parameters;
 
 import algebra.curves.barreto_lynn_scott.abstract_bls_parameters.AbstractBLSFq12Parameters;
@@ -13,6 +6,9 @@ import algebra.fields.Fp12_2Over3Over2;
 import algebra.fields.Fp2;
 import java.io.Serializable;
 
+// Checked
+
+/** Parameters for Fq12 = ((Fq2)^3)^2 */
 public class BLS12_377Fq12Parameters extends AbstractBLSFq12Parameters implements Serializable {
   public BLS12_377FqParameters FqParameters;
   public BLS12_377Fq2Parameters Fq2Parameters;
@@ -33,11 +29,11 @@ public class BLS12_377Fq12Parameters extends AbstractBLSFq12Parameters implement
     this.ZERO = new Fp12_2Over3Over2(Fq6Parameters.ZERO(), Fq6Parameters.ZERO(), this);
     this.ONE = new Fp12_2Over3Over2(Fq6Parameters.ONE(), Fq6Parameters.ZERO(), this);
 
-    this.nonresidue = new Fp2(FqParameters.ZERO(), FqParameters.ONE(), Fq2Parameters);
+    this.nonresidue = new Fp2(new Fp("0", FqParameters), new Fp("1", FqParameters), Fq2Parameters);
 
     this.FrobeniusCoefficientsC1 = new Fp2[12];
     this.FrobeniusCoefficientsC1[0] =
-        new Fp2(FqParameters.ONE(), FqParameters.ZERO(), Fq2Parameters);
+        new Fp2(new Fp("1", FqParameters), new Fp("0", FqParameters), Fq2Parameters);
     this.FrobeniusCoefficientsC1[1] =
         new Fp2(
             new Fp(

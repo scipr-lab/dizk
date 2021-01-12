@@ -6,6 +6,9 @@ import algebra.fields.Fp2;
 import algebra.fields.Fp6_3Over2;
 import java.io.Serializable;
 
+// Checked
+
+/** Parameters for Fq6 = (Fq2)^3 */
 public class BLS12_377Fq6Parameters extends AbstractBLSFq6Parameters implements Serializable {
   public BLS12_377Fq2Parameters Fq2Parameters;
 
@@ -24,11 +27,11 @@ public class BLS12_377Fq6Parameters extends AbstractBLSFq6Parameters implements 
         new Fp6_3Over2(Fq2Parameters.ZERO(), Fq2Parameters.ZERO(), Fq2Parameters.ZERO(), this);
     this.ONE =
         new Fp6_3Over2(Fq2Parameters.ONE(), Fq2Parameters.ZERO(), Fq2Parameters.ZERO(), this);
-    this.nonresidue = new Fp2(FqParameters.ZERO(), FqParameters.ONE(), Fq2Parameters);
+    this.nonresidue = new Fp2(new Fp("0", FqParameters), new Fp("1", FqParameters), Fq2Parameters);
 
     this.FrobeniusCoefficientsC1 = new Fp2[6];
     this.FrobeniusCoefficientsC1[0] =
-        new Fp2(FqParameters.ONE(), FqParameters.ZERO(), Fq2Parameters);
+        new Fp2(new Fp("1", FqParameters), new Fp("0", FqParameters), Fq2Parameters);
     this.FrobeniusCoefficientsC1[1] =
         new Fp2(
             new Fp(
@@ -65,7 +68,7 @@ public class BLS12_377Fq6Parameters extends AbstractBLSFq6Parameters implements 
 
     this.FrobeniusCoefficientsC2 = new Fp2[6];
     this.FrobeniusCoefficientsC2[0] =
-        new Fp2(FqParameters.ONE(), FqParameters.ZERO(), Fq2Parameters);
+        new Fp2(new Fp("1", FqParameters), new Fp("0", FqParameters), Fq2Parameters);
     this.FrobeniusCoefficientsC2[1] =
         new Fp2(
             new Fp(
@@ -79,7 +82,7 @@ public class BLS12_377Fq6Parameters extends AbstractBLSFq6Parameters implements 
             new Fp("0", FqParameters),
             Fq2Parameters);
     this.FrobeniusCoefficientsC2[3] =
-        new Fp2(FqParameters.ONE(), FqParameters.ZERO(), Fq2Parameters);
+        new Fp2(new Fp("1", FqParameters), new Fp("0", FqParameters), Fq2Parameters);
     this.FrobeniusCoefficientsC2[4] =
         new Fp2(
             new Fp(

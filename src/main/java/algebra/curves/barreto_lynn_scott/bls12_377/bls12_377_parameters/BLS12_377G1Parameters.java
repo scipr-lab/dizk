@@ -8,12 +8,14 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
 
+// Checked
+
 public class BLS12_377G1Parameters
     extends AbstractBLSG1Parameters<BLS12_377Fr, BLS12_377Fq, BLS12_377G1, BLS12_377G1Parameters>
     implements Serializable {
 
   public static final BLS12_377G1 ZERO = new BLS12_377G1(BLS12_377Fq.ZERO, BLS12_377Fq.ONE, BLS12_377Fq.ZERO);
-  public static final BLS12_377G1 ONE = new BLS12_377G1(BLS12_377Fq.ONE, new BLS12_377Fq(2), BLS12_377Fq.ONE);
+  public static final BLS12_377G1 ONE = new BLS12_377G1(new BLS12_377Fq("81937999373150964239938255573465948239988671502647976594219695644855304257327692006745978603320413799295628339695"), new BLS12_377Fq("241266749859715473739788878240585681733927191168601896383759122102112907357779751001206799952863815012735208165030"), BLS12_377Fq.ONE);
   public static final ArrayList<Integer> fixedBaseWindowTable =
       new ArrayList<>(
           Arrays.asList(

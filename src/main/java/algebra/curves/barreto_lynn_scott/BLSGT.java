@@ -1,10 +1,3 @@
-/* @file
- *****************************************************************************
- * @author     This file is part of zkspark, developed by SCIPR Lab
- *             and contributors (see AUTHORS).
- * @copyright  MIT license (see LICENSE file)
- *****************************************************************************/
-
 package algebra.curves.barreto_lynn_scott;
 
 import algebra.curves.AbstractGT;

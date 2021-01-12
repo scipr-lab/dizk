@@ -31,7 +31,7 @@ public abstract class BLSG2<
 
   public BLSG2T add(final BLSG2T other) {
     // Handle special cases having to do with O
-    if (isZero()) {
+    if (this.isZero()) {
       return other;
     }
 
@@ -40,10 +40,10 @@ public abstract class BLSG2<
     }
 
     // No need to handle points of order 2,4
-    // (they cannot exist in a modulus-order subgroup)
+    // (they cannot exist in a prime-order subgroup)
 
     // Check for doubling case
-
+    //
     // Using Jacobian coordinates so:
     // (X1:Y1:Z1) = (X2:Y2:Z2)
     // iff
@@ -51,10 +51,14 @@ public abstract class BLSG2<
     // iff
     // X1 * Z2^2 == X2 * Z1^2 and Y1 * Z2^3 == Y2 * Z1^3
 
+    // Z1Z1 = Z1*Z1
     final BLSFq2T Z1Z1 = this.Z.square();
+    // Z2Z2 = Z2*Z2
     final BLSFq2T Z2Z2 = other.Z.square();
 
+    // U1 = X1*Z2Z2
     final BLSFq2T U1 = this.X.mul(Z2Z2);
+    // U2 = X2*Z1Z1
     final BLSFq2T U2 = other.X.mul(Z1Z1);
 
     final BLSFq2T Z1Cubed = this.Z.mul(Z1Z1);
@@ -65,13 +69,15 @@ public abstract class BLSG2<
     // S2 = Y2 * Z1 * Z1Z1
     final BLSFq2T S2 = other.Y.mul(Z1Cubed);
 
+    // Check if the 2 points are equal, in which can we do a point doubling (i.e. P + P)
     if (U1.equals(U2) && S1.equals(S2)) {
       // Double case
       // Nothing of above can be reused
-      return dbl();
+      return this.dbl();
     }
 
-    // Rest of the add case
+    // Point addition (i.e. P + Q, P =/= Q)
+    // https://www.hyperelliptic.org/EFD/g1p/data/shortw/jacobian-0/addition/add-2007-bl
     // H = U2-U1
     final BLSFq2T H = U2.sub(U1);
     // I = (2 * H)^2
@@ -85,11 +91,11 @@ public abstract class BLSG2<
     final BLSFq2T V = U1.mul(I);
     // X3 = r^2 - J - 2 * V
     final BLSFq2T X3 = r.square().sub(J).sub(V.add(V));
-    // Y3 = r * (V-X3)-2 S1 J
+    // Y3 = r * (V-X3)-2*S1*J
     final BLSFq2T S1_J = S1.mul(J);
     final BLSFq2T Y3 = r.mul(V.sub(X3)).sub(S1_J.add(S1_J));
     // Z3 = ((Z1+Z2)^2-Z1Z1-Z2Z2) * H
-    final BLSFq2T Z3 = this.Z.add(other.Z).square().sub(Z1Z1).sub(Z2Z2).mul(H);
+    final BLSFq2T Z3 = (this.Z.add(other.Z).square().sub(Z1Z1).sub(Z2Z2)).mul(H);
 
     return this.construct(X3, Y3, Z3);
   }
@@ -99,13 +105,12 @@ public abstract class BLSG2<
   }
 
   public BLSG2T dbl() {
-    if (isZero()) {
+    if (this.isZero()) {
       return this.self();
     }
 
     // NOTE: does not handle O and pts of order 2,4
-    // http://www.hyperelliptic.org/EFD/g1p/auto-shortw-projective.html#doubling-dbl-2007-bl
-
+    // https://www.hyperelliptic.org/EFD/g1p/data/shortw/jacobian-0/doubling/dbl-2009-l
     // A = X1^2
     final BLSFq2T A = this.X.square();
     // B = Y1^2
@@ -126,8 +131,8 @@ public abstract class BLSG2<
     eightC = eightC.add(eightC);
     eightC = eightC.add(eightC);
     final BLSFq2T Y3 = E.mul(D.sub(X3)).sub(eightC);
-    final BLSFq2T Y1Z1 = this.Y.mul(this.Z);
     // Z3 = 2 * Y1 * Z1
+    final BLSFq2T Y1Z1 = this.Y.mul(this.Z);
     final BLSFq2T Z3 = Y1Z1.add(Y1Z1);
 
     return this.construct(X3, Y3, Z3);
@@ -174,7 +179,7 @@ public abstract class BLSG2<
   }
 
   public BLSG2T toAffineCoordinates() {
-    if (isZero()) {
+    if (this.isZero()) {
       return this.construct(this.X.zero(), this.Y.one(), this.Z.zero());
     } else {
       final BLSFq2T ZInverse = this.Z.inverse();
@@ -193,7 +198,7 @@ public abstract class BLSG2<
   }
 
   public String toString() {
-    if (isZero()) {
+    if (this.isZero()) {
       return "0";
     }
 
@@ -201,7 +206,7 @@ public abstract class BLSG2<
   }
 
   public boolean equals(final BLSG2T other) {
-    if (isZero()) {
+    if (this.isZero()) {
       return other.isZero();
     }
 

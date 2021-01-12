@@ -1,16 +1,11 @@
-/* @file
- *****************************************************************************
- * @author     This file is part of zkspark, developed by SCIPR Lab
- *             and contributors (see AUTHORS).
- * @copyright  MIT license (see LICENSE file)
- *****************************************************************************/
-
 package algebra.curves.barreto_lynn_scott.bls12_377.bls12_377_parameters;
 
 import algebra.curves.barreto_lynn_scott.abstract_bls_parameters.AbstractBLSFqParameters;
 import algebra.fields.Fp;
 import java.io.Serializable;
 import java.math.BigInteger;
+
+// Checked
 
 public class BLS12_377FqParameters extends AbstractBLSFqParameters implements Serializable {
   public BigInteger modulus;
