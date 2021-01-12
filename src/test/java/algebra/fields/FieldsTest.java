@@ -16,6 +16,8 @@ import algebra.fields.abstractfieldparameters.AbstractFp6_3Over2_Parameters;
 import algebra.fields.mock.fieldparameters.*;
 import org.junit.jupiter.api.Test;
 
+// TODO: Refactor using the GenericFieldsTest class
+
 public class FieldsTest {
   private <FieldT extends AbstractFieldElement<FieldT>> void verify(
       final FieldT a, final FieldT b) {

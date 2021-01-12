@@ -5,7 +5,6 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import algebra.groups.AbstractGroup;
 import java.math.BigInteger;
-import org.junit.jupiter.api.Test;
 
 public class GenericCurvesTest {
   protected <GroupT extends AbstractGroup<GroupT>> void GroupTest(final GroupT groupFactory) {
@@ -73,16 +72,4 @@ public class GenericCurvesTest {
     // A*s + A*r = A*(r+s)
     assertTrue(A.mul(rand1).add(A.mul(rand2)).equals(A.mul(randsum)));
   }
-
-  /*
-  @Test
-  public void FakeTest() {
-    FakeInitialize.init();
-    final FakeG1 g1Factory = new FakeG1Parameters().ONE();
-    final FakeG2 g2Factory = new FakeG2Parameters().ONE();
-
-    GroupTest(g1Factory);
-    GroupTest(g2Factory);
-  }
-  */
 }

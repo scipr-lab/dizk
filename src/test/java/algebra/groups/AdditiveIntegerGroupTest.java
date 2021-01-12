@@ -16,6 +16,8 @@ import java.io.Serializable;
 import java.math.BigInteger;
 import org.junit.jupiter.api.Test;
 
+// TODO: Refactor using the GenericCurveTest (to be renamed as GenericGroupTest) class
+
 public class AdditiveIntegerGroupTest implements Serializable {
   private <GroupT extends AbstractGroup<GroupT>> void verify(final GroupT a, final GroupT b) {
     final GroupT zero = a.zero();
