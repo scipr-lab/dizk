@@ -24,7 +24,10 @@ public class GenericFieldsTest {
     // FieldT.random() != FieldT.random()
     assertTrue(fieldFactory.random(4L, null).equals(fieldFactory.random(4L, null)));
     assertFalse(fieldFactory.random(5L, null).equals(fieldFactory.random(7L, null)));
-    assertFalse(fieldFactory.random(null, "clear".getBytes()).equals(fieldFactory.random(null, "matics".getBytes())));
+    assertFalse(
+        fieldFactory
+            .random(null, "clear".getBytes())
+            .equals(fieldFactory.random(null, "matics".getBytes())));
 
     // Select 3 distinct field elements for the test
     final FieldT a = fieldFactory.random(4L, null);

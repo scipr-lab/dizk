@@ -1,6 +1,6 @@
 package algebra.curves.barreto_naehrig;
 
-import algebra.curves.barreto_naehrig.bn254a.BN254aFields.BN254aFr;
+import algebra.curves.GenericBilinearityTest;
 import algebra.curves.barreto_naehrig.bn254a.BN254aG1;
 import algebra.curves.barreto_naehrig.bn254a.BN254aG2;
 import algebra.curves.barreto_naehrig.bn254a.BN254aGT;
@@ -9,7 +9,6 @@ import algebra.curves.barreto_naehrig.bn254a.bn254a_parameters.BN254aFrParameter
 import algebra.curves.barreto_naehrig.bn254a.bn254a_parameters.BN254aG1Parameters;
 import algebra.curves.barreto_naehrig.bn254a.bn254a_parameters.BN254aG2Parameters;
 import algebra.curves.barreto_naehrig.bn254a.bn254a_parameters.BN254aGTParameters;
-import algebra.curves.barreto_naehrig.bn254b.BN254bFields.BN254bFr;
 import algebra.curves.barreto_naehrig.bn254b.BN254bG1;
 import algebra.curves.barreto_naehrig.bn254b.BN254bG2;
 import algebra.curves.barreto_naehrig.bn254b.BN254bGT;
@@ -19,10 +18,7 @@ import algebra.curves.barreto_naehrig.bn254b.bn254b_parameters.BN254bG1Parameter
 import algebra.curves.barreto_naehrig.bn254b.bn254b_parameters.BN254bG2Parameters;
 import algebra.curves.barreto_naehrig.bn254b.bn254b_parameters.BN254bGTParameters;
 import algebra.fields.Fp;
-
 import org.junit.jupiter.api.Test;
-
-import algebra.curves.GenericBilinearityTest;
 
 public class BNBilinearityTest extends GenericBilinearityTest {
   @Test

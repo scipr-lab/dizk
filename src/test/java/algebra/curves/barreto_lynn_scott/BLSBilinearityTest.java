@@ -1,17 +1,16 @@
 package algebra.curves.barreto_lynn_scott;
 
+import algebra.curves.GenericBilinearityTest;
 import algebra.curves.barreto_lynn_scott.bls12_377.BLS12_377G1;
 import algebra.curves.barreto_lynn_scott.bls12_377.BLS12_377G2;
 import algebra.curves.barreto_lynn_scott.bls12_377.BLS12_377GT;
 import algebra.curves.barreto_lynn_scott.bls12_377.BLS12_377Pairing;
-import algebra.curves.barreto_lynn_scott.bls12_377.bls12_377_parameters.BLS12_377G1Parameters;
 import algebra.curves.barreto_lynn_scott.bls12_377.bls12_377_parameters.BLS12_377FrParameters;
+import algebra.curves.barreto_lynn_scott.bls12_377.bls12_377_parameters.BLS12_377G1Parameters;
 import algebra.curves.barreto_lynn_scott.bls12_377.bls12_377_parameters.BLS12_377G2Parameters;
 import algebra.curves.barreto_lynn_scott.bls12_377.bls12_377_parameters.BLS12_377GTParameters;
 import algebra.fields.Fp;
-
 import org.junit.jupiter.api.Test;
-import algebra.curves.GenericBilinearityTest;
 
 public class BLSBilinearityTest extends GenericBilinearityTest {
   @Test

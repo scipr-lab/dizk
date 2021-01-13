@@ -5,7 +5,8 @@ import algebra.curves.barreto_lynn_scott.bls12_377.BLS12_377Fields.BLS12_377Fq;
 import algebra.curves.barreto_lynn_scott.bls12_377.BLS12_377Fields.BLS12_377Fr;
 import algebra.curves.barreto_lynn_scott.bls12_377.bls12_377_parameters.BLS12_377G1Parameters;
 
-public class BLS12_377G1 extends BLSG1<BLS12_377Fr, BLS12_377Fq, BLS12_377G1, BLS12_377G1Parameters> {
+public class BLS12_377G1
+    extends BLSG1<BLS12_377Fr, BLS12_377Fq, BLS12_377G1, BLS12_377G1Parameters> {
 
   public static final BLS12_377G1Parameters G1Parameters = new BLS12_377G1Parameters();
 

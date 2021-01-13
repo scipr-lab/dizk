@@ -170,4 +170,6 @@ public class SerialzkSNARKTest implements Serializable {
 
     SerialBNProofSystemTest(numInputs, numConstraints, fieldFactory, g1Factory, g2Factory, pairing);
   }
+
+  // TODO: Add test for BLS
 }

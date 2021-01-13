@@ -189,10 +189,10 @@ public abstract class BLSPairing<
       }
     }
 
-    //BLSG2T Q1 = this.mulByQ(QAffine);
-    //assert (Q1.Z.equals(QAffine.X.one()));
-    //BLSG2T Q2 = this.mulByQ(Q1);
-    //assert (Q2.Z.equals(QAffine.X.one()));
+    // BLSG2T Q1 = this.mulByQ(QAffine);
+    // assert (Q1.Z.equals(QAffine.X.one()));
+    // BLSG2T Q2 = this.mulByQ(Q1);
+    // assert (Q2.Z.equals(QAffine.X.one()));
 
     return new AteG2Precompute(QAffineSave.X, QAffineSave.Y, coeffs);
   }
@@ -211,7 +211,8 @@ public abstract class BLSPairing<
 
     // Note: Remember, in libff the loop length is defined using `max_bits`
     // https://github.com/clearmatics/libff/blob/develop/libff/algebra/curves/bls12_377/bls12_377_pairing.cpp#L421
-    // While this seems inefficient (many useless iterations dealing with 0's), this is more efficient
+    // While this seems inefficient (many useless iterations dealing with 0's), this is more
+    // efficient
     // than taking the `num_bits` which is an inefficient function and destroys the benchmarks!
     for (int i = loopCount.bitLength(); i >= 0; --i) {
       final boolean bit = loopCount.testBit(i);
@@ -239,9 +240,9 @@ public abstract class BLSPairing<
     }
 
     // Not executed for BLS12_377
-    //if (this.publicParameters().isAteLoopCountNegative()) {
+    // if (this.publicParameters().isAteLoopCountNegative()) {
     //  f = f.inverse();
-    //}
+    // }
 
     return f;
   }
@@ -350,7 +351,8 @@ public abstract class BLSPairing<
     final BLSFq12T T = O.mul(S);
     // U = [(z^2-2z+1) * (q^3) + (z^3-2z^2+z) * (q^2) + (z^4-2z^3+2z-1) * q]
     final BLSFq12T U = T.mul(Q);
-    // result = [(z^2-2z+1) * (q^3) + (z^3-2z^2+z) * (q^2) + (z^4-2z^3+2z-1) * q + z^5-2z^4+2z^2-z+3]
+    // result = [(z^2-2z+1) * (q^3) + (z^3-2z^2+z) * (q^2) + (z^4-2z^3+2z-1) * q +
+    // z^5-2z^4+2z^2-z+3]
     //        = [(p^4 - p^2 + 1)/r].
     final BLSFq12T result = U.mul(L);
 

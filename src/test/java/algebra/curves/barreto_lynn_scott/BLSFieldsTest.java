@@ -1,13 +1,12 @@
 package algebra.curves.barreto_lynn_scott;
 
-import algebra.curves.barreto_lynn_scott.bls12_377.bls12_377_parameters.BLS12_377FqParameters;
-import algebra.curves.barreto_lynn_scott.bls12_377.bls12_377_parameters.BLS12_377FrParameters;
+import algebra.curves.GenericFieldsTest;
+import algebra.curves.barreto_lynn_scott.bls12_377.bls12_377_parameters.BLS12_377Fq12Parameters;
 import algebra.curves.barreto_lynn_scott.bls12_377.bls12_377_parameters.BLS12_377Fq2Parameters;
 import algebra.curves.barreto_lynn_scott.bls12_377.bls12_377_parameters.BLS12_377Fq6Parameters;
-import algebra.curves.barreto_lynn_scott.bls12_377.bls12_377_parameters.BLS12_377Fq12Parameters;
-
+import algebra.curves.barreto_lynn_scott.bls12_377.bls12_377_parameters.BLS12_377FqParameters;
+import algebra.curves.barreto_lynn_scott.bls12_377.bls12_377_parameters.BLS12_377FrParameters;
 import org.junit.jupiter.api.Test;
-import algebra.curves.GenericFieldsTest;
 
 public class BLSFieldsTest extends GenericFieldsTest {
   // BLS12_377 test cases

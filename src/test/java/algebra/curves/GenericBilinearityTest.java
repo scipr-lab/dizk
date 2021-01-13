@@ -38,7 +38,7 @@ public class GenericBilinearityTest {
     // Test no-degeneracy
     assertFalse(ans1.equals(oneGT));
     // G1, G2, GT are order r
-    assert(ans1.mul(ffpp.modulus()).equals(oneGT));
+    assert (ans1.mul(ffpp.modulus()).equals(oneGT));
 
     final Fp r = fieldFactory.random(seed2, null);
     final Fp oneFr = fieldFactory.construct(1);

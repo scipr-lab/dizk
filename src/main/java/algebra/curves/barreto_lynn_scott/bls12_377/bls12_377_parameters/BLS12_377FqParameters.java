@@ -5,8 +5,6 @@ import algebra.fields.Fp;
 import java.io.Serializable;
 import java.math.BigInteger;
 
-// Checked
-
 public class BLS12_377FqParameters extends AbstractBLSFqParameters implements Serializable {
   public BigInteger modulus;
   public BigInteger root;
@@ -46,7 +44,8 @@ public class BLS12_377FqParameters extends AbstractBLSFqParameters implements Se
     this.nqr = new Fp("5", this);
     this.nqrTot =
         new Fp(
-            "33774956008227656219775876656288133547078610493828613777258829345740556592044969439504850374928261397247202212840", this);
+            "33774956008227656219775876656288133547078610493828613777258829345740556592044969439504850374928261397247202212840",
+            this);
 
     this.ZERO = new Fp(BigInteger.ZERO, this);
     this.ONE = new Fp(BigInteger.ONE, this);

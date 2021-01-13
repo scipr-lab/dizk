@@ -41,7 +41,8 @@ public class BLS12_377PublicParameters
     // sage: bin(u) # = '0b1000010100001000110000000000000000000000000000000000000000000001'
     // The Hamming weight of u is: HW(u) = 7
     // u = 2**63 + 2**58 + 2**56 + 2**51 + 2**47 + 2**46 + 1
-    // Based on the power-2 decomposition of u, we should have 63 doubling steps and 7 addition steps in the Miller Loop.
+    // Based on the power-2 decomposition of u, we should have 63 doubling steps and 7 addition
+    // steps in the Miller Loop.
     ateLoopCount = new BigInteger("9586122913090633729");
     isAteLoopCountNegative = false;
     finalExponent =

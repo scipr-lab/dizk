@@ -281,7 +281,6 @@ public class Fp12_2Over3Over2 extends AbstractFieldElement<Fp12_2Over3Over2> {
         new Fp6_3Over2(z0, z1, z2, Fp6Parameters),
         new Fp6_3Over2(z3, z4, z5, Fp6Parameters),
         Fp12Parameters);
-
   }
 
   public Fp12_2Over3Over2 cyclotomicExponentiation(final BigInteger exponent) {

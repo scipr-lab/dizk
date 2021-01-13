@@ -12,7 +12,8 @@ public abstract class AbstractBLSG2Parameters<
     BLSFqT extends BLSFq<BLSFqT>,
     BLSFq2T extends BLSFq2<BLSFqT, BLSFq2T>,
     BLSG2T extends BLSG2<BLSFrT, BLSFqT, BLSFq2T, BLSG2T, BLSG2ParametersT>,
-    BLSG2ParametersT extends AbstractBLSG2Parameters<BLSFrT, BLSFqT, BLSFq2T, BLSG2T, BLSG2ParametersT>> {
+    BLSG2ParametersT extends
+        AbstractBLSG2Parameters<BLSFrT, BLSFqT, BLSFq2T, BLSG2T, BLSG2ParametersT>> {
 
   public abstract BLSG2T ZERO();
 

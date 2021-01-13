@@ -7,8 +7,6 @@ import algebra.fields.Fp2;
 import java.io.Serializable;
 import java.math.BigInteger;
 
-// Checked
-
 public class BLS12_377Fq2Parameters extends AbstractBLSFq2Parameters implements Serializable {
   public BLS12_377FqParameters FqParameters;
   public BigInteger euler;

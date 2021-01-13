@@ -1,18 +1,17 @@
 package algebra.curves.barreto_naehrig;
 
-import algebra.curves.barreto_naehrig.bn254a.bn254a_parameters.BN254aFqParameters;
-import algebra.curves.barreto_naehrig.bn254a.bn254a_parameters.BN254aFrParameters;
+import algebra.curves.GenericFieldsTest;
+import algebra.curves.barreto_naehrig.bn254a.bn254a_parameters.BN254aFq12Parameters;
 import algebra.curves.barreto_naehrig.bn254a.bn254a_parameters.BN254aFq2Parameters;
 import algebra.curves.barreto_naehrig.bn254a.bn254a_parameters.BN254aFq6Parameters;
-import algebra.curves.barreto_naehrig.bn254a.bn254a_parameters.BN254aFq12Parameters;
-import algebra.curves.barreto_naehrig.bn254b.bn254b_parameters.BN254bFqParameters;
-import algebra.curves.barreto_naehrig.bn254b.bn254b_parameters.BN254bFrParameters;
+import algebra.curves.barreto_naehrig.bn254a.bn254a_parameters.BN254aFqParameters;
+import algebra.curves.barreto_naehrig.bn254a.bn254a_parameters.BN254aFrParameters;
+import algebra.curves.barreto_naehrig.bn254b.bn254b_parameters.BN254bFq12Parameters;
 import algebra.curves.barreto_naehrig.bn254b.bn254b_parameters.BN254bFq2Parameters;
 import algebra.curves.barreto_naehrig.bn254b.bn254b_parameters.BN254bFq6Parameters;
-import algebra.curves.barreto_naehrig.bn254b.bn254b_parameters.BN254bFq12Parameters;
-
+import algebra.curves.barreto_naehrig.bn254b.bn254b_parameters.BN254bFqParameters;
+import algebra.curves.barreto_naehrig.bn254b.bn254b_parameters.BN254bFrParameters;
 import org.junit.jupiter.api.Test;
-import algebra.curves.GenericFieldsTest;
 
 public class BNFieldsTest extends GenericFieldsTest {
 

@@ -5,8 +5,6 @@ import algebra.fields.Fp;
 import java.io.Serializable;
 import java.math.BigInteger;
 
-// Checked
-
 public class BLS12_377FrParameters extends AbstractBLSFrParameters implements Serializable {
   public BigInteger modulus;
   public BigInteger root;

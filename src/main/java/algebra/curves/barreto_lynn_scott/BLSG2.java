@@ -20,7 +20,8 @@ public abstract class BLSG2<
   protected BLSFq2T Y;
   protected BLSFq2T Z;
 
-  public BLSG2(final BLSFq2T X, final BLSFq2T Y, final BLSFq2T Z, final BLSG2ParametersT G2Parameters) {
+  public BLSG2(
+      final BLSFq2T X, final BLSFq2T Y, final BLSFq2T Z, final BLSG2ParametersT G2Parameters) {
     this.X = X;
     this.Y = Y;
     this.Z = Z;

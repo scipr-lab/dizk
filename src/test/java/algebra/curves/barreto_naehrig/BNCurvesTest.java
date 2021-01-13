@@ -5,7 +5,6 @@ import algebra.curves.barreto_naehrig.bn254a.bn254a_parameters.BN254aG1Parameter
 import algebra.curves.barreto_naehrig.bn254a.bn254a_parameters.BN254aG2Parameters;
 import algebra.curves.barreto_naehrig.bn254b.bn254b_parameters.BN254bG1Parameters;
 import algebra.curves.barreto_naehrig.bn254b.bn254b_parameters.BN254bG2Parameters;
-
 import org.junit.jupiter.api.Test;
 
 public class BNCurvesTest extends GenericCurvesTest {

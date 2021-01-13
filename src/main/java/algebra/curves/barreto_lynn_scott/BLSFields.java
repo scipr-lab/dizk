@@ -164,7 +164,8 @@ public interface BLSFields {
   }
 
   /* Twist field Fq2 */
-  public abstract class BLSFq2<BLSFqT extends BLSFq<BLSFqT>, BLSFq2T extends BLSFq2<BLSFqT, BLSFq2T>>
+  public abstract class BLSFq2<
+          BLSFqT extends BLSFq<BLSFqT>, BLSFq2T extends BLSFq2<BLSFqT, BLSFq2T>>
       extends AbstractFieldElement<BLSFq2T> {
     public abstract Fp2 element();
 

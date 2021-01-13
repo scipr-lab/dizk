@@ -6,8 +6,6 @@ import algebra.fields.Fp12_2Over3Over2;
 import algebra.fields.Fp2;
 import java.io.Serializable;
 
-// Checked
-
 /** Parameters for Fq12 = ((Fq2)^3)^2 */
 public class BLS12_377Fq12Parameters extends AbstractBLSFq12Parameters implements Serializable {
   public BLS12_377FqParameters FqParameters;
@@ -85,7 +83,9 @@ public class BLS12_377Fq12Parameters extends AbstractBLSFq12Parameters implement
             Fq2Parameters);
     this.FrobeniusCoefficientsC1[8] =
         new Fp2(
-            new Fp("258664426012969093929703085429980814127835149614277183275038967946009968870203535512256352201271898244626862047231", FqParameters),
+            new Fp(
+                "258664426012969093929703085429980814127835149614277183275038967946009968870203535512256352201271898244626862047231",
+                FqParameters),
             new Fp("0", FqParameters),
             Fq2Parameters);
     this.FrobeniusCoefficientsC1[9] =
@@ -97,7 +97,9 @@ public class BLS12_377Fq12Parameters extends AbstractBLSFq12Parameters implement
             Fq2Parameters);
     this.FrobeniusCoefficientsC1[10] =
         new Fp2(
-            new Fp("258664426012969093929703085429980814127835149614277183275038967946009968870203535512256352201271898244626862047232", FqParameters),
+            new Fp(
+                "258664426012969093929703085429980814127835149614277183275038967946009968870203535512256352201271898244626862047232",
+                FqParameters),
             new Fp("0", FqParameters),
             Fq2Parameters);
     this.FrobeniusCoefficientsC1[11] =
