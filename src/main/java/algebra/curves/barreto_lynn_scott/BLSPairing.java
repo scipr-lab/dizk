@@ -206,10 +206,13 @@ public abstract class BLSPairing<
     boolean found = false;
     int idx = 0;
 
-    // ateLoopCount = new BigInteger("9586122913090633729");
     final BigInteger loopCount = this.publicParameters().ateLoopCount();
     AteEllCoefficients c;
 
+    // Note: Remember, in libff the loop length is defined using `max_bits`
+    // https://github.com/clearmatics/libff/blob/develop/libff/algebra/curves/bls12_377/bls12_377_pairing.cpp#L421
+    // While this seems inefficient (many useless iterations dealing with 0's), this is more efficient
+    // than taking the `num_bits` which is an inefficient function and destroys the benchmarks!
     for (int i = loopCount.bitLength(); i >= 0; --i) {
       final boolean bit = loopCount.testBit(i);
       if (!found) {
@@ -218,12 +221,12 @@ public abstract class BLSPairing<
         continue;
       }
 
-      // Code below gets executed for all bits (EXCEPT the MSB itself) of
+      // Code below gets executed for all bits (EXCEPT the MSB) of
       // loopCount (skipping leading zeros) in MSB to LSB order.
       c = QPrec.coefficients.get(idx++);
+      // See Algo 6: https://www.iacr.org/archive/eurocrypt2011/66320047/66320047.pdf
       // Note: This squaring in Fq12 can be eliminated for the first loop
       // (since f is initialized with ONE in Fq12)
-      // See Algo 6: https://www.iacr.org/archive/eurocrypt2011/66320047/66320047.pdf
       f = f.square();
       // Note: For the first iteration, f is ONE in Fq12 and is thus sparse.
       // Hence we can do a sparse/sparse multiplication for the line accumulation here.
@@ -271,27 +274,26 @@ public abstract class BLSPairing<
   }
 
   private BLSFq12T finalExponentiationFirstChunk(final BLSFq12T elt) {
-    // elt^(q^6)
-    final BLSFq12T A = elt.FrobeniusMap(6);
-    // elt^(-1)
-    final BLSFq12T B = elt.inverse();
-    // elt^(q^6 - 1)
-    final BLSFq12T C = A.mul(B);
-    // (elt^(q^6 - 1))^(q^2) = elt^((q^6 - 1) * (q^2))
-    final BLSFq12T D = C.FrobeniusMap(2);
-    // elt^((q^6 - 1) * (q^2) + (q^6 - 1)) = elt^((q^6 - 1) * (q^2 + 1))
-    final BLSFq12T result = D.mul(C);
-
-    // // Computes result = elt^((q^6-1)*(q^2+1)).
-    // // Follows Beuchat et al page 9: https://eprint.iacr.org/2010/354.pdf
-    // // by computing result as follows:
-    // // elt^((q^6-1)*(q^2+1)) = (conj(elt) * elt^(-1))^(q^2+1)
-    // final BLSFq12T A = elt.unitaryInverse();
+    // // elt^(q^6)
+    // final BLSFq12T A = elt.FrobeniusMap(6);
+    // // elt^(-1)
     // final BLSFq12T B = elt.inverse();
+    // // elt^(q^6 - 1)
     // final BLSFq12T C = A.mul(B);
+    // // (elt^(q^6 - 1))^(q^2) = elt^((q^6 - 1) * (q^2))
     // final BLSFq12T D = C.FrobeniusMap(2);
+    // // elt^((q^6 - 1) * (q^2) + (q^6 - 1)) = elt^((q^6 - 1) * (q^2 + 1))
     // final BLSFq12T result = D.mul(C);
-    // return result;
+
+    // Computes result = elt^((q^6-1)*(q^2+1)).
+    // Follows Beuchat et al page 9: https://eprint.iacr.org/2010/354.pdf
+    // by computing result as follows:
+    // elt^((q^6-1)*(q^2+1)) = (conj(elt) * elt^(-1))^(q^2+1)
+    final BLSFq12T A = elt.unitaryInverse();
+    final BLSFq12T B = elt.inverse();
+    final BLSFq12T C = A.mul(B);
+    final BLSFq12T D = C.FrobeniusMap(2);
+    final BLSFq12T result = D.mul(C);
 
     return result;
   }
