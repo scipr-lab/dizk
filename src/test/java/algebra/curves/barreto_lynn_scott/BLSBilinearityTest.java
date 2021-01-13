@@ -26,7 +26,10 @@ public class BLSBilinearityTest extends GenericBilinearityTest {
     final BLS12_377G1 P = oneG1.mul(factoryFr.random(5L, null));
     final BLS12_377G2 Q = oneG2.mul(factoryFr.random(6L, null));
 
-    PairingTest(P, Q, oneGT, factoryFr, pairing);
-    PairingTest(oneG1, oneG2, oneGT, factoryFr, pairing);
+    // Below we pass the parameters (and not the factory)
+    // because the parameters expose more things (like the modulus)
+    // which is helpful to tighten the tests.
+    PairingTest(P, Q, oneGT, FrParameters, pairing);
+    PairingTest(oneG1, oneG2, oneGT, FrParameters, pairing);
   }
 }

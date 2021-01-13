@@ -16,10 +16,9 @@ public class MockBilinearityTest extends GenericBilinearityTest {
     final FakeG1 g1Factory = new FakeG1Parameters().ONE();
     final FakeG2 g2Factory = new FakeG2Parameters().ONE();
     final FakeGT gTFactory = new FakeGTParameters().ONE();
-    final Fp fieldFactory = new LargeFpParameters().ONE();
+    final LargeFpParameters fieldParameters = new LargeFpParameters();
 
     FakePairing pairing = new FakePairing();
-
-    PairingTest(g1Factory, g2Factory, gTFactory, fieldFactory, pairing);
+    PairingTest(g1Factory, g2Factory, gTFactory, fieldParameters, pairing);
   }
 }
