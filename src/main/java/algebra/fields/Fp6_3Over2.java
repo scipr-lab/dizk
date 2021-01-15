@@ -149,7 +149,7 @@ public class Fp6_3Over2 extends AbstractFieldElement<Fp6_3Over2> {
   }
 
   public String toString() {
-    return c0.toString() + " / " + c1.toString() + " / " + c2.toString();
+    return "c0/c1/c2: " + c0.toString() + " / " + c1.toString() + " / " + c2.toString();
   }
 
   public boolean equals(final Fp6_3Over2 other) {

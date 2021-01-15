@@ -12,6 +12,7 @@ import java.io.Serializable;
 import java.math.BigInteger;
 import java.util.ArrayList;
 
+/** AbstractGroup defines the set of standard operations on group elements */
 public abstract class AbstractGroup<GroupT extends AbstractGroup<GroupT>> implements Serializable {
 
   /* Returns self element */

@@ -20,7 +20,7 @@ import algebra.curves.barreto_naehrig.bn254b.BN254bG2;
 import algebra.curves.barreto_naehrig.bn254b.BN254bPairing;
 import algebra.curves.barreto_naehrig.bn254b.bn254b_parameters.BN254bG1Parameters;
 import algebra.curves.barreto_naehrig.bn254b.bn254b_parameters.BN254bG2Parameters;
-import algebra.curves.fake.*;
+import algebra.curves.mock.*;
 import configuration.Configuration;
 import java.io.Serializable;
 import org.apache.spark.SparkConf;

@@ -124,8 +124,13 @@ public class Fp2 extends AbstractFieldElement<Fp2> {
     return new Fp2(c0, c1, Fp2Parameters);
   }
 
+  // Note: When we display G2 points in libff, we inverse the coefficient vector to put the
+  // highest power first in the polynomial (for human readability). We do not do that here,
+  // hence the coeffs in the output is inversed.
+  // See:
+  // https://github.com/clearmatics/libff/blob/develop/libff/algebra/curves/bls12_377/bls12_377_g2.cpp#L63-L70
   public String toString() {
-    return c0.toString() + ", " + c1.toString();
+    return "c0/c1 (c1*x + c0): " + c0.toString() + ", " + c1.toString();
   }
 
   public boolean equals(final Fp2 other) {

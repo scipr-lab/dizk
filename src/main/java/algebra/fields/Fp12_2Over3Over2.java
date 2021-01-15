@@ -57,11 +57,12 @@ public class Fp12_2Over3Over2 extends AbstractFieldElement<Fp12_2Over3Over2> {
     // Devegili OhEig, Scott Dahab
     // "Multiplication and Squaring on Pairing-Friendly Fields"
     // Section 3 (Karatsuba)
-    final Fp6_3Over2 c0C0 = c0.mul(other.c0);
-    final Fp6_3Over2 c1C1 = c1.mul(other.c1);
+    // https://eprint.iacr.org/2006/471.pdf
+    final Fp6_3Over2 v0 = c0.mul(other.c0);
+    final Fp6_3Over2 v1 = c1.mul(other.c1);
     return new Fp12_2Over3Over2(
-        c0C0.add(mulByNonResidue(c1C1)),
-        (c0.add(c1)).mul(other.c0.add(other.c1)).sub(c0C0).sub(c1C1),
+        v0.add(mulByNonResidue(v1)),
+        (c0.add(c1)).mul(other.c0.add(other.c1)).sub(v0).sub(v1),
         Fp12Parameters);
   }
 
@@ -94,6 +95,7 @@ public class Fp12_2Over3Over2 extends AbstractFieldElement<Fp12_2Over3Over2> {
     // Devegili OhEig, Scott Dahab
     // "Multiplication and Squaring on Pairing-Friendly Fields"
     // Section 3 (Complex squaring)
+    // https://eprint.iacr.org/2006/471.pdf
     final Fp6_3Over2 c0c1 = c0.mul(c1);
     final Fp6_3Over2 factor = (c0.add(c1)).mul(c0.add(mulByNonResidue(c1)));
     return new Fp12_2Over3Over2(
@@ -202,6 +204,8 @@ public class Fp12_2Over3Over2 extends AbstractFieldElement<Fp12_2Over3Over2> {
         Fp12Parameters);
   }
 
+  // Sparse multiplication used during the accumulation of line evaluations into the
+  // Miller variable during a Miller loop.
   public Fp12_2Over3Over2 mulBy024(final Fp2 ell0, final Fp2 ellVW, final Fp2 ellVV) {
     final AbstractFp6_3Over2_Parameters Fp6Parameters = Fp12Parameters.Fp6Parameters();
 
@@ -301,8 +305,12 @@ public class Fp12_2Over3Over2 extends AbstractFieldElement<Fp12_2Over3Over2> {
     return Math.max(c0.bitSize(), c1.bitSize());
   }
 
+  public Fp12_2Over3Over2 construct(final Fp6_3Over2 c0, final Fp6_3Over2 c1) {
+    return new Fp12_2Over3Over2(c0, c1, Fp12Parameters);
+  }
+
   public String toString() {
-    return c0.toString() + " / " + c1.toString();
+    return "c0/c1: " + c0.toString() + " / " + c1.toString();
   }
 
   public boolean equals(final Fp12_2Over3Over2 other) {
