@@ -1,16 +1,18 @@
-package algebra.curves;
+package algebra.fields;
 
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-import algebra.fields.*;
 import algebra.fields.abstractfieldparameters.AbstractFp12_2Over3Over2_Parameters;
 import algebra.fields.abstractfieldparameters.AbstractFp2Parameters;
 import algebra.fields.abstractfieldparameters.AbstractFp6_3Over2_Parameters;
 
 public class GenericFieldsTest {
-  protected <FieldT extends AbstractFieldElement<FieldT>> void FieldTest(
-      final FieldT fieldFactory) {
+  protected <FieldT extends AbstractFieldElement<FieldT>> void testField(
+      final FieldT fieldFactory,
+      final FieldT a,
+      final FieldT b,
+      final FieldT c) {
     final FieldT zero = fieldFactory.zero();
     assertTrue(zero.equals(zero));
     assertTrue(zero.isZero());
@@ -29,14 +31,11 @@ public class GenericFieldsTest {
             .random(null, "clear".getBytes())
             .equals(fieldFactory.random(null, "matics".getBytes())));
 
-    // Select 3 distinct field elements for the test
-    final FieldT a = fieldFactory.random(4L, null);
+    // Check that the 3 input are distinct field elements for the test
     assertFalse(a.isZero());
     assertFalse(a.isOne());
-    final FieldT b = fieldFactory.random(7L, null);
     assertFalse(b.isZero());
     assertFalse(b.isOne());
-    final FieldT c = fieldFactory.random(12L, null);
     assertFalse(c.isZero());
     assertFalse(c.isOne());
     // Make sure the elements are distinct
@@ -74,7 +73,7 @@ public class GenericFieldsTest {
     assertTrue((a.add(b)).square().equals(a.square().add(a.mul(b).add(a.mul(b))).add(b.square())));
   }
 
-  protected <FieldT extends AbstractFieldElementExpanded<FieldT>> void FieldExpandedTest(
+  protected <FieldT extends AbstractFieldElementExpanded<FieldT>> void testFieldExpanded(
       final FieldT a) {
     final FieldT one = a.one();
     assertTrue(one.equals(one));
@@ -82,35 +81,25 @@ public class GenericFieldsTest {
     assertTrue(a.rootOfUnity(8).pow(8).equals(one));
   }
 
-  protected void verifyMulBy024(
-      final Fp12_2Over3Over2 a, final AbstractFp12_2Over3Over2_Parameters Fp12Parameters) {
+  protected void testMulBy024(
+    final Fp12_2Over3Over2 fieldFactory, final AbstractFp12_2Over3Over2_Parameters Fp12Parameters) {
     final AbstractFp2Parameters Fp2Parameters = Fp12Parameters.Fp2Parameters();
     final AbstractFp6_3Over2_Parameters Fp6Parameters = Fp12Parameters.Fp6Parameters();
+
+    final Fp12_2Over3Over2 element = fieldFactory.random(4L, null);
 
     final Fp2 c0 = new Fp2(7, 18, Fp2Parameters);
     final Fp2 c2 = new Fp2(23, 5, Fp2Parameters);
     final Fp2 c4 = new Fp2(192, 73, Fp2Parameters);
 
     final Fp12_2Over3Over2 naiveResult =
-        a.mul(
-            new Fp12_2Over3Over2(
-                new Fp6_3Over2(c0, Fp2Parameters.ZERO(), c4, Fp6Parameters),
-                new Fp6_3Over2(Fp2Parameters.ZERO(), c2, Fp2Parameters.ZERO(), Fp6Parameters),
-                Fp12Parameters));
-    final Fp12_2Over3Over2 mulBy024Result = a.mulBy024(c0, c2, c4);
+      element.mul(
+          new Fp12_2Over3Over2(
+              new Fp6_3Over2(c0, Fp2Parameters.ZERO(), c4, Fp6Parameters),
+              new Fp6_3Over2(Fp2Parameters.ZERO(), c2, Fp2Parameters.ZERO(), Fp6Parameters),
+              Fp12Parameters));
+    final Fp12_2Over3Over2 mulBy024Result = element.mulBy024(c0, c2, c4);
 
     assertTrue(naiveResult.equals(mulBy024Result));
-  }
-
-  protected void FrobeniusMapTest(
-      final Fp12_2Over3Over2 a, final AbstractFp12_2Over3Over2_Parameters Fp12Parameters) {
-    assert (a.FrobeniusMap(0).equals(a));
-    Fp12_2Over3Over2 a_q = a.pow(Fp12Parameters.FpParameters().modulus());
-    for (int power = 1; power < 10; ++power) {
-      final Fp12_2Over3Over2 a_qi = a.FrobeniusMap(power);
-      assert (a_qi.equals(a_q));
-
-      a_q = a_q.pow(Fp12Parameters.FpParameters().modulus());
-    }
   }
 }

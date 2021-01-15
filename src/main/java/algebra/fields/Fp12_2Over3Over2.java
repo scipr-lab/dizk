@@ -305,6 +305,10 @@ public class Fp12_2Over3Over2 extends AbstractFieldElement<Fp12_2Over3Over2> {
     return Math.max(c0.bitSize(), c1.bitSize());
   }
 
+  public Fp12_2Over3Over2 construct(final Fp6_3Over2 c0, final Fp6_3Over2 c1) {
+    return new Fp12_2Over3Over2(c0, c1, Fp12Parameters);
+  }
+
   public String toString() {
     return "c0/c1: " + c0.toString() + " / " + c1.toString();
   }
