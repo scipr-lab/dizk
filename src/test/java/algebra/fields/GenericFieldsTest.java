@@ -9,10 +9,7 @@ import algebra.fields.abstractfieldparameters.AbstractFp6_3Over2_Parameters;
 
 public class GenericFieldsTest {
   protected <FieldT extends AbstractFieldElement<FieldT>> void testField(
-      final FieldT fieldFactory,
-      final FieldT a,
-      final FieldT b,
-      final FieldT c) {
+      final FieldT fieldFactory, final FieldT a, final FieldT b, final FieldT c) {
     final FieldT zero = fieldFactory.zero();
     assertTrue(zero.equals(zero));
     assertTrue(zero.isZero());
@@ -82,7 +79,8 @@ public class GenericFieldsTest {
   }
 
   protected void testMulBy024(
-    final Fp12_2Over3Over2 fieldFactory, final AbstractFp12_2Over3Over2_Parameters Fp12Parameters) {
+      final Fp12_2Over3Over2 fieldFactory,
+      final AbstractFp12_2Over3Over2_Parameters Fp12Parameters) {
     final AbstractFp2Parameters Fp2Parameters = Fp12Parameters.Fp2Parameters();
     final AbstractFp6_3Over2_Parameters Fp6Parameters = Fp12Parameters.Fp6Parameters();
 
@@ -93,11 +91,11 @@ public class GenericFieldsTest {
     final Fp2 c4 = new Fp2(192, 73, Fp2Parameters);
 
     final Fp12_2Over3Over2 naiveResult =
-      element.mul(
-          new Fp12_2Over3Over2(
-              new Fp6_3Over2(c0, Fp2Parameters.ZERO(), c4, Fp6Parameters),
-              new Fp6_3Over2(Fp2Parameters.ZERO(), c2, Fp2Parameters.ZERO(), Fp6Parameters),
-              Fp12Parameters));
+        element.mul(
+            new Fp12_2Over3Over2(
+                new Fp6_3Over2(c0, Fp2Parameters.ZERO(), c4, Fp6Parameters),
+                new Fp6_3Over2(Fp2Parameters.ZERO(), c2, Fp2Parameters.ZERO(), Fp6Parameters),
+                Fp12Parameters));
     final Fp12_2Over3Over2 mulBy024Result = element.mulBy024(c0, c2, c4);
 
     assertTrue(naiveResult.equals(mulBy024Result));

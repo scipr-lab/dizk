@@ -8,9 +8,7 @@
 package algebra.fields;
 
 import algebra.fields.mock.fieldparameters.*;
-
 import org.junit.jupiter.api.Test;
-
 
 public class FieldsTest extends GenericFieldsTest {
   @Test

@@ -10,7 +10,6 @@ import algebra.fields.Fp;
 import algebra.fields.Fp12_2Over3Over2;
 import algebra.fields.Fp2;
 import algebra.fields.Fp6_3Over2;
-
 import org.junit.jupiter.api.Test;
 
 public class BLSFieldsTest extends GenericCurveFieldsTest {
