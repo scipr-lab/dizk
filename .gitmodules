@@ -1,3 +1,0 @@
-[submodule "depends/flintrock"]
-	path = depends/flintrock
-	url = git@github.com:nchammas/flintrock.git
