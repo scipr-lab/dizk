@@ -19,7 +19,7 @@ The library is developed as part of a paper called *"[DIZK: A Distributed Zero K
 - [Directory structure](#directory-structure)
 - [Overview](#overview)
 - [Build guide](#build-guide)
-- [Profiler](#profiler)
+- [Configuring AWS and using Flintrock to manage a testing cluster](#configuring-aws-and-using-flintrock-to-manage-a-testing-cluster)
 - [Benchmarks](#benchmarks)
 - [References](#references)
 - [License](#license)
@@ -79,8 +79,6 @@ The library has the following dependencies:
     - [Spark SQL 3.0.1](https://mvnrepository.com/artifact/org.apache.spark/spark-sql)
     - [JUnit 5.7.0](https://mvnrepository.com/artifact/org.junit.jupiter)
     - [Spotless with Google Java Format](https://github.com/diffplug/spotless/tree/main/plugin-maven#google-java-format)
-- Fetched via Git submodules:
-    - [spark-ec2](https://github.com/amplab/spark-ec2/tree/branch-2.0)
 
 More information about compilation options can be found [here](http://maven.apache.org/plugins/maven-compiler-plugin/compile-mojo.html)
 
@@ -94,15 +92,10 @@ While other libraries for zero knowledge proof systems are written in low-level 
 
 Start by cloning this repository and entering the repository working directory:
 ```bash
-git clone https://github.com/clearmatics/dizk.git
-cd dizk
+git clone https://github.com/clearmatics/neodizk.git
+cd neodizk
 # Set up your environment
 . ./setup_env
-```
-
-Next, fetch the dependency modules:
-```bash
-git submodule init && git submodule update
 ```
 
 Finally, compile the source code:
@@ -113,13 +106,13 @@ mvn compile
 ### Docker
 
 ```bash
-docker build -t dizk-base .
-docker run -it --name dizk-container dizk-base
+docker build -t neodizk-base .
+docker run -it --name neodizk-container neodizk-base
 ```
 
 **Note**: For development purpose, you may want to develop from inside a docker container (to avoid touching your local system's configuration). To do so, you can run the following command:
 ```bash
-docker run -ti -v "$(pwd)":/home/dizk-dev dizk-base
+docker run -ti -v "$(pwd)":/home/dizk-dev neodizk-base
 ```
 and run `cd /home/dizk-dev` in the container to start developing.
 
@@ -150,76 +143,87 @@ Run:
 mvn spotless:check
 ```
 
-## Profiler
+## Configuring AWS and using Flintrock to manage a testing cluster
 
-Using Amazon EC2, the profiler benchmarks the performance of serial and distributed zero-knowledge proof systems, as well as its underlying primitives.
-The profiler uses `spark-ec2` to manage the cluster compute environment and a set of provided scripts for launch, profiling, and shutdown.
+### Create and configure an AWS account
 
-### Spark EC2
+1. Create an AWS account
+2. Follow the set-up instructions [here](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/get-set-up-for-amazon-ec2.html)
+    - Select the region
+    - Create an EC2 keypair (see [here](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-key-pairs.html#retrieving-the-public-key) for more info)
+    - Create a security group
 
-To manage the cluster compute environment, DIZK uses [`spark-ec2@branch-2.0`](https://github.com/amplab/spark-ec2/tree/branch-2.0).
-`spark-ec2` is a tool to launch, maintain, and terminate [Apache Spark](https://spark.apache.org/docs/latest/) clusters on Amazon EC2.
+Both the security group and keypair are used to secure the EC2 instances launched, as indicated [here](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/EC2_GetStarted.html). AWS takes care of creating a [default VPC](https://docs.aws.amazon.com/vpc/latest/userguide/default-vpc.html).
 
-To setup `spark-ec2`, run the following commands:
-```bash
-git clone https://github.com/amplab/spark-ec2.git
-cd spark-ec2
-git checkout branch-2.0
-pwd
+3. Create the appropriate set of IAM users
+    - Create an `Administrator` as documented [here](https://docs.aws.amazon.com/IAM/latest/UserGuide/getting-started_create-admin-group.html)
+    - Create an IAM user for programmatic use with Flintrock. This user needs to have the following permissions:
+        - `AmazonEC2FullAccess `,
+        - `IAM.GetInstanceProfile` and `IAM.PassRole` (as documented [here](https://datawookie.dev/blog/2018/09/refining-an-aws-iam-policy-for-flintrock/))
+
+### Using Flintrock
+
+#### Installation
+
+```console
+python3.7 -m venv env
+source env/bin/activate
+pip install --upgrade pip
+pip install flintrock
+
+# Now the flintrock CLI is available
+flintrock --help
 ```
 
-Remember where the directory for `spark-ec2` is located, as this will need to be provided as an environment variable for the scripts as part of the next step.
+*Note 1:* Flintrock uses [boto3](https://boto3.amazonaws.com/v1/documentation/api/latest/index.html) which is the Python SDK for AWS.
 
-### Profiling scripts
+*Note 2:* The `flintrock launch` command truly corresponds to clicking the `"Launch instance"` button on the EC2 dashboard. The values of the flags of the `flintrock launch` command correspond to the values that one needs to provide at the various steps of the "Launch instance" process (see [here](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/launching-instance.html#step-7-review-instance-launch))
 
-To begin, set the environment variables required to initialize the profiler in [init.sh](src/main/java/profiler/scripts/init.sh).
-The profiling infrastructure will require access to an AWS account access key and secret key, which can be created with
-the [instructions provided by AWS](https://docs.aws.amazon.com/general/latest/gr/aws-sec-cred-types.html#access-keys-and-secret-access-keys).
+#### Example
 
-```bash
-export AWS_ACCESS_KEY_ID={Insert your AWS account access key}
-export AWS_SECRET_ACCESS_KEY={Insert your AWS account secret key}
+Below is an example to demonstrate how to launch a test cluster `test-cluster`.
+Before doing so, we assume that:
+- the private key (`.pem`) file of the created EC2 keypair (see [this step](#create-and-configure-your-aws-account)) is stored on your computer at: `~/.ssh/ec2-key.pem`
+- the desired instance type is: `m4.large`
+- the choosen AMI is one of the AMIs of either Amazon Linux 2 or the Amazon Linux AMI (see [here](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/finding-an-ami.html) to find an AMI). In fact, as documented [here](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/connection-prereqs.html) - the default username one can use to connect to the EC2 instance depends on the choosen AMI. For Amazon Linux (2) AMIs, this default username is `ec2-user`. For the sake of this example, we assume that the choosen AMI is: `ami-00b882ac5193044e4`
+- the region is `us-east-1`
 
-export AWS_KEYPAIR_NAME="{Insert your AWS keypair name, e.g. spark-ec2-oregon}"
-export AWS_KEYPAIR_PATH="{Insert the path to your AWS keypair .pem file, e.g. /Users/johndoe/Downloads/spark-ec2-oregon.pem}"
+Furthermore, before instantiating a cluster with Flintrock, it is necessary to configure the environment with the credentials ("access key ID" and "secret access key") of the IAM programmatic user created in [previous steps](#create-and-configure-your-aws-account). This can either be done by configuring environment variables, or using a configuration file (as documented [here](https://boto3.amazonaws.com/v1/documentation/api/latest/guide/configuration.html#configuring-credentials).)
 
-export AWS_REGION_ID={Insert your AWS cluster region choice, e.g. us-west-2}
-export AWS_CLUSTER_NAME={Insert your AWS cluster name, e.g. spark-ec2}
-
-export SPOT_PRICE={Insert your spot price for summoning an EC2 instance, e.g. 0.1}
-export SLAVES_COUNT={Insert the number of EC2 instances to summon for the cluster, e.g. 2}
-export INSTANCE_TYPE={Insert the instance type you would like to summon, e.g. r3.large}
-
-export DIZK_REPO_PATH="{Insert the path to your local DIZK repository, e.g. /Users/johndoe/dizk}"
-export SPARK_EC2_PATH="{Insert the path to your local spark-ec2 repository, e.g. /Users/johndoe/dizk/depends/spark-ec2}"
+Once the environment is configured, and assuming the example values above, the command to launch the cluster becomes:
+```console
+flintrock launch test-cluster \
+    --num-slaves 1 \
+    --java-version 11 \
+    --spark-version 3.0.0 \
+    --ec2-instance-type m4.large \
+    --ec2-region us-east-1 \
+    --ec2-key-name ec2-key \
+    --ec2-identity-file ~/.ssh/ec2-key.pem \
+    --ec2-ami ami-00b882ac5193044e4 \
+    --ec2-instance-initiated-shutdown-behavior terminate \
+    --ec2-user ec2-user
 ```
 
-Next, start the profiler by running:
-```bash
-./launch.sh
+-------------------
+
+**TROUBLESHOOTING:** For debug purposes, it is possible to use the `aws` CLI directly. The CLI is available as a [docker container](https://docs.aws.amazon.com/cli/latest/userguide/install-cliv2-docker.html), however, while running the command like `docker run --rm -ti amazon/aws-cli <command>` is equivalent to running `aws <command>` on the host, one needs to remember that no state is preserved across the commands because the containers are removed as soon as the command stops executing. Hence, for a more stateful interaction, it is possible to override the `ENTRYPOINT` of the container by doing:
+```console
+docker run -it --entrypoint /bin/bash amazon/aws-cli
 ```
 
-The launch script uses `spark-ec2` and the environment variables to setup the initial cluster environment.
-This process takes around 20-30 minutes depending on the choice of cluster configuration.
+Then, in the container, the `aws` CLI can be used by running `aws <command>`. Note, that credentials need to be configured first via `aws configure`. To check the configured credentials, use `aws iam get-user"`
+- If the access is denied, check:
+    - The aws config (in `~/.aws` or your access key credentials in the container's environment)
+    - The [time of your machine](https://stackoverflow.com/questions/24744205/ec2-api-error-validating-access-credential), and adjust to the same time of the AWS servers. On Debian-based distributions, this can be done via:
+    ```console
+    sudo apt-get --yes install ntpdate
+    sudo ntpdate 0.amazon.pool.ntp.org
+    ```
 
-After the launch is complete, upload the DIZK JAR file to the master node and SSH into the cluster with the following command:
-```bash
-./upload_and_login.sh
-```
+-------------------
 
-Once you have successfully logged in to the cluster, navigate to the uploaded `scripts` folder and setup the initial cluster environment.
-
-```bash
-cd ../scripts
-./setup_environment.sh
-```
-
-This creates a logging directory for Spark events and installs requisite dependencies, such as Java 8.
-
-Lastly, with the cluster environment fully setup, set the desired parameters for benchmarking in [profile.sh](src/main/java/profiler/scripts/profile.sh) and run the following command to begin profiling:
-```bash
-./profile.sh
-```
+Upon succesful deployment of the cluster, make sure to persist the Flintrock configuration in a configuration file. Then, the cluster can be inspected/stopped/started/destroyed/scaled etc by using the Flintrock commands (e.g. `flintrock describe test-cluster`, `flintrock destroy test-cluster` etc.)
 
 ## Benchmarks
 
