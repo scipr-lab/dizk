@@ -183,12 +183,12 @@ flintrock --help
 
 Below is an example to demonstrate how to launch a test cluster `test-cluster`.
 Before doing so, we assume that:
-- the private key (`.pem`) file of the created EC2 keypair (see [this step](#create-and-configure-your-aws-account)) is stored on your computer at: `~/.ssh/ec2-key.pem`
+- the private key (`.pem`) file of the created EC2 keypair (see [this step](#create-and-configure-an-aws-account)) is stored on your computer at: `~/.ssh/ec2-key.pem`
 - the desired instance type is: `m4.large`
 - the choosen AMI is one of the AMIs of either Amazon Linux 2 or the Amazon Linux AMI (see [here](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/finding-an-ami.html) to find an AMI). In fact, as documented [here](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/connection-prereqs.html) - the default username one can use to connect to the EC2 instance depends on the choosen AMI. For Amazon Linux (2) AMIs, this default username is `ec2-user`. For the sake of this example, we assume that the choosen AMI is: `ami-00b882ac5193044e4`
 - the region is `us-east-1`
 
-Furthermore, before instantiating a cluster with Flintrock, it is necessary to configure the environment with the credentials ("access key ID" and "secret access key") of the IAM programmatic user created in [previous steps](#create-and-configure-your-aws-account). This can either be done by configuring environment variables, or using a configuration file (as documented [here](https://boto3.amazonaws.com/v1/documentation/api/latest/guide/configuration.html#configuring-credentials).)
+Furthermore, before instantiating a cluster with Flintrock, it is necessary to configure the environment with the credentials ("access key ID" and "secret access key") of the IAM programmatic user created in [previous steps](#create-and-configure-an-aws-account). This can either be done by configuring environment variables, or using a configuration file (as documented [here](https://boto3.amazonaws.com/v1/documentation/api/latest/guide/configuration.html#configuring-credentials).)
 
 Once the environment is configured, and assuming the example values above, the command to launch the cluster becomes:
 ```console
