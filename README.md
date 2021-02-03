@@ -226,7 +226,31 @@ Then, in the container, the `aws` CLI can be used by running `aws <command>`. No
 
 -------------------
 
-Upon succesful deployment of the cluster, make sure to persist the Flintrock configuration in a configuration file. Then, the cluster can be inspected/stopped/started/destroyed/scaled etc by using the Flintrock commands (e.g. `flintrock describe test-cluster`, `flintrock destroy test-cluster` etc.)
+Upon successful deployment of the cluster, make sure to persist the Flintrock configuration in a configuration file (with `flintrock configure`). Then, the cluster can be inspected/stopped/started/destroyed/scaled etc by using the Flintrock commands (e.g. `flintrock describe test-cluster`, `flintrock destroy test-cluster` etc.)
+
+#### Running an application on the cluster
+
+Upon successful instantiation of the cluster, the steps to deploy an application are:
+1. Package your application (create a `.jar`):
+```console
+mvn package
+```
+2. As documented [here](https://medium.com/@jon.froiland/apache-spark-and-hadoop-on-an-aws-cluster-with-flintrock-part-4-42cf55787928):
+    - Move the `.jar` to the cluster via `flintrock copy-file`, e.g.:
+    ```console
+    flintrock copy-file test-cluster $DIZK/target/neodizk-0.1.0.jar /home/ec2-user/
+    ```
+    - Login to the cluster via `flintrock login`, e.g.:
+    ```console
+    flintrock login test-cluster
+    ```
+    - Start the application from the master node with `spark-submit`, e.g.:
+    ```console
+    spark-submit --class profiler.Profiler /home/ec2-user/neodizk-0.1.0.jar 2 1 8G zksnark-large 15 4
+    ```
+3. (Optional) Access SparkUI from your host machine:
+    - `<master-url>:8080`
+    - `<master-url>:4040`, where `<master-url>` can be obtained by running `flintrock describe`
 
 ## Benchmarks
 
