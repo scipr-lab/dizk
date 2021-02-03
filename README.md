@@ -169,15 +169,18 @@ Both the security group and keypair are used to secure the EC2 instances launche
 python3.7 -m venv env
 source env/bin/activate
 pip install --upgrade pip
-pip install flintrock
+# Install the latest develop version of flintrock
+pip install git+https://github.com/nchammas/flintrock
 
 # Now the flintrock CLI is available
 flintrock --help
 ```
 
-*Note 1:* Flintrock uses [boto3](https://boto3.amazonaws.com/v1/documentation/api/latest/index.html) which is the Python SDK for AWS.
+*Note 1:* The latest stable version of Flintrock can be installed by simply running `pip install flintrock`. However, improvements have been added (and not yet packaged in a release) since the `1.0.0` release. In the following, we make the assumption that the [support for configurable JDKs](https://github.com/nchammas/flintrock/commit/6792626956412e61db7c266305a2a0cce7ece7dd) is available in the Flintrock CLI.
 
-*Note 2:* The `flintrock launch` command truly corresponds to clicking the `"Launch instance"` button on the EC2 dashboard. The values of the flags of the `flintrock launch` command correspond to the values that one needs to provide at the various steps of the "Launch instance" process (see [here](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/launching-instance.html#step-7-review-instance-launch))
+*Note 2:* Flintrock uses [boto3](https://boto3.amazonaws.com/v1/documentation/api/latest/index.html) which is the Python SDK for AWS.
+
+*Note 3:* The `flintrock launch` command truly corresponds to clicking the `"Launch instance"` button on the EC2 dashboard. The values of the flags of the `flintrock launch` command correspond to the values that one needs to provide at the various steps of the "Launch instance" process (see [here](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/launching-instance.html#step-7-review-instance-launch))
 
 #### Example
 
