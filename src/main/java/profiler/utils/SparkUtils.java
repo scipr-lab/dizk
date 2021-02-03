@@ -56,6 +56,7 @@ public class SparkUtils {
     }
   }
 
+  // TODO: Rename this class
   public static Class[] zksparkClasses() {
     return new Class<?>[] {
       Fp.class,
