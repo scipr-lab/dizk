@@ -169,15 +169,18 @@ Both the security group and keypair are used to secure the EC2 instances launche
 python3.7 -m venv env
 source env/bin/activate
 pip install --upgrade pip
-pip install flintrock
+# Install the latest develop version of flintrock
+pip install git+https://github.com/nchammas/flintrock
 
 # Now the flintrock CLI is available
 flintrock --help
 ```
 
-*Note 1:* Flintrock uses [boto3](https://boto3.amazonaws.com/v1/documentation/api/latest/index.html) which is the Python SDK for AWS.
+*Note 1:* The latest stable version of Flintrock can be installed by simply running `pip install flintrock`. However, improvements have been added (and not yet packaged in a release) since the `1.0.0` release. In the following, we make the assumption that the [support for configurable JDKs](https://github.com/nchammas/flintrock/commit/6792626956412e61db7c266305a2a0cce7ece7dd) is available in the Flintrock CLI.
 
-*Note 2:* The `flintrock launch` command truly corresponds to clicking the `"Launch instance"` button on the EC2 dashboard. The values of the flags of the `flintrock launch` command correspond to the values that one needs to provide at the various steps of the "Launch instance" process (see [here](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/launching-instance.html#step-7-review-instance-launch))
+*Note 2:* Flintrock uses [boto3](https://boto3.amazonaws.com/v1/documentation/api/latest/index.html) which is the Python SDK for AWS.
+
+*Note 3:* The `flintrock launch` command truly corresponds to clicking the `"Launch instance"` button on the EC2 dashboard. The values of the flags of the `flintrock launch` command correspond to the values that one needs to provide at the various steps of the "Launch instance" process (see [here](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/launching-instance.html#step-7-review-instance-launch))
 
 #### Example
 
@@ -223,7 +226,53 @@ Then, in the container, the `aws` CLI can be used by running `aws <command>`. No
 
 -------------------
 
-Upon succesful deployment of the cluster, make sure to persist the Flintrock configuration in a configuration file. Then, the cluster can be inspected/stopped/started/destroyed/scaled etc by using the Flintrock commands (e.g. `flintrock describe test-cluster`, `flintrock destroy test-cluster` etc.)
+Upon successful deployment of the cluster, make sure to persist the Flintrock configuration in a configuration file (with `flintrock configure`). Then, the cluster can be inspected/stopped/started/destroyed/scaled etc by using the Flintrock commands (e.g. `flintrock describe test-cluster`, `flintrock destroy test-cluster` etc.)
+
+#### Running an application on the cluster
+
+Upon successful instantiation of the cluster, the steps to deploy an application are:
+1. Package your application (create a `.jar`):
+```console
+mvn package
+```
+2. As documented [here](https://medium.com/@jon.froiland/apache-spark-and-hadoop-on-an-aws-cluster-with-flintrock-part-4-42cf55787928):
+    - Move the `.jar` to the cluster via `flintrock copy-file`, e.g.:
+    ```console
+    flintrock copy-file test-cluster $DIZK/target/neodizk-0.1.0.jar /home/ec2-user/
+    ```
+    - Login to the cluster via `flintrock login`, e.g.:
+    ```console
+    flintrock login test-cluster
+    ```
+    - Start the application from the master node with `spark-submit`, e.g.:
+    ```console
+    # Create a location to store the logs of the application and pass it to the spark-submit command
+    mkdir /tmp/spark-events
+    spark-submit --class profiler.Profiler --conf spark.eventLog.enabled=true --conf spark.eventLog.dir=/tmp/spark-events /home/ec2-user/neodizk-0.1.0.jar 2 1 8G zksnark-large 15 4
+    ```
+    **Note:** The above can also be carried out directly from the host (without login to the master node of the cluster) via the `flintrock run-command` command.
+3. (Optional) Access SparkUI from your host machine:
+    - `<master-url>:8080`
+    - `<master-url>:4040`, where `<master-url>` can be obtained by running `flintrock describe`
+
+4. (Optional) If the `spark-submit` command is used along with the `--conf spark.eventLog.enabled=true` and `--conf spark.eventLog.dir=/tmp/spark-events` flags, the logs can be recovered on the host by running:
+```console
+scp -i <path-to-aws-key> -r ec2-user@<master-url>:/tmp/spark-events/src/main/resources/logs/ $DIZK/out/
+```
+
+**Note:** Additional configuration parameters can be passed to the `spark-submit` command, e.g.:
+```console
+--conf spark.memory.fraction
+--conf spark.memory.storageFraction
+...
+--conf spark.rdd.compress
+...
+--conf spark.speculation
+--conf spark.speculation.interval
+--conf spark.speculation.multiplier
+...
+```
+See [here](https://spark.apache.org/docs/latest/configuration.html) for more information on the configuration, and see [this blog post](https://yousry.medium.com/spark-speculative-execution-in-10-lines-of-code-3c6e4815875b) for an introduction to speculative execution in Spark.
 
 ## Benchmarks
 
