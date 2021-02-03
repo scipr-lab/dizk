@@ -5,8 +5,8 @@
     <modelVersion>4.0.0</modelVersion>
 
     <!-- See https://maven.apache.org/pom.html#pom-reference -->
-    <groupId>dizk</groupId>
-    <artifactId>dizk</artifactId>
+    <groupId>neodizk</groupId>
+    <artifactId>neodizk</artifactId>
     <version>0.1.0</version>
     <packaging>jar</packaging>
 
