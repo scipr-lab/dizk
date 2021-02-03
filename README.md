@@ -252,6 +252,24 @@ mvn package
     - `<master-url>:8080`
     - `<master-url>:4040`, where `<master-url>` can be obtained by running `flintrock describe`
 
+**Note:** Additional configuration parameters can be passed to the `spark-submit` command, e.g.:
+```console
+--conf spark.memory.fraction
+--conf spark.memory.storageFraction
+...
+--conf spark.rdd.compress
+...
+--conf spark.speculation
+--conf spark.speculation.interval
+--conf spark.speculation.multiplier
+...
+--conf spark.logConf
+--conf spark.eventLog.enabled
+--conf spark.eventLog.dir
+...
+```
+See [here](https://spark.apache.org/docs/latest/configuration.html) for more information on the configuration, and see [this blog post](https://yousry.medium.com/spark-speculative-execution-in-10-lines-of-code-3c6e4815875b) for an introduction to speculative execution in Spark.
+
 ## Benchmarks
 
 We evaluate the distributed implementation of the zkSNARK setup and prover.
