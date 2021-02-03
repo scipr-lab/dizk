@@ -246,11 +246,19 @@ mvn package
     ```
     - Start the application from the master node with `spark-submit`, e.g.:
     ```console
-    spark-submit --class profiler.Profiler /home/ec2-user/neodizk-0.1.0.jar 2 1 8G zksnark-large 15 4
+    # Create a location to store the logs of the application and pass it to the spark-submit command
+    mkdir /tmp/spark-events
+    spark-submit --class profiler.Profiler --conf spark.eventLog.enabled=true --conf spark.eventLog.dir=/tmp/spark-events /home/ec2-user/neodizk-0.1.0.jar 2 1 8G zksnark-large 15 4
     ```
+    **Note:** The above can also be carried out directly from the host (without login to the master node of the cluster) via the `flintrock run-command` command.
 3. (Optional) Access SparkUI from your host machine:
     - `<master-url>:8080`
     - `<master-url>:4040`, where `<master-url>` can be obtained by running `flintrock describe`
+
+4. (Optional) If the `spark-submit` command is used along with the `--conf spark.eventLog.enabled=true` and `--conf spark.eventLog.dir=/tmp/spark-events` flags, the logs can be recovered on the host by running:
+```console
+scp -i <path-to-aws-key> -r ec2-user@<master-url>:/tmp/spark-events/src/main/resources/logs/ $DIZK/out/
+```
 
 **Note:** Additional configuration parameters can be passed to the `spark-submit` command, e.g.:
 ```console
@@ -262,10 +270,6 @@ mvn package
 --conf spark.speculation
 --conf spark.speculation.interval
 --conf spark.speculation.multiplier
-...
---conf spark.logConf
---conf spark.eventLog.enabled
---conf spark.eventLog.dir
 ...
 ```
 See [here](https://spark.apache.org/docs/latest/configuration.html) for more information on the configuration, and see [this blog post](https://yousry.medium.com/spark-speculative-execution-in-10-lines-of-code-3c6e4815875b) for an introduction to speculative execution in Spark.
