@@ -10,10 +10,13 @@ package algebra.groups;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-import algebra.groups.integergroupparameters.LargeAdditiveIntegerGroupParameters;
+import algebra.groups.mock.AdditiveIntegerGroup;
+import algebra.groups.mock.integergroupparameters.LargeAdditiveIntegerGroupParameters;
 import java.io.Serializable;
 import java.math.BigInteger;
 import org.junit.jupiter.api.Test;
+
+// TODO: Refactor using the GenericCurveTest (to be renamed as GenericGroupTest) class
 
 public class AdditiveIntegerGroupTest implements Serializable {
   private <GroupT extends AbstractGroup<GroupT>> void verify(final GroupT a, final GroupT b) {

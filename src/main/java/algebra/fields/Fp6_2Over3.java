@@ -118,7 +118,7 @@ public class Fp6_2Over3 extends AbstractFieldElement<Fp6_2Over3> {
   }
 
   public String toString() {
-    return c0.toString() + " / " + c1.toString();
+    return "c0/c1: " + c0.toString() + " / " + c1.toString();
   }
 
   public boolean equals(final Fp6_2Over3 other) {

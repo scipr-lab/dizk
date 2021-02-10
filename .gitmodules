@@ -1,4 +1,0 @@
-[submodule "depends/spark-ec2"]
-	path = depends/spark-ec2
-	url = https://github.com/amplab/spark-ec2.git
-	branch = branch-2.0

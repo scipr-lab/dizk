@@ -9,6 +9,8 @@ package relations.objects;
 
 import java.io.Serializable;
 
+// Equivalent to:
+// https://github.com/clearmatics/libsnark/blob/master/libsnark/relations/variable.hpp#L92
 public class LinearTerm<FieldT> implements Serializable {
 
   private final long index;

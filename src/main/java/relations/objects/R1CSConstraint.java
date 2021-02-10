@@ -20,6 +20,8 @@ import java.io.Serializable;
  *
  * <p>A R1CSRelation constraint is used to construct a R1CSRelation constraint system.
  */
+// Similar to
+// https://github.com/clearmatics/libsnark/blob/master/libsnark/relations/constraint_satisfaction_problems/r1cs/r1cs.tcc#L31-L37
 public class R1CSConstraint<FieldT extends AbstractFieldElementExpanded<FieldT>>
     implements Serializable {
 

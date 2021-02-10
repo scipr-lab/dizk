@@ -10,7 +10,7 @@ package reductions;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import algebra.fields.Fp;
-import algebra.fields.fieldparameters.LargeFpParameters;
+import algebra.fields.mock.fieldparameters.LargeFpParameters;
 import configuration.Configuration;
 import java.io.Serializable;
 import org.apache.spark.api.java.JavaPairRDD;
@@ -19,7 +19,7 @@ import org.apache.spark.storage.StorageLevel;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import profiler.generation.R1CSConstruction;
+import profiler.generation.R1CSConstructor;
 import reductions.r1cs_to_qap.R1CStoQAP;
 import reductions.r1cs_to_qap.R1CStoQAPRDD;
 import relations.objects.Assignment;
@@ -47,9 +47,9 @@ public class R1CStoQAPRDDTest implements Serializable {
 
     final int numInputs = 1023;
     final int numConstraints = 1024;
-    R1CSExample = R1CSConstruction.serialConstruct(numConstraints, numInputs, fieldFactory, config);
+    R1CSExample = R1CSConstructor.serialConstruct(numConstraints, numInputs, fieldFactory, config);
     R1CSExampleRDD =
-        R1CSConstruction.parallelConstruct(numConstraints, numInputs, fieldFactory, config);
+        R1CSConstructor.parallelConstruct(numConstraints, numInputs, fieldFactory, config);
   }
 
   @AfterEach

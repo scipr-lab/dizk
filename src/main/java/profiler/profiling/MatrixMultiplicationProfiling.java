@@ -1,10 +1,10 @@
 package profiler.profiling;
 
 import algebra.fields.Fp;
-import algebra.fields.fieldparameters.LargeFpParameters;
+import algebra.fields.mock.fieldparameters.LargeFpParameters;
 import configuration.Configuration;
 import org.apache.spark.api.java.JavaPairRDD;
-import profiler.generation.R1CSConstruction;
+import profiler.generation.R1CSConstructor;
 import reductions.r1cs_to_qap.R1CStoQAPRDD;
 import relations.objects.Assignment;
 import relations.qap.QAPWitnessRDD;
@@ -21,7 +21,7 @@ public class MatrixMultiplicationProfiling {
 
     config.beginLog("Matmul circuit generation");
     final Tuple3<R1CSRelationRDD<Fp>, Assignment<Fp>, JavaPairRDD<Long, Fp>> R1CSExampleRDD =
-        R1CSConstruction.matmulParConstructApp(fieldFactory, b1, b2, b3, n1, n2, n3, config);
+        R1CSConstructor.matmulParConstructApp(fieldFactory, b1, b2, b3, n1, n2, n3, config);
     config.endLog("Matmul circuit generation");
 
     final R1CSRelationRDD<Fp> r1csRDD = R1CSExampleRDD._1();
@@ -43,7 +43,7 @@ public class MatrixMultiplicationProfiling {
 
     config.beginLog("Linear regression circuit generation");
     final Tuple3<R1CSRelationRDD<Fp>, Assignment<Fp>, JavaPairRDD<Long, Fp>> R1CSExampleRDD =
-        R1CSConstruction.linearRegressionApp(fieldFactory, config, n, d, bn, bd);
+        R1CSConstructor.linearRegressionApp(fieldFactory, config, n, d, bn, bd);
     config.endLog("Linear regression circuit generation");
 
     final R1CSRelationRDD<Fp> r1csRDD = R1CSExampleRDD._1();
@@ -65,7 +65,7 @@ public class MatrixMultiplicationProfiling {
 
     config.beginLog("Gaussian circuit generation");
     final Tuple3<R1CSRelationRDD<Fp>, Assignment<Fp>, JavaPairRDD<Long, Fp>> R1CSExampleRDD =
-        R1CSConstruction.gaussianFitApp(fieldFactory, config, n, d, bn, bd);
+        R1CSConstructor.gaussianFitApp(fieldFactory, config, n, d, bn, bd);
     config.endLog("Gaussian circuit generation");
 
     final R1CSRelationRDD<Fp> r1csRDD = R1CSExampleRDD._1();

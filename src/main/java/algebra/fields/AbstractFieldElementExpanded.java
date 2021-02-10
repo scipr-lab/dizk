@@ -22,6 +22,9 @@ public abstract class AbstractFieldElementExpanded<
   /* Returns field element as FieldT(value) */
   public abstract FieldT construct(final long value);
 
+  /* Returns field element as FieldT(value) */
+  public abstract FieldT construct(final BigInteger value);
+
   /* Returns this as a BigInteger */
   public abstract BigInteger toBigInteger();
 }

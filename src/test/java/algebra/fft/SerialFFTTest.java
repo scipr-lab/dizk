@@ -11,7 +11,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import algebra.fields.ComplexField;
 import algebra.fields.Fp;
-import algebra.fields.fieldparameters.LargeFpParameters;
+import algebra.fields.mock.fieldparameters.LargeFpParameters;
 import common.NaiveEvaluation;
 import java.io.Serializable;
 import java.util.ArrayList;

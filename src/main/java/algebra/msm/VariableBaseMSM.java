@@ -21,6 +21,7 @@ import scala.Tuple2;
 
 public class VariableBaseMSM {
 
+  /** See: Bos-Coster's algorithm for efficient MSMs */
   public static final BigInteger BOS_COSTER_MSM_THRESHOLD = new BigInteger("1048576");
 
   /**
