@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-# Expect 2 non-empty arguments
+# Expect 1 non-empty argument
 if [ "$#" -ne 1 ] || [ "$1" == "" ] ; then
     echo "Error: invalid number of arguments"
     echo "Usage: $0 <cluster-name>"
