@@ -311,7 +311,7 @@ ssh -i $AWS_KEYPAIR_PATH ec2-user@<worker-node-ip>
 sudo ./ganglia_setup_worker.sh <your-cluster> <worker-cluster-ip>
 ```
 
-#### Configure Spark to use the GangliaSink
+#### Configure Spark to use GangliaSink
 
 Write a spark metrics configuration file. To do so, paste the following configuration
 ```console
