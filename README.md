@@ -274,6 +274,69 @@ scp -i <path-to-aws-key> -r ec2-user@<master-url>:/tmp/spark-events/src/main/res
 ```
 See [here](https://spark.apache.org/docs/latest/configuration.html) for more information on the configuration, and see [this blog post](https://yousry.medium.com/spark-speculative-execution-in-10-lines-of-code-3c6e4815875b) for an introduction to speculative execution in Spark.
 
+### Setup monitoring infrastructure
+
+To have more metrics about the cluster's health and usage, monitoring tools like [ganglia](http://ganglia.sourceforge.net/) can be used. This is particularly important to carry out meaningful optimizations.
+
+To use ganglia with apache spark, spark needs to be compiled from source due to [license mismatch](https://github.com/apache/spark/blob/master/pom.xml#L3162-L3168). To install a ganglia-compatible version of spark on the cluster, you can modify flintrock [here](https://github.com/nchammas/flintrock/blob/master/flintrock/services.py#L342) as follows:
+```diff
+-./dev/make-distribution.sh -Phadoop-{hadoop_short_version}
++./dev/make-distribution.sh -Pspark-ganglia-lgpl -Phadoop-{hadoop_short_version}
+```
+
+and make sure to build spark from a specific commit, by using: `flintrock launch <your-cluster> --spark-git-commit 97340c1e34cfd84de445b6b7545cfa466a1baaf6 [other flags]` (here commit `97340c1e34cfd84de445b6b7545cfa466a1baaf6` corresponds to apache version [3.1.0](https://github.com/apache/spark/releases/tag/v3.1.0)).
+
+#### Configure the master node
+
+Once the cluster is started:
+1. Configure the master node to run ganglia:
+```console
+flintrock copy-file <your-cluster> scripts/ganglia_setup_master.sh  /home/ec2-user/ --master-only
+flintrock run-command <your-cluster> --master-only 'sudo /home/ec2-user/ganglia_setup_master.sh <your-cluster>'
+```
+2. Make sure to configure the webserver appropriately by editing `/etc/httpd/conf/httpd.conf` as desired (e.g. change default port)
+3. Edit `/etc/httpd/conf.d/ganglia.conf` as desired (for e.g. write the auth configuration to access the dashboard)
+4. Restart the `httpd` service: `service httpd restart`
+5. Double check the AWS rules of the relevant security groups and make sure they align with the configuration above.
+
+#### Configure the worker nodes
+
+After configuring the master node, configure the worker nodes to send their metrics information to the master/reporting node (since flintrock only has a flag `--master-only` for the `copy-file` and `run-command` commands - and no flag `--workers-only`, we use ssh/scp commands to achieve the same thing below):
+```console
+# Copy the configuration script to the each worker node
+scp -i $AWS_KEYPAIR_PATH scripts/ganglia_setup_worker.sh ec2-user@<worker-node-ip>:/home/ec2-user/
+# Connect to each worker node
+ssh -i $AWS_KEYPAIR_PATH ec2-user@<worker-node-ip>
+# On the node execute the following commands
+sudo ./ganglia_setup_worker.sh <your-cluster> <worker-cluster-ip>
+```
+
+#### Configure Spark to use GangliaSink
+
+Write a spark metrics configuration file. To do so, paste the following configuration
+```console
+*.sink.ganglia.class = org.apache.spark.metrics.sink.GangliaSink
+*.sink.ganglia.host = <worker-cluster-ip>
+*.sink.ganglia.port = 8649
+*.sink.ganglia.period = 10
+*.sink.ganglia.unit = seconds
+*.sink.ganglia.ttl = 1
+*.sink.ganglia.mode = unicast
+*.sink.ganglia.name = Spark-name
+
+*.sink.console.class = org.apache.spark.metrics.sink.ConsoleSink
+*.sink.console.period = 10
+*.sink.console.unit = seconds
+
+master.source.jvm.class = org.apache.spark.metrics.source.JvmSource
+worker.source.jvm.class = org.apache.spark.metrics.source.JvmSource
+driver.source.jvm.class = org.apache.spark.metrics.source.JvmSource
+executor.source.jvm.class = org.apache.spark.metrics.source.JvmSource
+```
+in `$SPARK_HOME/conf/metrics.properties` on all nodes of the cluster (make sure to replace `<worker-cluster-ip>` by the actual host node IP in the cluster).
+
+After these steps, one can access the ganglia dashboard from the master/host node. Upon submission of a job on the cluster via `spark-submit`, the metrics of the various spark cluster nodes can be monitored on the dashboard - in addition to the SparkUI.
+
 ## Benchmarks
 
 We evaluate the distributed implementation of the zkSNARK setup and prover.
