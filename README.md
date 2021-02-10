@@ -292,7 +292,7 @@ Once the cluster is started:
 1. Configure the master node to run ganglia:
 ```console
 flintrock copy-file <your-cluster> scripts/ganglia_setup_master.sh  /home/ec2-user/ --master-only
-flintrock run-command test-cluster --master-only 'sudo /home/ec2-user/ganglia_setup_master.sh test-cluster'
+flintrock run-command <your-cluster> --master-only 'sudo /home/ec2-user/ganglia_setup_master.sh <your-cluster>'
 ```
 2. Make sure to configure the webserver appropriately by editing `/etc/httpd/conf/httpd.conf` as desired (e.g. change default port)
 3. Edit `/etc/httpd/conf.d/ganglia.conf` as desired (for e.g. write the auth configuration to access the dashboard)
