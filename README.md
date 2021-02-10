@@ -1,18 +1,11 @@
-<h1 align="center">DIZK</h1>
-<p align="center">
-    <a href="https://travis-ci.org/scipr-lab/dizk"><img src="https://travis-ci.org/scipr-lab/dizk.svg?branch=master"></a>
-    <a href="https://github.com/scipr-lab/dizk/blob/master/AUTHORS"><img src="https://img.shields.io/badge/authors-SCIPR%20Lab-orange.svg"></a>
-    <a href="https://github.com/scipr-lab/dizk/blob/master/LICENSE"><img src="https://img.shields.io/badge/license-MIT-blue.svg"></a>
-</p>
+<h1 align="center">(NEO)DIZK</h1>
 <h4 align="center">Java library for DIstributed Zero Knowledge proof systems</h4>
 
-___DIZK___ (pronounced */'dizək/*) is a Java library for distributed zero knowledge proof systems. The library implements distributed polynomial evaluation/interpolation, computation of Lagrange polynomials, and multi-scalar multiplication. Using these scalable arithmetic subroutines, the library provides a distributed zkSNARK proof system that enables verifiable computations of up to billions of logical gates, far exceeding the scale of previous state-of-the-art solutions.
+Java library for distributed zero knowledge proof systems. The library implements distributed polynomial evaluation/interpolation, computation of Lagrange polynomials, and multi-scalar multiplication. Using these scalable arithmetic subroutines, the library provides a distributed zkSNARK proof system that enables verifiable computations of up to billions of logical gates, far exceeding the scale of previous state-of-the-art solutions.
 
-The library is developed by [SCIPR Lab](http://www.scipr-lab.org/) and contributors (see [AUTHORS](AUTHORS) file) and is released under the MIT License (see [LICENSE](LICENSE) file).
+:rotating_light: **WARNING:** This is an academic proof-of-concept prototype. This implementation is not ready for production use. It does not yet contain all the features, careful code review, tests, and integration that are needed for a deployment!
 
-The library is developed as part of a paper called *"[DIZK: A Distributed Zero Knowledge Proof System](https://eprint.iacr.org/2018/691)"*.
-
-**WARNING:** This is an academic proof-of-concept prototype. This implementation is not ready for production use. It does not yet contain all the features, careful code review, tests, and integration that are needed for a deployment!
+**Disclaimer:** This work is derived from the SCIPR-Lab's library [DIZK](https://github.com/scipr-lab/dizk) which was developed as part of a paper called *"[DIZK: A Distributed Zero Knowledge Proof System](https://eprint.iacr.org/2018/691)"*.
 
 ## Table of contents
 
@@ -20,7 +13,6 @@ The library is developed as part of a paper called *"[DIZK: A Distributed Zero K
 - [Overview](#overview)
 - [Build guide](#build-guide)
 - [Configuring AWS and using Flintrock to manage a testing cluster](#configuring-aws-and-using-flintrock-to-manage-a-testing-cluster)
-- [Benchmarks](#benchmarks)
 - [References](#references)
 - [License](#license)
 
@@ -337,40 +329,6 @@ in `$SPARK_HOME/conf/metrics.properties` on all nodes of the cluster (make sure 
 
 After these steps, one can access the ganglia dashboard from the master/host node. Upon submission of a job on the cluster via `spark-submit`, the metrics of the various spark cluster nodes can be monitored on the dashboard - in addition to the SparkUI.
 
-## Benchmarks
-
-We evaluate the distributed implementation of the zkSNARK setup and prover.
-Below we use *instance size* to denote the number of constraints in an R1CS instance.
-
-### libsnark *vs* DIZK
-
-We measure the largest instance size (as a power of 2) that is supported by:
-
-- the serial implementation of PGHR’s protocol in [libsnark](https://github.com/scipr-lab/libsnark)
-- the serial implementation of Groth’s protocol in [libsnark](https://github.com/scipr-lab/libsnark)
-- the distributed implementation of Groth's protocol in **DIZK**
-
-<p align="center"><img src="https://user-images.githubusercontent.com/9260812/43099291-9203db9a-8e76-11e8-8d68-528d903500e1.png" width="68%"></p>
-
-We see that using more executors allows us to support larger instance sizes,
-in particular supporting billions of constraints with sufficiently many executors.
-Instances of this size are much larger than what was previously possible via serial techniques.
-
-### Distributed zkSNARK
-
-We benchmark the running time of the setup and the prover on an increasing number of constraints and with an increasing number of executors.
-Note that we do not need to evaluate the zkSNARK verifier as it is a simple and fast algorithm that can be run even on a smartphone.
-
-<p align="center"><img src="https://user-images.githubusercontent.com/9260812/43099290-91ec40c0-8e76-11e8-8391-c30fbddc4acd.png" width="67%"></p>
-
-<p align="center"><img src="https://user-images.githubusercontent.com/9260812/43099289-91d1d2b2-8e76-11e8-9a25-f06103903290.png" width="59%"></p>
-
-Our benchmarks of the setup and the prover show us that:
- 
-1. For a given number of executors, running times increase nearly linearly as expected, demonstrating scalability over a wide range of instance sizes.
-
-2. For a given instance size, running times decrease nearly linearly as expected, demonstrating parallelization over a wide range of number of executors.
-
 ## References
 
 [Apa17] [_Apache Spark_](http://spark.apache.org/),
@@ -432,13 +390,6 @@ Robert A. van de Geijn and Jerrell Watts,
 [Wil16] [_Strong ETH breaks with Merlin and Arthur: short non-interactive proofs of batch evaluation_](https://arxiv.org/pdf/1601.04743.pdf),
 Ryan Williams,
 *Conference on Computational Complexity*, 2016
-
-## Acknowledgements
-
-This work was supported by Intel/NSF CPS-Security grants,
-the [UC Berkeley Center for Long-Term Cybersecurity](https://cltc.berkeley.edu/),
-and gifts to the [RISELab](https://rise.cs.berkeley.edu/) from Amazon, Ant Financial, CapitalOne, Ericsson, GE, Google, Huawei, IBM, Intel, Microsoft, and VMware.
-The authors thank Amazon for donating compute credits to RISELab, which were extensively used in this project.
 
 ## License
 
