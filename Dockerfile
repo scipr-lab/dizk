@@ -25,9 +25,6 @@ ENV MAVEN_HOME /usr/share/maven
 
 # Create /home/dizk and use it as working directory
 WORKDIR /home/dizk
-COPY . /home/dizk
-# RUN git submodule update --init --recursive
-# RUN mvn compile
 
 # Mount the user-specific Maven configuration for Maven in the container
 # See: https://maven.apache.org/ref/3.6.3/maven-settings/settings.html for more information
