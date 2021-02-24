@@ -15,7 +15,6 @@ import java.util.Arrays;
 import java.util.List;
 import org.apache.spark.SparkConf;
 import org.apache.spark.api.java.JavaPairRDD;
-import org.apache.spark.api.java.JavaRDD;
 import org.apache.spark.api.java.JavaSparkContext;
 import org.apache.spark.storage.StorageLevel;
 import org.json.simple.parser.ParseException;
@@ -95,9 +94,7 @@ public class JSONR1CSLoaderTest {
               new Tuple2<>((long) 2, new BN254aFr("1")), // Auxiliary
               new Tuple2<>((long) 3, new BN254aFr("1")),
               new Tuple2<>((long) 4, new BN254aFr("1")));
-      JavaRDD<Tuple2<Long, BN254aFr>> assignmentRDD = sc.parallelize(fullAssignment);
-      JavaPairRDD<Long, BN254aFr> pairAssignmentRDD =
-          JavaPairRDD.<Long, BN254aFr>fromJavaRDD(assignmentRDD);
+      JavaPairRDD<Long, BN254aFr> pairAssignmentRDD = sc.parallelizePairs(fullAssignment);
 
       boolean result = loadedRelationRDD.isSatisfied(primary, pairAssignmentRDD);
       System.out.println("==========> Result after assignment: " + result);
@@ -118,7 +115,6 @@ public class JSONR1CSLoaderTest {
               new Tuple2<>((long) 3, new BN254aFr("1")),
               new Tuple2<>((long) 4, new BN254aFr("1")));
       JavaPairRDD<Long, BN254aFr> invalidPairAssignmentRDD =
-          JavaPairRDD.<Long, BN254aFr>fromJavaRDD(invalidAssignmentRDD);
           sc.parallelizePairs(fullAssignmentInvalid);
 
       boolean invalidResult =
