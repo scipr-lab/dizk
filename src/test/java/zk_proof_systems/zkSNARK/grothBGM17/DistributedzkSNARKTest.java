@@ -237,11 +237,11 @@ public class DistributedzkSNARKTest implements Serializable {
         construction =
             R1CSConstructor.parallelConstruct(numConstraints, numInputs, fieldFactory, config);
     final R1CSRelationRDD<BLSFrT> r1cs = construction._1();
-    final Assignment<BLSFrT> primary = construction._2();
-    final JavaPairRDD<Long, BLSFrT> fullAssignment = construction._3();
-
     final CRS<BLSFrT, BLSG1T, BLSG2T> CRS =
         DistributedSetup.generate(r1cs, fieldFactory, g1Factory, g2Factory, pairing, config);
+
+    final Assignment<BLSFrT> primary = construction._2();
+    final JavaPairRDD<Long, BLSFrT> fullAssignment = construction._3();
 
     final Proof<BLSG1T, BLSG2T> proof =
         DistributedProver.prove(CRS.provingKeyRDD(), primary, fullAssignment, fieldFactory, config);

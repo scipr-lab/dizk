@@ -81,11 +81,16 @@ public class Utils {
     return result;
   }
 
-  /** Initializes a new JavaPairRDD of length size, indexed and filled with the given element. */
+  /**
+   * Initializes a new JavaPairRDD of length size, indexed and filled with the given element.
+   *   (0, element)
+   *   (1, element)
+   *   ...
+   *   (size-1, element)
+   */
   public static <T> JavaPairRDD<Long, T> fillRDD(
       final long size, final T element, final Configuration config) {
     final int numPartitions = size >= config.numPartitions() ? config.numPartitions() : (int) size;
-
     final ArrayList<Integer> partitions = new ArrayList<>(numPartitions);
     for (int i = 0; i < numPartitions; i++) {
       partitions.add(i);

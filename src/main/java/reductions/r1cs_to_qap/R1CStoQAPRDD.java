@@ -48,16 +48,30 @@ public class R1CStoQAPRDD implements Serializable {
     final int numPartitions = config.numPartitions();
 
     /* Construct in the Lagrange basis. */
+    // lagrangeCoeffs = ..., (i, L_i(t)), ...
     final JavaPairRDD<Long, FieldT> lagrangeCoeffs =
         DistributedFFT.lagrangeCoeffs(t, domainSize, config).persist(config.storageLevel());
 
     // Add and process the constraints, input_i * 0 = 0, to ensure soundness of input consistency.
+    // lagrangeIndices = [ numConstraints, numConstraints + 1, ..., numConstraints + numInputs - 1]
     final List<Long> lagrangeIndices = new ArrayList<>(numInputs);
     for (long i = numConstraints; i < numConstraints + numInputs; i++) {
       lagrangeIndices.add(i);
     }
+
+    // coefficientsMap = {
+    //   numConstraints: L_{numConstraints}(t),
+    //   numConstraints+1: L_{numConstraints+1}(t),
+    //   ...
+    // }
     final Map<Long, FieldT> coefficientsMap =
         FFTAuxiliary.subsequenceRadix2LagrangeCoefficients(t, domainSize, lagrangeIndices);
+
+    // lagrangeCoefficients = [
+    //   (0, L_{numConstraints}(t)),
+    //   (1, L_{numConstraints+1}(t)),
+    //   ...
+    // }
     final List<Tuple2<Long, FieldT>> lagrangeCoefficients = new ArrayList<>(numInputs);
     for (final Long index : lagrangeIndices) {
       lagrangeCoefficients.add(new Tuple2<>(index - numConstraints, coefficientsMap.get(index)));
