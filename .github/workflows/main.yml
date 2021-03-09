@@ -25,4 +25,4 @@ jobs:
               with:
                   java-version: '11'
             - name: Check code fmt
-              run: mvn spotless:check
+              run: mvn -q spotless:check
