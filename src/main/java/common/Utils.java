@@ -82,11 +82,13 @@ public class Utils {
   }
 
   /**
+   * spotless:off
    * Initializes a new JavaPairRDD of length size, indexed and filled with the given element.
    *   (0, element)
    *   (1, element)
    *   ...
    *   (size-1, element)
+   * spotless:on
    */
   public static <T> JavaPairRDD<Long, T> fillRDD(
       final long size, final T element, final Configuration config) {

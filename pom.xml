@@ -150,6 +150,7 @@
                       <version>1.9</version>
                       <style>GOOGLE</style>
                     </googleJavaFormat>
+                    <toggleOffOn />
                   </java>
                 </configuration>
             </plugin>
