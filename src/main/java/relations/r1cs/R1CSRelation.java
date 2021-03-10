@@ -104,4 +104,25 @@ public class R1CSRelation<FieldT extends AbstractFieldElementExpanded<FieldT>>
   public int numConstraints() {
     return numConstraints;
   }
+
+  public boolean equals(final R1CSRelation<?> o) {
+    return (numInputs == o.numInputs)
+        && (numAuxiliary == o.numAuxiliary)
+        && (numConstraints == o.numConstraints)
+        && constraints.equals(o.constraints);
+  }
+
+  @Override
+  public boolean equals(Object o) {
+    if (o == this) {
+      return true;
+    }
+    if (o == null) {
+      return false;
+    }
+    if (!(o instanceof R1CSRelation)) {
+      return false;
+    }
+    return (equals((R1CSRelation<?>) o));
+  }
 }

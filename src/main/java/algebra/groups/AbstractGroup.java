@@ -84,4 +84,18 @@ public abstract class AbstractGroup<GroupT extends AbstractGroup<GroupT>> implem
 
   /* Returns this == other */
   public abstract boolean equals(final GroupT other);
+
+  @Override
+  public boolean equals(Object o) {
+    if (o == this) {
+      return true;
+    }
+    if (o == null) {
+      return false;
+    }
+    if (!(o instanceof AbstractGroup<?>)) {
+      return false;
+    }
+    return (equals((GroupT) o));
+  }
 }

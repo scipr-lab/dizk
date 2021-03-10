@@ -7,6 +7,7 @@
 
 package relations.objects;
 
+import algebra.fields.AbstractFieldElement;
 import java.io.Serializable;
 
 // Equivalent to:
@@ -27,5 +28,23 @@ public class LinearTerm<FieldT extends AbstractFieldElement<FieldT>> implements 
 
   public FieldT value() {
     return value;
+  }
+
+  public boolean equals(final LinearTerm<?> o) {
+    return (index == o.index) && value.equals(o.value);
+  }
+
+  @Override
+  public boolean equals(Object o) {
+    if (o == this) {
+      return true;
+    }
+    if (o == null) {
+      return false;
+    }
+    if (!(o instanceof LinearTerm<?>)) {
+      return false;
+    }
+    return (equals((LinearTerm<?>) o));
   }
 }

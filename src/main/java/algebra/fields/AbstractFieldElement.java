@@ -92,4 +92,18 @@ public abstract class AbstractFieldElement<FieldT extends AbstractFieldElement<F
 
   /* Returns this as string */
   public abstract String toString();
+
+  @Override
+  public boolean equals(Object o) {
+    if (o == this) {
+      return true;
+    }
+    if (o == null) {
+      return false;
+    }
+    if (!(o instanceof AbstractFieldElement<?>)) {
+      return false;
+    }
+    return (equals((FieldT) o));
+  }
 }

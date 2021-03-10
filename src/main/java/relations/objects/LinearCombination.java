@@ -111,4 +111,22 @@ public class LinearCombination<FieldT extends AbstractFieldElementExpanded<Field
   public int size() {
     return terms.size();
   }
+
+  public boolean equals(final LinearCombination<?> o) {
+    return terms.equals(o.terms);
+  }
+
+  @Override
+  public boolean equals(Object o) {
+    if (o == this) {
+      return true;
+    }
+    if (o == null) {
+      return false;
+    }
+    if (!(o instanceof LinearCombination<?>)) {
+      return false;
+    }
+    return (equals((LinearCombination<?>) o));
+  }
 }

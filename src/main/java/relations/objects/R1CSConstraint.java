@@ -59,4 +59,22 @@ public class R1CSConstraint<FieldT extends AbstractFieldElementExpanded<FieldT>>
   public LinearCombination<FieldT> C() {
     return C;
   }
+
+  public boolean equals(final R1CSConstraint<?> o) {
+    return A.equals(o.A) && B.equals(o.B) && C.equals(o.C);
+  }
+
+  @Override
+  public boolean equals(Object o) {
+    if (o == this) {
+      return true;
+    }
+    if (o == null) {
+      return false;
+    }
+    if (!(o instanceof R1CSConstraint<?>)) {
+      return false;
+    }
+    return (equals((R1CSConstraint<?>) o));
+  }
 }

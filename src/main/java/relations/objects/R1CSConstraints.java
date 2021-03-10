@@ -54,4 +54,22 @@ public class R1CSConstraints<FieldT extends AbstractFieldElementExpanded<FieldT>
   public int size() {
     return constraints.size();
   }
+
+  public boolean equals(final R1CSConstraints<?> o) {
+    return constraints.equals(o.constraints);
+  }
+
+  @Override
+  public boolean equals(Object o) {
+    if (o == this) {
+      return true;
+    }
+    if (o == null) {
+      return false;
+    }
+    if (!(o instanceof R1CSConstraints<?>)) {
+      return false;
+    }
+    return (equals((R1CSConstraints<?>) o));
+  }
 }
