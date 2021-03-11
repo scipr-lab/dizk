@@ -5,16 +5,15 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import algebra.curves.AbstractG1;
 import algebra.curves.AbstractG2;
 import algebra.curves.barreto_lynn_scott.bls12_377.BLS12_377BinaryReader;
+import algebra.curves.barreto_lynn_scott.bls12_377.BLS12_377Fields.BLS12_377Fr;
 import algebra.curves.barreto_lynn_scott.bls12_377.BLS12_377G1;
 import algebra.curves.barreto_lynn_scott.bls12_377.BLS12_377G2;
-import algebra.curves.barreto_lynn_scott.bls12_377.BLS12_377Fields.BLS12_377Fr;
 import algebra.curves.barreto_naehrig.bn254a.BN254aBinaryReader;
 import algebra.curves.barreto_naehrig.bn254a.BN254aFields.BN254aFr;
 import algebra.curves.barreto_naehrig.bn254a.BN254aG1;
 import algebra.curves.barreto_naehrig.bn254a.BN254aG2;
 import algebra.fields.AbstractFieldElementExpanded;
 import java.io.IOException;
-import java.io.InputStream;
 import org.junit.jupiter.api.Test;
 import relations.objects.LinearCombination;
 import relations.objects.LinearTerm;
@@ -22,7 +21,7 @@ import relations.objects.R1CSConstraint;
 import relations.objects.R1CSConstraints;
 import relations.r1cs.R1CSRelation;
 
-public class R1CSReaderTest {
+public class R1CSReaderTest extends TestWithData {
 
   /**
    * Create the equivalent relation to libzeth/tests/snarks/groth16/groth16_snark_test.cpp to test
@@ -84,11 +83,8 @@ public class R1CSReaderTest {
   @Test
   void testR1CReaderBLS13_377() throws IOException {
     final var in = openTestFile("r1cs_bls12-377.bin");
-    final var reader = new R1CSReader<BLS12_377Fr, BLS12_377G1, BLS12_377G2>(new BLS12_377BinaryReader(in));
+    final var reader =
+        new R1CSReader<BLS12_377Fr, BLS12_377G1, BLS12_377G2>(new BLS12_377BinaryReader(in));
     testAgainstData(reader, BLS12_377Fr.ONE);
-  }
-
-  protected InputStream openTestFile(final String filename) {
-    return getClass().getClassLoader().getResourceAsStream(filename);
   }
 }
