@@ -25,6 +25,42 @@ public abstract class BinaryCurveReader<
     super(inStream_);
   }
 
+  /**
+   * Version of readFr which returns null instead of throwing on error (for use in functional-style
+   * function composition.
+   */
+  public FrT readFrNoThrow() {
+    try {
+      return readFr();
+    } catch (IOException e) {
+      return null;
+    }
+  }
+
+  /**
+   * Version of readG1 which returns null instead of throwing on error (for use in functional-style
+   * function composition.
+   */
+  public G1T readG1NoThrow() {
+    try {
+      return readG1();
+    } catch (IOException e) {
+      return null;
+    }
+  }
+
+  /**
+   * Version of readG2 which returns null instead of throwing on error (for use in functional-style
+   * function composition.
+   */
+  public G2T readG2NoThrow() {
+    try {
+      return readG2();
+    } catch (IOException e) {
+      return null;
+    }
+  }
+
   protected BigInteger readBigInteger(final int numBytes) throws IOException {
     final byte[] bytes = readNBytes(numBytes);
     if (bytes.length != numBytes) {
@@ -44,10 +80,15 @@ public abstract class BinaryCurveReader<
     return (iH << 32) | iL;
   }
 
-  public <T> ArrayList<T> readArrayList(Supplier<T> reader) throws IOException {
+  public <T> ArrayList<T> readArrayList(final Supplier<T> reader) throws IOException {
     final long size = readLongLE();
-    ArrayList<T> elements = new ArrayList<T>(Math.toIntExact(size));
-    for (long i = 0; i < size; ++i) {
+    return readArrayListN(reader, Math.toIntExact(size));
+  }
+
+  public <T> ArrayList<T> readArrayListN(final Supplier<T> reader, final int numElements)
+      throws IOException {
+    ArrayList<T> elements = new ArrayList<T>(numElements);
+    for (long i = 0; i < numElements; ++i) {
       // It seems exceptions are not supported through Function / Supplier,
       // etc. Workaround using nulls.
       T value = reader.get();
