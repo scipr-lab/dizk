@@ -35,6 +35,10 @@ public class R1CSConstraints<FieldT extends AbstractFieldElementExpanded<FieldT>
     constraints = new ArrayList<>();
   }
 
+  public R1CSConstraints(ArrayList<R1CSConstraint<FieldT>> constraints_) {
+    constraints = constraints_;
+  }
+
   public boolean add(final R1CSConstraint<FieldT> constraint) {
     return constraints.add(constraint);
   }

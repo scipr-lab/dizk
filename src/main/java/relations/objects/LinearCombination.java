@@ -20,6 +20,10 @@ public class LinearCombination<FieldT extends AbstractFieldElementExpanded<Field
     terms = new ArrayList<>();
   }
 
+  public LinearCombination(ArrayList<LinearTerm<FieldT>> terms_) {
+    terms = terms_;
+  }
+
   public boolean add(final LinearTerm<FieldT> term) {
     return terms.add(term);
   }
@@ -35,38 +39,38 @@ public class LinearCombination<FieldT extends AbstractFieldElementExpanded<Field
     return true;
   }
 
-  /// WARNING: There are a few differences between how the protoboard is implemented in libsnark and
+  // WARNING: There are a few differences between how the protoboard is implemented in libsnark and
   // how
-  /// the constraint system is handled here. In libsnark, the variable ONE is added by default as
+  // the constraint system is handled here. In libsnark, the variable ONE is added by default as
   // the first variable
-  /// on the protoboard (the user does not have to bother specifying ONE in their assignement). This
+  // on the protoboard (the user does not have to bother specifying ONE in their assignement). This
   // is why
-  /// in the linear combination evaluation (see here:
+  // in the linear combination evaluation (see here:
   // https://github.com/clearmatics/libsnark/blob/master/libsnark/relations/variable.tcc#L267)
-  /// there is shift by one (in `assignment[lt.index-1]`) because the linear_combination.size() =
+  // there is shift by one (in `assignment[lt.index-1]`) because the linear_combination.size() =
   // assignment.size() + 1 since
-  /// the linear combination's first entry will be for ONE, while the first entry in `assignment`
+  // the linear combination's first entry will be for ONE, while the first entry in `assignment`
   // will be for the next/first user-defined
-  /// variable. As such we have, for instance:
-  ///  ___
-  /// | 5 |   ____
-  /// | 0 |  | 12 |
-  /// | 2 |  | 1  |
-  /// | 4 |  | 1  |
-  /// | 1 |  | 1  |
-  ///   ^       ^
-  ///   |       |
-  /// LinComb  Assignment
-  ///
-  /// Will return: 5*ONE + 12*0 + 2*1 + 4*1 + 1*1 = 5+2+4+1 = 12
-  /// when evaluated by the function below (i.e. the first entry in the linear combination is
+  // variable. As such we have, for instance:
+  // ___
+  // | 5 |   ____
+  // | 0 |  | 12 |
+  // | 2 |  | 1  |
+  // | 4 |  | 1  |
+  // | 1 |  | 1  |
+  // ^       ^
+  // |       |
+  // LinComb  Assignment
+  //
+  // Will return: 5*ONE + 12*0 + 2*1 + 4*1 + 1*1 = 5+2+4+1 = 12
+  // when evaluated by the function below (i.e. the first entry in the linear combination is
   // interpreted as factor of ONE)
-  ///
-  /// HOWEVER, here in DIZK, things are managed differently, and the ONE variable needs to be given
+  //
+  // HOWEVER, here in DIZK, things are managed differently, and the ONE variable needs to be given
   // as part of the assignment.
-  /// As such, there is not such "shift-by-one", hence, the ith entry in LinComb gets multiplied by
+  // As such, there is not such "shift-by-one", hence, the ith entry in LinComb gets multiplied by
   // the ith entry in assignment
-  /// (and not by the (i-1)th entry as in libsnark).
+  // (and not by the (i-1)th entry as in libsnark).
   public FieldT evaluate(final Assignment<FieldT> input) {
     FieldT result = input.get(0).zero();
     final FieldT one = result.one();
