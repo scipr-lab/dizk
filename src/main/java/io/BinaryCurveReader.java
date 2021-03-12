@@ -10,6 +10,7 @@ import java.io.InputStream;
 import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.function.Supplier;
+import scala.Tuple2;
 
 /**
  * Base class for binary readers. Handles reading fixed-width BigInteger values (in big-endian
@@ -80,6 +81,11 @@ public abstract class BinaryCurveReader<
     return (iH << 32) | iL;
   }
 
+  public <T1, T2> Tuple2<T1, T2> readTuple2(
+      final Supplier<T1> reader1, final Supplier<T2> reader2) {
+    return new Tuple2(reader1.get(), reader2.get());
+  }
+
   public <T> ArrayList<T> readArrayList(final Supplier<T> reader) throws IOException {
     final long size = readLongLE();
     return readArrayListN(reader, Math.toIntExact(size));
@@ -106,6 +112,29 @@ public abstract class BinaryCurveReader<
     } catch (IOException e) {
       return null;
     }
+  }
+
+  public <T> ArrayList<T> readSparseVectorAsArrayList(Supplier<T> reader) throws IOException {
+    readLongLE(); // skip unused domain_size
+    final long numEntries = readLongLE();
+    var entries = new ArrayList<T>(Math.toIntExact(numEntries));
+    for (long i = 0; i < numEntries; ++i) {
+      final int idx = Math.toIntExact(readLongLE());
+      final T val = reader.get();
+
+      // Extend the array list with `null` entries, or insert at the given
+      // index.
+      if (idx < entries.size()) {
+        entries.set(idx, val);
+      } else {
+        while (entries.size() < idx) {
+          entries.add(null);
+        }
+        entries.add(val);
+      }
+    }
+
+    return entries;
   }
 
   protected static <FieldT extends AbstractFieldElement<FieldT>> int computeSizeBytes(FieldT one) {
