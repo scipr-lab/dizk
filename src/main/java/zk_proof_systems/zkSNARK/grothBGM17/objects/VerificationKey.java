@@ -25,29 +25,24 @@ public class VerificationKey<G1T extends AbstractG1<G1T>, G2T extends AbstractG2
   }
 
   public boolean equals(final VerificationKey<G1T, G2T> other) {
-    if (!alphaG1.equals(other.alphaG1())) {
+    return alphaG1.equals(other.alphaG1())
+        && betaG2.equals(other.betaG2())
+        && deltaG2.equals(other.deltaG2())
+        && ABC.equals(other.ABC);
+  }
+
+  @Override
+  public boolean equals(Object o) {
+    if (o == this) {
+      return true;
+    }
+    if (o == null) {
       return false;
     }
-
-    if (!betaG2.equals(other.betaG2())) {
+    if (!(o instanceof VerificationKey<?, ?>)) {
       return false;
     }
-
-    if (!deltaG2.equals(other.deltaG2())) {
-      return false;
-    }
-
-    if (ABC.size() != other.ABC().size()) {
-      return false;
-    }
-
-    for (int i = 0; i < ABC.size(); i++) {
-      if (!ABC(i).equals(other.ABC(i))) {
-        return false;
-      }
-    }
-
-    return true;
+    return (equals((VerificationKey<G1T, G2T>) o));
   }
 
   public G1T alphaG1() {
