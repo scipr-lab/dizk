@@ -99,4 +99,31 @@ public class ProvingKey<
   public R1CSRelation<FieldT> r1cs() {
     return r1cs;
   }
+
+  public boolean equals(final ProvingKey<?, ?, ?> o) {
+    return alphaG1.equals(o.alphaG1)
+        && betaG1.equals(o.betaG1)
+        && betaG2.equals(o.betaG2)
+        && deltaG1.equals(o.deltaG1)
+        && deltaG2.equals(o.deltaG2)
+        && deltaABCG1.equals(o.deltaABCG1)
+        && queryA.equals(o.queryA)
+        && queryB.equals(o.queryB)
+        && queryH.equals(o.queryH)
+        && r1cs.equals(o.r1cs);
+  }
+
+  @Override
+  public boolean equals(Object o) {
+    if (o == this) {
+      return true;
+    }
+    if (o == null) {
+      return false;
+    }
+    if (!(o instanceof ProvingKey<?, ?, ?>)) {
+      return false;
+    }
+    return (equals((ProvingKey<?, ?, ?>) o));
+  }
 }
