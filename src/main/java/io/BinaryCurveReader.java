@@ -114,12 +114,25 @@ public abstract class BinaryCurveReader<
     }
   }
 
+  /** Read a sparse vector into an ArrayList, where missing values are `null`. */
   public <T> ArrayList<T> readSparseVectorAsArrayList(Supplier<T> reader) throws IOException {
+    return readSparseVectorAsArrayList(reader, 0);
+  }
+
+  /**
+   * Read a sparse vector, adding some offset to the indices of values in the ArrayList. i.e. offset
+   * 0 will read in the expected way (entry with index 0 in the sparse vector appears at index 0 in
+   * the resulting ArrayList), and offset 8 will place entry with index 0 in the sparse vector at
+   * index 8 in the resulting ArrayList.
+   */
+  public <T> ArrayList<T> readSparseVectorAsArrayList(Supplier<T> reader, int offset)
+      throws IOException {
+    assert (offset >= 0);
     readLongLE(); // skip unused domain_size
     final long numEntries = readLongLE();
-    var entries = new ArrayList<T>(Math.toIntExact(numEntries));
+    var entries = new ArrayList<T>(Math.toIntExact(numEntries + offset));
     for (long i = 0; i < numEntries; ++i) {
-      final int idx = Math.toIntExact(readLongLE());
+      final int idx = Math.toIntExact(readLongLE()) + offset;
       final T val = reader.get();
 
       // Extend the array list with `null` entries, or insert at the given
@@ -135,6 +148,17 @@ public abstract class BinaryCurveReader<
     }
 
     return entries;
+  }
+
+  public <T> ArrayList<T> readAccumulationVectorAsArrayList(Supplier<T> reader) throws IOException {
+    // An accumulation_vector is a `first` element, followed by a sparse vector.
+    final T first = reader.get();
+    ArrayList<T> elements = readSparseVectorAsArrayList(reader, 1);
+    assert (elements.get(0) == null);
+
+    // Insert `first` into the ArrayList created by sparse array, and return.
+    elements.set(0, first);
+    return elements;
   }
 
   protected static <FieldT extends AbstractFieldElement<FieldT>> int computeSizeBytes(FieldT one) {
